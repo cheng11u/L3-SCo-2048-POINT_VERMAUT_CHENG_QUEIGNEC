@@ -14,6 +14,7 @@ public class CubeGrille {
     private int score;
     private int nbdeplacements;
     private int direction;
+    private int taille;
     public static final int DIR_HAUT=0;
     public static final int DIR_BAS=1;
     public static final int DIR_GAUCHE=2;
@@ -22,19 +23,24 @@ public class CubeGrille {
     public static final int DIR_DESSUS=5;
     private List<Case> cases;
 
-    public CubeGrille() {
+    public CubeGrille(int taille) {
         this.valeurMax=0;
         this.score=0;
         this.nbdeplacements=0;
         this.cases=new ArrayList<Case>();
-        for (int x=1; x<=3; x++)
-            for (int y=1; y<=3; y++)
-                for (int z=1; z<=3; z++)
+        this.taille=taille;
+        for (int x=1; x<=this.taille; x++)
+            for (int y=1; y<=this.taille; y++)
+                for (int z=1; z<=this.taille; z++)
                     this.cases.add(new Case(x, y, z, this));
     }
 
     public List<Case> getCases() {
         return cases;
+    }
+
+    public int getTaille() {
+        return taille;
     }
     
     public void ajouterAleatoireCase() {
@@ -46,7 +52,7 @@ public class CubeGrille {
     }
     
     public Case[] getCasesExtremites(int direction) {
-        Case[] res=new Case[9];
+        Case[] res=new Case[taille*taille];
         int i=0;
         Iterator<Case> it=cases.iterator();
         while (it.hasNext() && i<res.length) {
@@ -59,7 +65,7 @@ public class CubeGrille {
                     }
                     break;
                 case DIR_BAS:
-                    if (c.getY()==3) {
+                    if (c.getY()==taille) {
                         res[i]=c;
                         i++;
                     }
@@ -71,7 +77,7 @@ public class CubeGrille {
                     }
                     break;
                 case DIR_DROITE:
-                    if (c.getX()==3) {
+                    if (c.getX()==taille) {
                         res[i]=c;
                         i++;
                     }
@@ -83,7 +89,7 @@ public class CubeGrille {
                     }
                     break;
                 case DIR_DESSUS:
-                    if (c.getZ()==3) {
+                    if (c.getZ()==taille) {
                         res[i]=c;
                         i++;
                     }

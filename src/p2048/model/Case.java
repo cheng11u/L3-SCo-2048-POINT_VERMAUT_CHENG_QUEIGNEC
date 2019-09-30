@@ -80,7 +80,7 @@ public class Case {
                       if (c.y==y-1) res=c;
                 break;
             case CubeGrille.DIR_BAS:
-                if (y!=3)
+                if (y!=grille.getTaille())
                     for (Case c : grille.getCases())
                         if (c.y==y+1) res=c;
                 break;
@@ -90,7 +90,7 @@ public class Case {
                         if (c.x==x-1) res=c;
                 break;
             case CubeGrille.DIR_DROITE:
-                if (x!=3)
+                if (x!=grille.getTaille())
                     for (Case c : grille.getCases())
                         if (c.x==x+1) res=c;
                 break;
@@ -100,7 +100,7 @@ public class Case {
                         if (c.z==z-1) res=c;
                 break;
             case CubeGrille.DIR_DESSUS:
-                if (z!=3)
+                if (z!=grille.getTaille())
                     for (Case c : grille.getCases())
                         if (c.z==z+1) res=c;
                 break;
