@@ -15,12 +15,12 @@ public class CubeGrille {
     private int nbdeplacements;
     private int direction;
     private int taille;
-    public static final int DIR_HAUT=0;
-    public static final int DIR_BAS=1;
+    public static final int DIR_HAUT=1;
+    public static final int DIR_BAS=-1;
     public static final int DIR_GAUCHE=2;
-    public static final int DIR_DROITE=3;
-    public static final int DIR_DESSOUS=4;
-    public static final int DIR_DESSUS=5;
+    public static final int DIR_DROITE=-2;
+    public static final int DIR_DESSOUS=3;
+    public static final int DIR_DESSUS=-3;
     private List<Case> cases;
 
     public CubeGrille(int taille) {
@@ -99,5 +99,30 @@ public class CubeGrille {
             }
         }
         return res;
+    }
+    
+    private boolean deplacerRecursif(Case[] rangee, int direction, int compteur) {
+        Case[] rangeeSuiv=new Case[rangee.length];
+        boolean deplace=false;
+        if (rangee[0].getVoisin(-direction)!=null) {
+            int i=0;
+            for (Case c : rangee) {
+                if (c.getValeur()==c.getVoisin(-direction).getValeur() || c.estLibre()) {
+                    c.setValeur(c.getValeur()*c.getVoisin(-direction).getValeur());
+                    c.getVoisin(-direction).setValeur(1);
+                    deplace=true;
+                }
+                rangeeSuiv[i]=c.getVoisin(-direction);
+            }
+            if (deplace)
+                deplacerRecursif(rangeeSuiv, direction, compteur);
+        } else if (compteur<taille/2 && deplace) {
+            deplacerRecursif(rangeeSuiv, direction, compteur+1);
+        }
+        return deplace;
+    }
+    
+    public void deplacer(int direction) {
+        deplacerRecursif(getCasesExtremites(direction), direction, 0);
     }
 }
