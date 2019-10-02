@@ -101,28 +101,61 @@ public class CubeGrille {
         return res;
     }
     
-    private boolean deplacerRecursif(Case[] rangee, int direction, int compteur) {
+    private void deplacerRecursif(Case[] rangee, int direction, int compteur) {
         Case[] rangeeSuiv=new Case[rangee.length];
-        boolean deplace=false;
         if (rangee[0].getVoisin(-direction)!=null) {
             int i=0;
             for (Case c : rangee) {
                 if (c.getValeur()==c.getVoisin(-direction).getValeur() || c.estLibre()) {
                     c.setValeur(c.getValeur()*c.getVoisin(-direction).getValeur());
                     c.getVoisin(-direction).setValeur(1);
-                    deplace=true;
                 }
                 rangeeSuiv[i]=c.getVoisin(-direction);
             }
-            if (deplace)
-                deplacerRecursif(rangeeSuiv, direction, compteur);
-        } else if (compteur<taille/2 && deplace) {
+            deplacerRecursif(rangeeSuiv, direction, compteur);
+        } else if (compteur<taille-1) {
             deplacerRecursif(rangeeSuiv, direction, compteur+1);
         }
-        return deplace;
     }
     
     public void deplacer(int direction) {
         deplacerRecursif(getCasesExtremites(direction), direction, 0);
+    }
+    
+    public boolean partieTerminee() {
+        boolean termine=true;
+        List<Case> casesVerifiees=new ArrayList<Case>();
+        List<Integer> directions=new ArrayList<Integer>();
+        directions.add(DIR_HAUT);
+        directions.add(DIR_HAUT);
+        directions.add(DIR_GAUCHE);
+        directions.add(DIR_DROITE);
+        directions.add(DIR_DESSUS);
+        directions.add(DIR_DESSOUS);
+        Iterator<Case> it=cases.iterator();
+        while (it.hasNext() && !termine) {
+            Case c=it.next();
+            if (c.estLibre())
+                termine=false;
+            else {
+                for (int direction : directions) {
+                    Case voisin=c.getVoisin(direction);
+                    if (voisin!=null && voisin.valeurEgale(c))
+                        termine=false;
+                }
+            }
+        }
+        return termine;
+    }
+    
+    public int[][] getGrilleEtage(int etage){
+        if (etage>0 && etage<=taille) {
+            int[][] res=new int[taille][taille];
+            for (Case c : cases) 
+                if (c.getZ()==etage)
+                    res[c.getX()][c.getY()]=c.getValeur();
+            return res;
+        }
+        return null;        
     }
 }
