@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * @author Nicolas QUEIGNEC
  */
-public class CubeGrille {
+public class CubeGrille implements Runnable {
     private int valeurMax;
     private int score;
     private int nbdeplacements;
@@ -29,9 +29,9 @@ public class CubeGrille {
         this.nbdeplacements=0;
         this.cases=new ArrayList<Case>();
         this.taille=taille;
-        for (int x=1; x<=this.taille; x++)
-            for (int y=1; y<=this.taille; y++)
-                for (int z=1; z<=this.taille; z++)
+        for (int x=0; x<this.taille; x++)
+            for (int y=0; y<this.taille; y++)
+                for (int z=0; z<this.taille; z++)
                     this.cases.add(new Case(x, y, z, this));
     }
 
@@ -59,37 +59,37 @@ public class CubeGrille {
             Case c=it.next();
             switch (direction) {
                 case DIR_HAUT:
-                    if (c.getY()==1) {
+                    if (c.getY()==0) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_BAS:
-                    if (c.getY()==taille) {
+                    if (c.getY()==taille-1) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_GAUCHE:
-                    if (c.getX()==1) {
+                    if (c.getX()==0) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_DROITE:
-                    if (c.getX()==taille) {
+                    if (c.getX()==taille-1) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_DESSOUS:
-                    if (c.getZ()==1) {
+                    if (c.getZ()==0) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_DESSUS:
-                    if (c.getZ()==taille) {
+                    if (c.getZ()==taille-1) {
                         res[i]=c;
                         i++;
                     }
@@ -111,6 +111,7 @@ public class CubeGrille {
                     c.getVoisin(-direction).setValeur(1);
                 }
                 rangeeSuiv[i]=c.getVoisin(-direction);
+                i++;
             }
             deplacerRecursif(rangeeSuiv, direction, compteur);
         } else if (compteur<taille-1) {
@@ -157,5 +158,9 @@ public class CubeGrille {
             return res;
         }
         return null;        
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
     }
 }

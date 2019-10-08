@@ -75,32 +75,32 @@ public class Case {
         Case res=null;
         switch (direction) {
             case CubeGrille.DIR_HAUT:
-                if (y!=1)
+                if (y!=0)
                     for (Case c : grille.getCases())
                       if (c.y==y-1) res=c;
                 break;
             case CubeGrille.DIR_BAS:
-                if (y!=grille.getTaille())
+                if (y!=grille.getTaille()-1)
                     for (Case c : grille.getCases())
                         if (c.y==y+1) res=c;
                 break;
             case CubeGrille.DIR_GAUCHE:
-                if (x!=1)
+                if (x!=0)
                     for (Case c : grille.getCases())
                         if (c.x==x-1) res=c;
                 break;
             case CubeGrille.DIR_DROITE:
-                if (x!=grille.getTaille())
+                if (x!=grille.getTaille()-1)
                     for (Case c : grille.getCases())
                         if (c.x==x+1) res=c;
                 break;
             case CubeGrille.DIR_DESSOUS:
-                if (z!=1)
+                if (z!=0)
                     for (Case c : grille.getCases())
                         if (c.z==z-1) res=c;
                 break;
             case CubeGrille.DIR_DESSUS:
-                if (z!=grille.getTaille())
+                if (z!=grille.getTaille()-1)
                     for (Case c : grille.getCases())
                         if (c.z==z+1) res=c;
                 break;
