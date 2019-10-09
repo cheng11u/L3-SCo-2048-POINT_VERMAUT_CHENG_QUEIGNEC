@@ -23,6 +23,11 @@ public class Solo implements TypePartie {
     private Thread jeu;
     
     /**
+     * Nom du fichier de sauvegarde
+     */
+    public static final String NOM_FICHIER = "jeu2048";
+    
+    /**
      * Constructeur
      * @param grille grille de jeu
      */
@@ -49,10 +54,10 @@ public class Solo implements TypePartie {
      * Sauvegarde la partie en cours
      * @param fichier fichier dans lequel la partie est sauvegardée
      */
-    public void sauvegarder(File fichier) {
+    public void sauvegarder() {
         ObjectOutputStream oos = null;
         try {
-            oos = new ObjectOutputStream(new FileOutputStream(fichier));
+            oos = new ObjectOutputStream(new FileOutputStream(NOM_FICHIER));
             oos.writeObject(this.grille);
             oos.flush();
         }
@@ -76,11 +81,11 @@ public class Solo implements TypePartie {
      * Charge la grille à partir d'un fichier
      * @param fichier fichier correspondant au fichier à charger
      */
-    public void charger(File fichier){
+    public void charger(){
         ObjectInputStream ois = null;
         
         try {
-            ois = new ObjectInputStream(new FileInputStream(fichier));
+            ois = new ObjectInputStream(new FileInputStream(NOM_FICHIER));
             Object obj = ois.readObject();
             if (obj instanceof CubeGrille){
                 this.grille = (CubeGrille) obj;
