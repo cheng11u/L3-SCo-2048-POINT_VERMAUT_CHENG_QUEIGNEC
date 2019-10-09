@@ -15,6 +15,7 @@ public class CubeGrille implements Runnable {
     private int nbdeplacements;
     private int direction;
     private int taille;
+    private boolean stop;
     public static final int DIR_HAUT=1;
     public static final int DIR_BAS=-1;
     public static final int DIR_GAUCHE=2;
@@ -28,6 +29,7 @@ public class CubeGrille implements Runnable {
         this.score=0;
         this.nbdeplacements=0;
         this.cases=new ArrayList<Case>();
+        this.stop=false;
         this.taille=taille;
         for (int x=0; x<this.taille; x++)
             for (int y=0; y<this.taille; y++)
@@ -172,16 +174,21 @@ public class CubeGrille implements Runnable {
         this.direction = direction;
         this.notify();
     }
-
+    
+    public void arreter() {
+        this.stop=true;
+        this.notify();
+    }
     @Override
     public void run() {
-        while (!partieTerminee()) {     
+        while (!partieTerminee() && !stop) {     
             try {
                 this.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            deplacer(direction);
+            if (!stop)
+                deplacer(direction);
         }
     }
 }
