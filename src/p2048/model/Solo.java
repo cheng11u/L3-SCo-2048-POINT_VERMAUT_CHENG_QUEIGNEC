@@ -18,21 +18,29 @@ public class Solo implements TypePartie {
     private CubeGrille grille;
     
     /**
+     * Thread correspondant au jeu
+     */
+    private Thread jeu;
+    
+    /**
      * Constructeur
      * @param grille grille de jeu
      */
     public Solo(CubeGrille grille){
         this.grille = grille;
+        this.jeu = new Thread(this.grille);
     }
     
     /**
      * Démarre une partie
      */
     public void commencerPartie(){
-        Thread t = new Thread(this.grille);
-        t.start();
+        this.jeu.start();
     }
     
+    public void quitterPartie(){
+        this.grille.arreter();
+    }
     public void sauvegarderClassement() {
         
     }
@@ -47,14 +55,17 @@ public class Solo implements TypePartie {
         try {
             oos = new ObjectOutputStream(new FileOutputStream(fichier));
             oos.writeObject(this.grille);
+            oos.flush();
         }
         catch (IOException e){
             e.printStackTrace();
         }
         finally {
             try {
-                if (oos != null)
+                if (oos != null){
+                    oos.flush();
                     oos.close();
+                }
             }
             catch (IOException e){
                 e.printStackTrace();
