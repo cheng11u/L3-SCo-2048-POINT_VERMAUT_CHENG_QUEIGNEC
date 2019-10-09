@@ -107,8 +107,15 @@ public class CubeGrille implements Runnable {
             int i=0;
             for (Case c : rangee) {
                 if (c.getValeur()==c.getVoisin(-direction).getValeur() || c.estLibre()) {
-                    c.setValeur(c.getValeur()*c.getVoisin(-direction).getValeur());
+                    int nouvelleValeur=c.getValeur()*c.getVoisin(-direction).getValeur();
+                    if (!c.estLibre() && !c.getVoisin(-direction).estLibre()) {
+                        score+=nouvelleValeur;
+                        if (valeurMax<nouvelleValeur)
+                            valeurMax=nouvelleValeur;
+                    }
+                    c.setValeur(nouvelleValeur);
                     c.getVoisin(-direction).setValeur(1);
+                    
                 }
                 rangeeSuiv[i]=c.getVoisin(-direction);
                 i++;
@@ -121,6 +128,7 @@ public class CubeGrille implements Runnable {
     
     public void deplacer(int direction) {
         deplacerRecursif(getCasesExtremites(direction), direction, 0);
+        nbdeplacements++;
     }
     
     public boolean partieTerminee() {
@@ -162,5 +170,18 @@ public class CubeGrille implements Runnable {
 
     public void setDirection(int direction) {
         this.direction = direction;
+        this.notify();
+    }
+
+    @Override
+    public void run() {
+        while (!partieTerminee()) {     
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            deplacer(direction);
+        }
     }
 }
