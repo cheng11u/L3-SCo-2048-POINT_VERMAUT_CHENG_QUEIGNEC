@@ -48,7 +48,6 @@ public class Solo implements TypePartie {
     /**
      * Sauvegarde la partie en cours
      * @param fichier fichier dans lequel la partie est sauvegardée
-     * @throws IOException en cas d'erreur de flux
      */
     public void sauvegarder(File fichier) {
         ObjectOutputStream oos = null;
@@ -66,6 +65,37 @@ public class Solo implements TypePartie {
                     oos.flush();
                     oos.close();
                 }
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    /**
+     * Charge la grille à partir d'un fichier
+     * @param fichier fichier correspondant au fichier à charger
+     */
+    public void charger(File fichier){
+        ObjectInputStream ois = null;
+        
+        try {
+            ois = new ObjectInputStream(new FileInputStream(fichier));
+            Object obj = ois.readObject();
+            if (obj instanceof CubeGrille){
+                this.grille = (CubeGrille) obj;
+            }
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (ois != null)
+                    ois.close();
             }
             catch (IOException e){
                 e.printStackTrace();
