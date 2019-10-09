@@ -1,5 +1,6 @@
 package p2048.model;
 
+import java.io.Serializable;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,7 +10,7 @@ import java.util.Random;
 /**
  * @author Nicolas QUEIGNEC
  */
-public class CubeGrille implements Runnable {
+public class CubeGrille implements Runnable, Serializable {
     private int valeurMax;
     private int score;
     private int nbdeplacements;

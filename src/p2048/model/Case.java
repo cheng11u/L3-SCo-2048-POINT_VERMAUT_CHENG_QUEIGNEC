@@ -1,9 +1,11 @@
 package p2048.model;
 
+import java.io.Serializable;
+
 /**
  * @author Nicolas QUEIGNEC
  */
-public class Case {
+public class Case implements Serializable {
     private int valeur;
     private int x;
     private int y;
