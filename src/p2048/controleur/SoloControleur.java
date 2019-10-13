@@ -17,8 +17,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import p2048.model.CubeGrille;
-
+import p2048.P2048;
 /**
  *
  * @author Nicolas QUEIGNEC
@@ -76,7 +77,7 @@ public class SoloControleur {
                         Label label=new Label(grilleEtage[i][j]+"");
                         label.setTextFill(Color.web("#000000"));
                         label.setFont(new Font(20));
-                        System.out.println(j+","+i+"="+grilleEtage[i][j]);
+                        
                         pane.getChildren().add(label);
                         if (numGrille==0)
                             etage0.add(pane, i, j);

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * @author Nicolas QUEIGNEC
@@ -51,7 +52,7 @@ public class CubeGrille implements Runnable, Serializable {
         int indexCase=r.nextInt(cases.size());
         while (!cases.get(indexCase).estLibre())
             indexCase=r.nextInt(cases.size());
-        cases.get(indexCase).setValeur(r.nextDouble()<0.66?2:4);
+        cases.get(indexCase).setValeur(new SimpleIntegerProperty(r.nextDouble()<0.66?2:4));
         System.out.println(cases.get(indexCase).getX()+","+cases.get(indexCase).getY()+","+cases.get(indexCase).getZ()+"="+cases.get(indexCase).getValeur());
     }
     
@@ -63,37 +64,37 @@ public class CubeGrille implements Runnable, Serializable {
             Case c=it.next();
             switch (direction) {
                 case DIR_HAUT:
-                    if (c.getY()==0) {
+                    if (c.getY().get()==0) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_BAS:
-                    if (c.getY()==taille-1) {
+                    if (c.getY().get()==taille-1) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_GAUCHE:
-                    if (c.getX()==0) {
+                    if (c.getX().get()==0) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_DROITE:
-                    if (c.getX()==taille-1) {
+                    if (c.getX().get()==taille-1) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_DESSOUS:
-                    if (c.getZ()==0) {
+                    if (c.getZ().get()==0) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_DESSUS:
-                    if (c.getZ()==taille-1) {
+                    if (c.getZ().get()==taille-1) {
                         res[i]=c;
                         i++;
                     }
@@ -111,14 +112,14 @@ public class CubeGrille implements Runnable, Serializable {
             int i=0;
             for (Case c : rangee) {
                 if (c.getValeur()==c.getVoisin(-direction).getValeur() || c.estLibre()) {
-                    int nouvelleValeur=c.getValeur()*c.getVoisin(-direction).getValeur();
+                    int nouvelleValeur=c.getValeur().get()*c.getVoisin(-direction).getValeur().get();
                     if (!c.estLibre() && !c.getVoisin(-direction).estLibre()) {
                         score+=nouvelleValeur;
                         if (valeurMax<nouvelleValeur)
                             valeurMax=nouvelleValeur;
                     }
-                    c.setValeur(nouvelleValeur);
-                    c.getVoisin(-direction).setValeur(1);
+                    c.setValeur(new SimpleIntegerProperty(nouvelleValeur));
+                    c.getVoisin(-direction).setValeur(new SimpleIntegerProperty(1));
                 }
                 rangeeSuiv[i]=c.getVoisin(-direction);
                 i++;
@@ -164,8 +165,8 @@ public class CubeGrille implements Runnable, Serializable {
         if (etage>=0 && etage<taille) {
             int[][] res=new int[taille][taille];
             for (Case c : cases) 
-                if (c.getZ()==etage)
-                    res[c.getX()][c.getY()]=c.getValeur();
+                if (c.getZ().get()==etage)
+                    res[c.getX().get()][c.getY().get()]=c.getValeur().get();
             return res;
         }
         return null;        
