@@ -9,7 +9,9 @@ import java.util.Random;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 /**
@@ -102,10 +104,15 @@ public class CubeGrille implements Runnable, Serializable {
         this.valeurMax.set(valeurMax);
     }
     
+    public void ajouterListenerCases(ListChangeListener listener) {
+        cases.addListener(listener);
+    }
+    
     public synchronized void arreter() {
         setStop(true);
         this.notify();
     }
+    
     public void ajouterAleatoireCase() {
         Random r=new Random();
         int indexCase=r.nextInt(cases.size());
