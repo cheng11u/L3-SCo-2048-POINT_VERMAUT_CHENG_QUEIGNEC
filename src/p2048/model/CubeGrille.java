@@ -6,95 +6,153 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * @author Nicolas QUEIGNEC
  */
 public class CubeGrille implements Runnable, Serializable {
-    private int valeurMax;
-    private int score;
-    private int nbdeplacements;
-    private int direction;
-    private int taille;
-    private boolean stop;
+    private final SimpleIntegerProperty valeurMax;
+    private final SimpleIntegerProperty score;
+    private final SimpleIntegerProperty nbDeplacements;
+    private final SimpleIntegerProperty direction;
+    private final SimpleIntegerProperty taille;
+    private final SimpleBooleanProperty stop;
     public static final int DIR_HAUT=1;
     public static final int DIR_BAS=-1;
     public static final int DIR_GAUCHE=2;
     public static final int DIR_DROITE=-2;
     public static final int DIR_DESSOUS=3;
     public static final int DIR_DESSUS=-3;
-    private List<Case> cases;
+    private final SimpleListProperty<Case> cases;
 
     public CubeGrille(int taille) {
-        this.valeurMax=0;
-        this.score=0;
-        this.nbdeplacements=0;
-        this.cases=new ArrayList<Case>();
-        this.stop=false;
-        this.taille=taille;
-        for (int x=0; x<this.taille; x++)
-            for (int y=0; y<this.taille; y++)
-                for (int z=0; z<this.taille; z++)
-                    this.cases.add(new Case(x, y, z, this));
+        this.valeurMax=new SimpleIntegerProperty(0);
+        this.score=new SimpleIntegerProperty(0);
+        this.nbDeplacements=new SimpleIntegerProperty(0);
+        this.stop=new SimpleBooleanProperty(false);
+        this.taille=new SimpleIntegerProperty(taille);
+        this.direction=new SimpleIntegerProperty(0);
+        List<Case> cases=new ArrayList<Case>();
+        for (int x=0; x<this.taille.get(); x++)
+            for (int y=0; y<this.taille.get(); y++)
+                for (int z=0; z<this.taille.get(); z++)
+                    cases.add(new Case(x, y, z, this));
+        this.cases=new SimpleListProperty<Case>(FXCollections.observableArrayList(cases));
     }
 
     public List<Case> getCases() {
-        return cases;
+        return cases.get();
     }
 
     public int getTaille() {
-        return taille;
+        return taille.get();
+    }
+
+    public int getScore() {
+        return score.get();
+    }
+
+    public int getDirection() {
+        return direction.get();
+    }
+
+    public int getNbdeplacements() {
+        return nbDeplacements.get();
+    }
+
+    public boolean getStop() {
+        return stop.get();
+    }
+
+    public int getValeurMax() {
+        return valeurMax.get();
     }
     
+    private void setCases(List<Case> cases) {
+        this.cases.set(FXCollections.observableArrayList(cases));
+    }
+    
+    private void setTaille(int taille) {
+        this.taille.set(taille);
+    }
+    
+    private void setScore(int score) {
+        this.score.set(score);
+    }
+    
+    public synchronized void setDirection(int direction) {
+        this.direction.set(direction);
+        this.notify();
+    }
+    
+    private void setNbDeplacements(int nbDeplacements) {
+        this.nbDeplacements.set(nbDeplacements);
+    }
+    
+    private void setStop(boolean stop) {
+        this.stop.set(stop);
+    }
+    
+    private void setValeurMax(int valeurMax) {
+        this.valeurMax.set(valeurMax);
+    }
+    
+    public synchronized void arreter() {
+        setStop(true);
+        this.notify();
+    }
     public void ajouterAleatoireCase() {
         Random r=new Random();
         int indexCase=r.nextInt(cases.size());
         while (!cases.get(indexCase).estLibre())
             indexCase=r.nextInt(cases.size());
-        cases.get(indexCase).setValeur(new SimpleIntegerProperty(r.nextDouble()<0.66?2:4));
-        System.out.println(cases.get(indexCase).getX()+","+cases.get(indexCase).getY()+","+cases.get(indexCase).getZ()+"="+cases.get(indexCase).getValeur());
+        cases.get(indexCase).setValeur(r.nextDouble()<0.66?2:4);
     }
     
     public Case[] getCasesExtremites(int direction) {
-        Case[] res=new Case[taille*taille];
+        Case[] res=new Case[getTaille()*getTaille()];
         int i=0;
         Iterator<Case> it=cases.iterator();
         while (it.hasNext() && i<res.length) {
             Case c=it.next();
             switch (direction) {
                 case DIR_HAUT:
-                    if (c.getY().get()==0) {
+                    if (c.getY()==0) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_BAS:
-                    if (c.getY().get()==taille-1) {
+                    if (c.getY()==getTaille()-1) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_GAUCHE:
-                    if (c.getX().get()==0) {
+                    if (c.getX()==0) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_DROITE:
-                    if (c.getX().get()==taille-1) {
+                    if (c.getX()==getTaille()-1) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_DESSOUS:
-                    if (c.getZ().get()==0) {
+                    if (c.getZ()==0) {
                         res[i]=c;
                         i++;
                     }
                     break;
                 case DIR_DESSUS:
-                    if (c.getZ().get()==taille-1) {
+                    if (c.getZ()==getTaille()-1) {
                         res[i]=c;
                         i++;
                     }
@@ -112,27 +170,27 @@ public class CubeGrille implements Runnable, Serializable {
             int i=0;
             for (Case c : rangee) {
                 if (c.getValeur()==c.getVoisin(-direction).getValeur() || c.estLibre()) {
-                    int nouvelleValeur=c.getValeur().get()*c.getVoisin(-direction).getValeur().get();
+                    int nouvelleValeur=c.getValeur()*c.getVoisin(-direction).getValeur();
                     if (!c.estLibre() && !c.getVoisin(-direction).estLibre()) {
-                        score+=nouvelleValeur;
-                        if (valeurMax<nouvelleValeur)
-                            valeurMax=nouvelleValeur;
+                        setScore(getScore()+nouvelleValeur);
+                        if (getValeurMax()<nouvelleValeur)
+                            setValeurMax(nouvelleValeur);
                     }
-                    c.setValeur(new SimpleIntegerProperty(nouvelleValeur));
-                    c.getVoisin(-direction).setValeur(new SimpleIntegerProperty(1));
+                    c.setValeur(nouvelleValeur);
+                    c.getVoisin(-direction).setValeur(1);
                 }
                 rangeeSuiv[i]=c.getVoisin(-direction);
                 i++;
             }
             deplacerRecursif(rangeeSuiv, direction, compteur);
-        } else if (compteur<taille-1) {
+        } else if (compteur<getTaille()-1) {
             deplacerRecursif(rangeeSuiv, direction, compteur+1);
         }
     }
     
     public void deplacer(int direction) {
         deplacerRecursif(getCasesExtremites(direction), direction, 0);
-        nbdeplacements++;
+        setNbDeplacements(getNbdeplacements()+1);
     }
     
     public boolean partieTerminee() {
@@ -162,29 +220,19 @@ public class CubeGrille implements Runnable, Serializable {
     }
     
     public int[][] getGrilleEtage(int etage){
-        if (etage>=0 && etage<taille) {
-            int[][] res=new int[taille][taille];
+        if (etage>=0 && etage<getTaille()) {
+            int[][] res=new int[getTaille()][getTaille()];
             for (Case c : cases) 
-                if (c.getZ().get()==etage)
-                    res[c.getX().get()][c.getY().get()]=c.getValeur().get();
+                if (c.getZ()==etage)
+                    res[c.getX()][c.getY()]=c.getValeur();
             return res;
         }
         return null;        
     }
-
-    public synchronized void setDirection(int direction) {
-        this.direction = direction;
-        this.notify();
-    }
-    
-    public synchronized void arreter() {
-        this.stop=true;
-        this.notify();
-    }
     
     @Override
     public void run() {
-        while (!partieTerminee() && !stop) {     
+        while (!partieTerminee() && !stop.get()) {     
             ajouterAleatoireCase();
             try {
                 synchronized (this) {
@@ -193,8 +241,8 @@ public class CubeGrille implements Runnable, Serializable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (!stop)
-                deplacer(direction);
+            if (!stop.get())
+                deplacer(getDirection());
         }
     }
 }

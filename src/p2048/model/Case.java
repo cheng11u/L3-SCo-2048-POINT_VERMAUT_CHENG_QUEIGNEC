@@ -7,10 +7,10 @@ import javafx.beans.property.*;
  * @author Nicolas QUEIGNEC
  */
 public class Case implements Serializable {
-    private IntegerProperty valeur;
-    private IntegerProperty x;
-    private IntegerProperty y;
-    private IntegerProperty z;
+    private final IntegerProperty valeur;
+    private final IntegerProperty x;
+    private final IntegerProperty y;
+    private final IntegerProperty z;
     private ObjectProperty<CubeGrille> grille;
     
     public Case(int x, int y, int z, CubeGrille grille) {
@@ -21,29 +21,49 @@ public class Case implements Serializable {
         this.grille = new SimpleObjectProperty<>(grille);
     }
 
-    public void setValeur(IntegerProperty valeur) {
-        this.valeur = valeur;
+    public int getValeur() {
+        return valeur.get();
+    }
+    
+    public void setValeur(int valeur) {
+        this.valeur.set(valeur);
     }
 
-    public IntegerProperty getValeur() {
-        return valeur;
+    public int getX() {
+        return x.get();
+    }
+    
+    private void setX(int x) {
+        this.x.set(x);
+    }
+    
+    public int getY() {
+        return y.get();
+    }
+    
+    private void setY(int y) {
+        this.y.set(y);
+    }
+    
+    public int getZ() {
+        return z.get();
+    }
+    
+    private void setZ(int z) {
+        this.z.set(z);
     }
 
-    public IntegerProperty getX() {
-        return x;
+    public CubeGrille getGrille() {
+        return grille.get();
     }
-
-    public IntegerProperty getY() {
-        return y;
-    }
-
-    public IntegerProperty getZ() {
-        return z;
+    
+    private void setGrille(CubeGrille grille) {
+        this.grille.set(grille);
     }
     
     @Override
     public int hashCode() {
-        return 2048*2048*this.x.get() + 2048*this.y.get() + this.z.get();
+        return 2048*2048*this.getX() + 2048*this.getY() + this.getZ();
     }
 
     @Override
@@ -58,54 +78,54 @@ public class Case implements Serializable {
             return false;
         }
         final Case other = (Case) obj;
-        if (this.x != other.x) {
+        if (this.getX() != other.getX()) {
             return false;
         }
-        if (this.y != other.y) {
+        if (this.getY() != other.getY()) {
             return false;
         }
-        if (this.z != other.z) {
+        if (this.getZ() != other.getZ()) {
             return false;
         }
         return true;
     }
     
     public boolean valeurEgale(Case c) {
-        return valeur==c.valeur;
+        return getValeur()==c.getValeur();
     }
     
     public Case getVoisin(int direction) {
         Case res=null;
         switch (direction) {
             case CubeGrille.DIR_HAUT:
-                if (this.y.get()!=0)
+                if (this.getY()!=0)
                     for (Case c : grille.get().getCases())
-                      if (c.y.get()==y.get()-1 && c.z.get()==z.get() && c.x.get()==x.get()) res=c;
+                      if (c.getY()==getY()-1 && c.getZ()==getZ() && c.getX()==getX()) res=c;
                 break;
             case CubeGrille.DIR_BAS:
-                if (y.get()!=grille.get().getTaille()-1)
+                if (getY()!=grille.get().getTaille()-1)
                     for (Case c : grille.get().getCases())
-                        if (c.y.get()==y.get()+1 && c.z.get()==z.get() && c.x.get()==x.get()) res=c;
+                        if (c.y.get()==y.get()+1 && c.getZ()==getZ() && c.getX()==getX()) res=c;
                 break;
             case CubeGrille.DIR_GAUCHE:
-                if (x.get()!=0)
+                if (getX()!=0)
                     for (Case c : grille.get().getCases())
-                        if (c.x.get()==x.get()-1 && c.z.get()==z.get() && c.y.get()==y.get()) res=c;
+                        if (c.getX()==getX()-1 && c.getZ()==getZ() && c.getY()==getY()) res=c;
                 break;
             case CubeGrille.DIR_DROITE:
-                if (x.get()!=grille.get().getTaille()-1)
+                if (getX()!=grille.get().getTaille()-1)
                     for (Case c : grille.get().getCases())
-                        if (c.x.get()==x.get()+1 && c.z.get()==z.get() && c.y.get()==y.get()) res=c;
+                        if (c.getX()==getX()+1 && c.getZ()==getZ() && c.getY()==getY()) res=c;
                 break;
             case CubeGrille.DIR_DESSOUS:
-                if (z.get()!=0)
+                if (getZ()!=0)
                     for (Case c : grille.get().getCases())
-                        if (c.z.get()==z.get()-1 && c.y.get()==y.get() && c.x.get()==x.get()) res=c;
+                        if (c.getZ()==getZ()-1 && c.getY()==getY() && c.getX()==getX()) res=c;
                 break;
             case CubeGrille.DIR_DESSUS:
-                if (z.get()!=grille.get().getTaille()-1)
+                if (getZ()!=grille.get().getTaille()-1)
                     for (Case c : grille.get().getCases())
-                        if (c.z.get()==z.get()+1 && c.y==y && c.x==x) res=c;
+                        if (c.getZ()==getZ()+1 && c.y==y && c.x==x) res=c;
                 break;
             default:
                 break;
@@ -114,6 +134,6 @@ public class Case implements Serializable {
     }
     
     public boolean estLibre() {
-        return valeur.get()==1;
+        return getValeur()==1;
     }
 }
