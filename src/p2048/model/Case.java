@@ -79,32 +79,32 @@ public class Case implements Serializable {
             case CubeGrille.DIR_HAUT:
                 if (y!=0)
                     for (Case c : grille.getCases())
-                      if (c.y==y-1) res=c;
+                      if (c.y==y-1 && c.z==z && c.x==x) res=c;
                 break;
             case CubeGrille.DIR_BAS:
                 if (y!=grille.getTaille()-1)
                     for (Case c : grille.getCases())
-                        if (c.y==y+1) res=c;
+                        if (c.y==y+1 && c.z==z && c.x==x) res=c;
                 break;
             case CubeGrille.DIR_GAUCHE:
                 if (x!=0)
                     for (Case c : grille.getCases())
-                        if (c.x==x-1) res=c;
+                        if (c.x==x-1 && c.z==z && c.y==y) res=c;
                 break;
             case CubeGrille.DIR_DROITE:
                 if (x!=grille.getTaille()-1)
                     for (Case c : grille.getCases())
-                        if (c.x==x+1) res=c;
+                        if (c.x==x+1 && c.z==z && c.y==y) res=c;
                 break;
             case CubeGrille.DIR_DESSOUS:
                 if (z!=0)
                     for (Case c : grille.getCases())
-                        if (c.z==z-1) res=c;
+                        if (c.z==z-1 && c.y==y && c.x==x) res=c;
                 break;
             case CubeGrille.DIR_DESSUS:
                 if (z!=grille.getTaille()-1)
                     for (Case c : grille.getCases())
-                        if (c.z==z+1) res=c;
+                        if (c.z==z+1 && c.y==y && c.x==x) res=c;
                 break;
             default:
                 break;

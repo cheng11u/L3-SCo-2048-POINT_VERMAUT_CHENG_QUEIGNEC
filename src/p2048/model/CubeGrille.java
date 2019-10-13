@@ -52,6 +52,7 @@ public class CubeGrille implements Runnable, Serializable {
         while (!cases.get(indexCase).estLibre())
             indexCase=r.nextInt(cases.size());
         cases.get(indexCase).setValeur(r.nextDouble()<0.66?2:4);
+        System.out.println(cases.get(indexCase).getX()+","+cases.get(indexCase).getY()+","+cases.get(indexCase).getZ()+"="+cases.get(indexCase).getValeur());
     }
     
     public Case[] getCasesExtremites(int direction) {
@@ -106,7 +107,7 @@ public class CubeGrille implements Runnable, Serializable {
     
     private void deplacerRecursif(Case[] rangee, int direction, int compteur) {
         Case[] rangeeSuiv=new Case[rangee.length];
-        if (rangee[0].getVoisin(-direction)!=null) {
+        if (rangee[0]!=null && rangee[0].getVoisin(-direction)!=null) {
             int i=0;
             for (Case c : rangee) {
                 if (c.getValeur()==c.getVoisin(-direction).getValeur() || c.estLibre()) {
@@ -118,7 +119,6 @@ public class CubeGrille implements Runnable, Serializable {
                     }
                     c.setValeur(nouvelleValeur);
                     c.getVoisin(-direction).setValeur(1);
-                    
                 }
                 rangeeSuiv[i]=c.getVoisin(-direction);
                 i++;
@@ -145,7 +145,7 @@ public class CubeGrille implements Runnable, Serializable {
         directions.add(DIR_DESSUS);
         directions.add(DIR_DESSOUS);
         Iterator<Case> it=cases.iterator();
-        while (it.hasNext() && !termine) {
+        while (it.hasNext() && termine) {
             Case c=it.next();
             if (c.estLibre())
                 termine=false;
@@ -161,7 +161,7 @@ public class CubeGrille implements Runnable, Serializable {
     }
     
     public int[][] getGrilleEtage(int etage){
-        if (etage>0 && etage<=taille) {
+        if (etage>=0 && etage<taille) {
             int[][] res=new int[taille][taille];
             for (Case c : cases) 
                 if (c.getZ()==etage)
@@ -171,20 +171,24 @@ public class CubeGrille implements Runnable, Serializable {
         return null;        
     }
 
-    public void setDirection(int direction) {
+    public synchronized void setDirection(int direction) {
         this.direction = direction;
         this.notify();
     }
     
-    public void arreter() {
+    public synchronized void arreter() {
         this.stop=true;
         this.notify();
     }
+    
     @Override
     public void run() {
         while (!partieTerminee() && !stop) {     
+            ajouterAleatoireCase();
             try {
-                this.wait();
+                synchronized (this) {
+                    this.wait();
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

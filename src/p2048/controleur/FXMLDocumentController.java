@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package p2048;
+package p2048.controleur;
 
 import java.net.URL;
 import java.util.ResourceBundle;

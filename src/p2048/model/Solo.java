@@ -29,10 +29,9 @@ public class Solo implements TypePartie {
     
     /**
      * Constructeur
-     * @param grille grille de jeu
      */
-    public Solo(CubeGrille grille){
-        this.grille = grille;
+    public Solo(){
+        this.grille = new CubeGrille(3);
         this.jeu = new Thread(this.grille);
     }
     
@@ -106,5 +105,13 @@ public class Solo implements TypePartie {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Getter
+     * @return Grille de la partie
+     */
+    public CubeGrille getGrille() {
+        return grille;
     }
 }

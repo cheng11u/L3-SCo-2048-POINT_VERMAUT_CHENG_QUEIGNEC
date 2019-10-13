@@ -5,22 +5,31 @@
  */
 package p2048;
 
+import java.net.URL;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import p2048.controleur.SoloControleur;
+import p2048.model.Solo;
 
 public class P2048 extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
+        URL fxmlURL=getClass().getResource("vue/FXMLSolo.fxml");
+        FXMLLoader loader=new FXMLLoader(fxmlURL);
+        Parent root = loader.load();
+        Solo partie=new Solo();
+        partie.commencerPartie();
+        SoloControleur controleur=loader.getController();
+        controleur.ajouterGrille(partie.getGrille());
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
         stage.show();
+        controleur.update();
     }
 
     /**
