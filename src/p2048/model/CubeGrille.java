@@ -191,10 +191,9 @@ public class CubeGrille implements Runnable, Serializable {
                 i++;
             }
             deplacerRecursif(rangeeSuiv, direction, compteur);
-        } else if (compteur<getTaille()-1 && !res) {
+        } else if (compteur<getTaille()-1) {
             deplacerRecursif(getCasesExtremites(direction), direction, compteur+1);
         }
-        return res;
     }
     
     public void deplacer(int direction) {
