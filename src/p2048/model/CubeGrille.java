@@ -173,31 +173,42 @@ public class CubeGrille implements Runnable, Serializable {
         return res;
     }
     
-    private void deplacerRecursif(Case[] rangee, int direction, int compteur) {
-        Case[] rangeeSuiv=new Case[rangee.length];
-        if (rangee[0]!=null && rangee[0].getVoisin(-direction)!=null) {
-            int i=0;
-            for (Case c : rangee) {
-                rangeeSuiv[i]=c.getVoisin(-direction);
-                if (c.estLibre()) {
-                    c.setValeur(rangeeSuiv[i].getValeur());
-                    rangeeSuiv[i].setValeur(1);
-                } else if (c.getValeur()==rangeeSuiv[i].getValeur()) {
-                    int nouvelleValeur=c.getValeur()*2;
-                    c.setValeur(nouvelleValeur);
-                    rangeeSuiv[i].setValeur(1);
-                    setScore(getScore()+nouvelleValeur);
+    private void deplacerRecursif(int direction, Case actuelle, int i, int nbPassage, int nbFusion) {
+        Case[] rangee=getCasesExtremites(direction);
+        if (actuelle==null && i==0)
+            actuelle=rangee[i];
+        if (i<rangee.length) {
+            Case suivante=actuelle.getVoisin(-direction);
+            if (suivante==null) {
+                if (nbPassage==getTaille()-1) {
+                    i++;
+                    if (i<rangee.length) {
+                        suivante=rangee[i];
+                        nbPassage=0;
+                    }
+                    nbFusion=0;
+                } else {
+                    nbPassage++;
+                    suivante=rangee[i];
                 }
-                i++;
             }
-            deplacerRecursif(rangeeSuiv, direction, compteur);
-        } else if (compteur<getTaille()-1) {
-            deplacerRecursif(getCasesExtremites(direction), direction, compteur+1);
-        }
+            else {
+               if (actuelle.estLibre()) {
+                    actuelle.setValeur(suivante.getValeur());
+                    suivante.setValeur(1);
+                } else if (actuelle.getValeur()==suivante.getValeur() && nbFusion<(int)(getTaille()/2)) {
+                    actuelle.setValeur(actuelle.getValeur()*2);
+                    suivante.setValeur(1);
+                    setScore(getScore()+actuelle.getValeur());
+                    nbFusion++;
+                }
+            }
+            deplacerRecursif(direction, suivante, i, nbPassage, nbFusion); 
+        } 
     }
     
     public void deplacer(int direction) {
-        deplacerRecursif(getCasesExtremites(direction), direction, 0);
+        deplacerRecursif(direction, null, 0, 0, 0);
         setNbDeplacements(getNbdeplacements()+1);
     }
     
@@ -240,8 +251,8 @@ public class CubeGrille implements Runnable, Serializable {
     
     @Override
     public void run() {
+        ajouterAleatoireCase();
         while (!partieTerminee() && !stop.get()) {     
-            ajouterAleatoireCase();
             try {
                 synchronized (this) {
                     this.wait();
@@ -251,6 +262,7 @@ public class CubeGrille implements Runnable, Serializable {
             }
             if (!stop.get())
                 deplacer(getDirection());
+            ajouterAleatoireCase();
         }
     }
 }

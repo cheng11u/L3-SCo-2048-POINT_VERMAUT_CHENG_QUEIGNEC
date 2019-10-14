@@ -30,7 +30,6 @@ public class P2048 extends Application {
         FXMLLoader loader=new FXMLLoader(fxmlURL);
         Parent root = loader.load();
         Solo partie=new Solo();
-        partie.commencerPartie();
         SoloControleur controleur=loader.getController();
         controleur.ajouterGrille(partie.getGrille());
         Scene scene = new Scene(root);
@@ -46,6 +45,7 @@ public class P2048 extends Application {
               
             }
         });
+        partie.commencerPartie();
         stage.setScene(scene);
         stage.show();
     }
