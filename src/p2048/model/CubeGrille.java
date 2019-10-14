@@ -104,8 +104,10 @@ public class CubeGrille implements Runnable, Serializable {
         this.valeurMax.set(valeurMax);
     }
     
-    public void ajouterListenerCases(ListChangeListener listener) {
-        cases.addListener(listener);
+    public void ajouterListenerCases(ChangeListener listener) {
+        for (Case c : cases) {
+            c.addListener(listener);
+        }
     }
     
     public synchronized void arreter() {
@@ -176,17 +178,16 @@ public class CubeGrille implements Runnable, Serializable {
         if (rangee[0]!=null && rangee[0].getVoisin(-direction)!=null) {
             int i=0;
             for (Case c : rangee) {
-                if (c.getValeur()==c.getVoisin(-direction).getValeur() || c.estLibre()) {
-                    int nouvelleValeur=c.getValeur()*c.getVoisin(-direction).getValeur();
-                    if (!c.estLibre() && !c.getVoisin(-direction).estLibre()) {
-                        setScore(getScore()+nouvelleValeur);
-                        if (getValeurMax()<nouvelleValeur)
-                            setValeurMax(nouvelleValeur);
-                    }
-                    c.setValeur(nouvelleValeur);
-                    c.getVoisin(-direction).setValeur(1);
-                }
                 rangeeSuiv[i]=c.getVoisin(-direction);
+                if (c.estLibre()) {
+                    c.setValeur(rangeeSuiv[i].getValeur());
+                    rangeeSuiv[i].setValeur(1);
+                } else if (c.getValeur()==rangeeSuiv[i].getValeur()) {
+                    int nouvelleValeur=c.getValeur()*2;
+                    c.setValeur(nouvelleValeur);
+                    rangeeSuiv[i].setValeur(1);
+                    setScore(getScore()+nouvelleValeur);
+                }
                 i++;
             }
             deplacerRecursif(rangeeSuiv, direction, compteur);

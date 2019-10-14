@@ -66,6 +66,15 @@ public class SoloControleur {
     }
     
     public void update() {
+        etage0.getChildren().clear();
+        etage1.getChildren().clear();
+        etage2.getChildren().clear();
+        etage0.setGridLinesVisible(false);
+        etage0.setGridLinesVisible(true);
+        etage1.setGridLinesVisible(false);
+        etage1.setGridLinesVisible(true);
+        etage2.setGridLinesVisible(false);
+        etage2.setGridLinesVisible(true);
         for (int numGrille=0; numGrille<3; numGrille++) {
             int[][] grilleEtage=grille.getGrilleEtage(numGrille);
             for (int i=0; i<3; i++)
@@ -77,7 +86,6 @@ public class SoloControleur {
                         Label label=new Label(grilleEtage[i][j]+"");
                         label.setTextFill(Color.web("#000000"));
                         label.setFont(new Font(20));
-                        
                         pane.getChildren().add(label);
                         if (numGrille==0)
                             etage0.add(pane, i, j);

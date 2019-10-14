@@ -7,6 +7,9 @@ package p2048;
 
 import java.net.URL;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,10 +34,16 @@ public class P2048 extends Application {
         SoloControleur controleur=loader.getController();
         controleur.ajouterGrille(partie.getGrille());
         Scene scene = new Scene(root);
-        partie.getGrille().ajouterListenerCases(new ListChangeListener() {
+        partie.getGrille().ajouterListenerCases(new ChangeListener() {
             @Override
-            public void onChanged(ListChangeListener.Change c) {
-                controleur.update();
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() { 
+                        controleur.update();
+                    }
+                });
+              
             }
         });
         stage.setScene(scene);

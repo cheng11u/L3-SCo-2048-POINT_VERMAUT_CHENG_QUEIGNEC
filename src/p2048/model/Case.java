@@ -2,6 +2,7 @@ package p2048.model;
 
 import java.io.Serializable;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
 
 /**
  * @author Nicolas QUEIGNEC
@@ -59,6 +60,10 @@ public class Case implements Serializable {
     
     private void setGrille(CubeGrille grille) {
         this.grille.set(grille);
+    }
+    
+    public void addListener(ChangeListener listener) {
+        valeur.addListener(listener);
     }
     
     @Override
