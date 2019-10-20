@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -83,10 +84,13 @@ public class SoloControleur {
                     if (grilleEtage[i][j]!=1) {
                         pane=new Pane();
                         pane.setStyle("-fx-background-color:#999999");
+                        
                         Label label=new Label(grilleEtage[i][j]+"");
                         label.setTextFill(Color.web("#000000"));
                         label.setFont(new Font(20));
+                        label.setPadding(new Insets(30));
                         pane.getChildren().add(label);
+                        
                         if (numGrille==0)
                             etage0.add(pane, i, j);
                         else if (numGrille==1)
