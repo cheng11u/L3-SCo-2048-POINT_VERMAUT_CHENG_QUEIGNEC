@@ -173,20 +173,23 @@ public class CubeGrille implements Runnable, Serializable {
         return res;
     }
     
-    private void deplacerRecursif(int direction, Case actuelle, int i, int nbPassage, int nbFusion) {
+    private boolean deplacerRecursif(int direction, Case actuelle, int i, int nbPassage, int nbFusion) {
         Case[] rangee=getCasesExtremites(direction);
+        boolean aDeplace=false;
         if (actuelle==null && i==0)
             actuelle=rangee[i];
+        Case suivante=null;
+        if (actuelle!=null)
+            suivante=actuelle.getVoisin(-direction);
         if (i<rangee.length) {
-            Case suivante=actuelle.getVoisin(-direction);
             if (suivante==null) {
                 if (nbPassage==getTaille()-1) {
                     i++;
                     if (i<rangee.length) {
                         suivante=rangee[i];
-                        nbPassage=0;
+                        nbPassage=0; 
+                        nbFusion=0;
                     }
-                    nbFusion=0;
                 } else {
                     nbPassage++;
                     suivante=rangee[i];
@@ -196,20 +199,27 @@ public class CubeGrille implements Runnable, Serializable {
                if (actuelle.estLibre()) {
                     actuelle.setValeur(suivante.getValeur());
                     suivante.setValeur(1);
+                    if (!actuelle.estLibre())
+                        aDeplace=true;
                 } else if (actuelle.getValeur()==suivante.getValeur() && nbFusion<(int)(getTaille()/2)) {
                     actuelle.setValeur(actuelle.getValeur()*2);
                     suivante.setValeur(1);
                     setScore(getScore()+actuelle.getValeur());
                     nbFusion++;
+                    aDeplace=true;
                 }
             }
-            deplacerRecursif(direction, suivante, i, nbPassage, nbFusion); 
+            return deplacerRecursif(direction, suivante, i, nbPassage, nbFusion)||aDeplace;
         } 
+        return aDeplace;
     }
     
-    public void deplacer(int direction) {
-        deplacerRecursif(direction, null, 0, 0, 0);
-        setNbDeplacements(getNbdeplacements()+1);
+    public boolean deplacer(int direction) {
+        if (deplacerRecursif(direction, null, 0, 0, 0)) {
+           setNbDeplacements(getNbdeplacements()+1);
+           return true;
+        }
+        return false;
     }
     
     public boolean partieTerminee() {
@@ -261,8 +271,8 @@ public class CubeGrille implements Runnable, Serializable {
                 e.printStackTrace();
             }
             if (!stop.get())
-                deplacer(getDirection());
-            ajouterAleatoireCase();
+                if (deplacer(getDirection()))
+                    ajouterAleatoireCase();
         }
     }
 }
