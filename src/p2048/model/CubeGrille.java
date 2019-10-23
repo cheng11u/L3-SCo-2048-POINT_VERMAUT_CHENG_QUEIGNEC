@@ -275,4 +275,27 @@ public class CubeGrille implements Runnable, Serializable {
                     ajouterAleatoireCase();
         }
     }
+    
+    public String toString(){
+        String ligne = " ---- ---- ----  ---- ---- ----  ---- ---- ----\n";
+        
+        String res = ligne;
+        for (int y=0; y<3; y++){
+            for (int z=0; z<3; z++){
+                res += "|";
+                for (int x=0; x<3; x++){
+                    int indice = 9*x + 3*y + z;
+                    String val = Integer.toString(this.cases.get(indice).getValeur());
+                    while (val.length() < 4)
+                        val = " " + val;
+                    if (val.equals("   1"))
+                        val = "    ";
+                    res += val + "|";
+                }
+            }
+            res += "\n" + ligne;
+        }
+        res += "\n";
+        return res;
+    }
 }

@@ -141,4 +141,19 @@ public class Case implements Serializable {
     public boolean estLibre() {
         return getValeur()==1;
     }
+    
+    public String toString(){
+        if (this.estLibre())
+            return "    ";
+        else {
+            String res = "";
+            int val = this.valeur.get();
+            int nbChiffres = ("" + val).length();
+            for (int i=0; i<nbChiffres; i++){
+                res += " ";
+            }
+            res += val;
+            return res;
+        }
+    }
 }
