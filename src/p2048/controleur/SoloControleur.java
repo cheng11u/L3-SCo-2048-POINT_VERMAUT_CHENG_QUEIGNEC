@@ -87,7 +87,7 @@ public class SoloControleur {
                         
                         Label label=new Label(grilleEtage[i][j]+"");
                         label.setTextFill(Color.web("#000000"));
-                        label.setFont(new Font(20));
+                        label.setFont(new Font(25));
                         label.setPadding(new Insets(30));
                         pane.getChildren().add(label);
                         
