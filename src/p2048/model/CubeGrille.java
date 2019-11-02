@@ -30,25 +30,25 @@ public class CubeGrille implements Runnable, Serializable {
     public static final int DIR_DROITE=-2;
     public static final int DIR_DESSOUS=3;
     public static final int DIR_DESSUS=-3;
-    private final SimpleListProperty<Case> cases;
+    private final ListeCases cases;
 
     public CubeGrille(int taille) {
-        this.valeurMax=new SimpleIntegerProperty(0);
-        this.score=new SimpleIntegerProperty(0);
-        this.nbDeplacements=new SimpleIntegerProperty(0);
-        this.stop=new SimpleBooleanProperty(false);
-        this.taille=new SimpleIntegerProperty(taille);
-        this.direction=new SimpleIntegerProperty(0);
+        this.valeurMax=new SimpleIntegerPropertySerializable(0);
+        this.score=new SimpleIntegerPropertySerializable(0);
+        this.nbDeplacements=new SimpleIntegerPropertySerializable(0);
+        this.stop=new SimpleBooleanPropertySerializable(false);
+        this.taille=new SimpleIntegerPropertySerializable(taille);
+        this.direction=new SimpleIntegerPropertySerializable(0);
         List<Case> cases=new ArrayList<Case>();
         for (int x=0; x<this.taille.get(); x++)
             for (int y=0; y<this.taille.get(); y++)
                 for (int z=0; z<this.taille.get(); z++)
                     cases.add(new Case(x, y, z, this));
-        this.cases=new SimpleListProperty<Case>(FXCollections.observableArrayList(cases));
+        this.cases=new ListeCases(FXCollections.observableArrayList(cases));
     }
 
     public List<Case> getCases() {
-        return cases.get();
+        return ((SimpleListProperty <Case>)cases).get();
     }
 
     public int getTaille() {
@@ -117,6 +117,7 @@ public class CubeGrille implements Runnable, Serializable {
     
     public void ajouterAleatoireCase() {
         Random r=new Random();
+        List<Case> cases = this.getCases();
         int indexCase=r.nextInt(cases.size());
         while (!cases.get(indexCase).estLibre())
             indexCase=r.nextInt(cases.size());

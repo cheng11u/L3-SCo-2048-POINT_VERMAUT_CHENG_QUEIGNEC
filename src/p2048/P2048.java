@@ -35,7 +35,7 @@ public class P2048 extends Application {
         Parent root = loader.load();
         Solo partie=new Solo();
         SoloControleur controleur=loader.getController();
-        controleur.ajouterGrille(partie.getGrille());
+        controleur.ajouterGrille(partie);
         Scene scene = new Scene(root);
         partie.getGrille().ajouterListenerCases(new ChangeListener() {
             @Override

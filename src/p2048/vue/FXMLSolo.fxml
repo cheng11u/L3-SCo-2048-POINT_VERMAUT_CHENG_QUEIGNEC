@@ -69,6 +69,7 @@
             </GridPane>
             <HBox fx:id="panneau" layoutX="107.0" layoutY="53.0" prefHeight="100.0" prefWidth="200.0">
               <children>
+                <Button fx:id="enregistrer" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="30.0" prefWidth="80.0" text="Enregistrer" />
                 <Button fx:id="quitter" mnemonicParsing="false" onMouseClicked="#buttonClicked" prefHeight="30.0" prefWidth="60.0" text="Quitter" />
               </children>
             </HBox>

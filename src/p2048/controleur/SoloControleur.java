@@ -21,6 +21,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import p2048.model.CubeGrille;
 import p2048.P2048;
+import p2048.model.Solo;
 /**
  *
  * @author Nicolas QUEIGNEC
@@ -46,15 +47,18 @@ public class SoloControleur {
     private GridPane etage2;
     @FXML
     private Button quitter;
+    @FXML
+    private Button enregistrer;
     
-    private CubeGrille grille;
+    private Solo solo;
     
-    public void ajouterGrille(CubeGrille grille){
-        this.grille=grille;
+    public void ajouterGrille(Solo solo){
+        this.solo=solo;
     }
     
     @FXML
     public void buttonClicked(Event e) {
+        CubeGrille grille = solo.getGrille();
         if (e.getSource()==haut)
             grille.setDirection(CubeGrille.DIR_HAUT);
         else if (e.getSource()==bas)
@@ -67,9 +71,10 @@ public class SoloControleur {
             grille.setDirection(CubeGrille.DIR_DESSUS);
         else if (e.getSource()==inf)
             grille.setDirection(CubeGrille.DIR_DESSOUS);
-        else if (e.getSource()==quitter){
+        else if (e.getSource()==quitter)
             System.exit(0);
-        }
+        else if (e.getSource()==enregistrer)
+            solo.sauvegarder();
     }
     
     public void update() {
@@ -82,6 +87,7 @@ public class SoloControleur {
         etage1.setGridLinesVisible(true);
         etage2.setGridLinesVisible(false);
         etage2.setGridLinesVisible(true);
+        CubeGrille grille = solo.getGrille();
         for (int numGrille=0; numGrille<3; numGrille++) {
             int[][] grilleEtage=grille.getGrilleEtage(numGrille);
             for (int i=0; i<3; i++)
