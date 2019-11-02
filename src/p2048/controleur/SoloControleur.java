@@ -44,6 +44,9 @@ public class SoloControleur {
     private GridPane etage1;
     @FXML
     private GridPane etage2;
+    @FXML
+    private Button quitter;
+    
     private CubeGrille grille;
     
     public void ajouterGrille(CubeGrille grille){
@@ -64,6 +67,9 @@ public class SoloControleur {
             grille.setDirection(CubeGrille.DIR_DESSUS);
         else if (e.getSource()==inf)
             grille.setDirection(CubeGrille.DIR_DESSOUS);
+        else if (e.getSource()==quitter){
+            System.exit(0);
+        }
     }
     
     public void update() {

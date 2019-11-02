@@ -6,11 +6,13 @@
 package p2048;
 
 import java.net.URL;
+import java.util.Scanner;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +21,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import p2048.controleur.SoloControleur;
+import p2048.model.CubeGrille;
 import p2048.model.Solo;
 
 public class P2048 extends Application {
@@ -47,6 +51,13 @@ public class P2048 extends Application {
         });
         partie.commencerPartie();
         stage.setScene(scene);
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Platform.exit();
+                System.exit(0);
+            }
+        });
         stage.show();
     }
 
@@ -54,7 +65,38 @@ public class P2048 extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+        if (args.length == 0 || !args[0].equals("-c"))
+            launch(args);
+        else {
+            Scanner sc = new Scanner(System.in);
+            CubeGrille cg = new CubeGrille(3);
+            while (!cg.partieTerminee()){
+                cg.ajouterAleatoireCase();
+                System.out.println(cg);
+                String commande = sc.nextLine();
+                switch (commande){
+                    case "q":
+                        cg.setDirection(CubeGrille.DIR_GAUCHE);
+                        break;
+                    case "d":
+                        cg.setDirection(CubeGrille.DIR_DROITE);
+                        break;
+                    case "s":
+                        cg.setDirection(CubeGrille.DIR_BAS);
+                        break;
+                    case "z":
+                        cg.setDirection(CubeGrille.DIR_HAUT);
+                        break;
+                    case "f":
+                        cg.setDirection(CubeGrille.DIR_DESSOUS);
+                        break;
+                    case "r":
+                        cg.setDirection(CubeGrille.DIR_DESSUS);
+                        break;
+                }
+                cg.deplacer(cg.getDirection());
+            }
+        }
     }
     
 }
