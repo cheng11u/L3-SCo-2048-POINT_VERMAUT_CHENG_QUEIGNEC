@@ -6,6 +6,8 @@
 package p2048.controleur;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -49,7 +51,7 @@ public class SoloControleur {
     private Button quitter;
     @FXML
     private Button enregistrer;
-    
+    private List<Pane> panes=new ArrayList<Pane>();
     private Solo solo;
     
     public void ajouterGrille(Solo solo){
@@ -71,22 +73,18 @@ public class SoloControleur {
             grille.setDirection(CubeGrille.DIR_DESSUS);
         else if (e.getSource()==inf)
             grille.setDirection(CubeGrille.DIR_DESSOUS);
-        else if (e.getSource()==quitter)
-            System.exit(0);
+        else if (e.getSource()==quitter) {
+            solo.quitterPartie();   
+        }
         else if (e.getSource()==enregistrer)
             solo.sauvegarder();
     }
     
     public void update() {
-        etage0.getChildren().clear();
-        etage1.getChildren().clear();
-        etage2.getChildren().clear();
-        etage0.setGridLinesVisible(false);
-        etage0.setGridLinesVisible(true);
-        etage1.setGridLinesVisible(false);
-        etage1.setGridLinesVisible(true);
-        etage2.setGridLinesVisible(false);
-        etage2.setGridLinesVisible(true);
+        etage0.getChildren().removeAll(panes);
+        etage1.getChildren().removeAll(panes);
+        etage2.getChildren().removeAll(panes);
+        panes.clear();
         CubeGrille grille = solo.getGrille();
         for (int numGrille=0; numGrille<3; numGrille++) {
             int[][] grilleEtage=grille.getGrilleEtage(numGrille);
@@ -102,7 +100,7 @@ public class SoloControleur {
                         label.setFont(new Font(25));
                         label.setPadding(new Insets(30));
                         pane.getChildren().add(label);
-                        
+                        panes.add(pane);
                         if (numGrille==0)
                             etage0.add(pane, i, j);
                         else if (numGrille==1)
