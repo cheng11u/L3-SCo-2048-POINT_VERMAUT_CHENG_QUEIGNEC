@@ -51,6 +51,8 @@ public class SoloControleur {
     private Button quitter;
     @FXML
     private Button enregistrer;
+    @FXML
+    private Label points;
     private List<Pane> panes=new ArrayList<Pane>();
     private Solo solo;
     
@@ -86,6 +88,7 @@ public class SoloControleur {
         etage2.getChildren().removeAll(panes);
         panes.clear();
         CubeGrille grille = solo.getGrille();
+        points.setText(grille.getScore()+"");
         for (int numGrille=0; numGrille<3; numGrille++) {
             int[][] grilleEtage=grille.getGrilleEtage(numGrille);
             for (int i=0; i<3; i++)
