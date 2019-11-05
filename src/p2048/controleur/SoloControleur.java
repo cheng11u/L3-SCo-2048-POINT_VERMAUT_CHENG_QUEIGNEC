@@ -117,7 +117,7 @@ public class SoloControleur implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Solo partie=new Solo();
+        Solo partie=new Solo(); 
         this.solo=partie;
         partie.getGrille().ajouterListenerCases(new ChangeListener() {
             @Override

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -12,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p2048.controleur.AccueilControleur">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -128,7 +132,7 @@
                               <Font size="24.0" />
                            </font>
                         </Label>
-                        <Button layoutX="109.0" layoutY="290.0" mnemonicParsing="false" text="Jouer " />
+                        <Button layoutX="109.0" layoutY="290.0" mnemonicParsing="false" onAction="#creerSolo" text="Jouer " />
                         <Button layoutX="74.0" layoutY="402.0" mnemonicParsing="false" text="Reprendre la partie" />
                      </children>
                   </Pane>
