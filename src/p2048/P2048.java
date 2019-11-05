@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import p2048.controleur.Controleur;
 import p2048.controleur.SoloControleur;
 import p2048.model.CubeGrille;
 import p2048.model.Solo;
@@ -29,7 +30,7 @@ import p2048.model.Solo;
 public class P2048 extends Application {
     private static Stage stage;
     
-    public static void changerScene(String fxml) {
+    public static Controleur changerScene(String fxml) {
         URL fxmlURL=P2048.class.getResource(fxml);
         FXMLLoader loader=new FXMLLoader(fxmlURL);
         try {
@@ -37,7 +38,7 @@ public class P2048 extends Application {
             Scene scene = new Scene(root);
             stage.setScene(scene);
         } catch (Exception e) {}
-        
+        return loader.getController();
     }
     
     @Override

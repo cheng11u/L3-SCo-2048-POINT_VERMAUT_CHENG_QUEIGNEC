@@ -24,6 +24,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javax.xml.bind.Marshaller;
 import p2048.model.CubeGrille;
 import p2048.P2048;
 import p2048.model.Solo;
@@ -31,7 +32,7 @@ import p2048.model.Solo;
  *
  * @author Nicolas QUEIGNEC
  */
-public class SoloControleur implements Initializable {
+public class SoloControleur implements Controleur, Initializable {
     @FXML
     private Button haut;
     @FXML
@@ -58,6 +59,7 @@ public class SoloControleur implements Initializable {
     private Label points;
     private List<Pane> panes=new ArrayList<Pane>();
     private Solo solo;
+    private ChangeListener listener;
     
     @FXML
     public void buttonClicked(Event e) {
@@ -119,7 +121,7 @@ public class SoloControleur implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Solo partie=new Solo(); 
         this.solo=partie;
-        partie.getGrille().ajouterListenerCases(new ChangeListener() {
+        listener=new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                 Platform.runLater(new Runnable() {
@@ -129,7 +131,16 @@ public class SoloControleur implements Initializable {
                     }
                 });
             }
-        });
-        partie.commencerPartie();
+        };
+    }
+    
+    public void nouvellePartie() {
+        solo.getGrille().ajouterListenerCases(listener);
+        solo.commencerPartie();
+    }
+    
+    public void chargerPartie() {
+        solo.charger();
+        nouvellePartie();
     }
 }

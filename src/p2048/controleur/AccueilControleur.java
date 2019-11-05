@@ -11,9 +11,14 @@ import javafx.fxml.FXML;
  *
  * @author Nicolas QUEIGNEC
  */
-public class AccueilControleur {
+public class AccueilControleur implements Controleur {
     @FXML
     public void creerSolo() {
-        p2048.P2048.changerScene("vue/FXMLSolo.fxml");
+        ((SoloControleur)p2048.P2048.changerScene("vue/FXMLSolo.fxml")).nouvellePartie();
+    }
+    
+    @FXML
+    public void chargerSolo() {
+        ((SoloControleur)p2048.P2048.changerScene("vue/FXMLSolo.fxml")).chargerPartie();
     }
 }

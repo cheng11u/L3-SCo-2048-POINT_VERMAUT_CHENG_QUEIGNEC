@@ -133,7 +133,7 @@
                            </font>
                         </Label>
                         <Button layoutX="109.0" layoutY="290.0" mnemonicParsing="false" onAction="#creerSolo" text="Jouer " />
-                        <Button layoutX="74.0" layoutY="402.0" mnemonicParsing="false" text="Reprendre la partie" />
+                        <Button layoutX="74.0" layoutY="402.0" mnemonicParsing="false" onAction="#chargerSolo" text="Reprendre la partie" />
                      </children>
                   </Pane>
                </children>
