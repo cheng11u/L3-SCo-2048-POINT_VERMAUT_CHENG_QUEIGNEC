@@ -27,30 +27,23 @@ import p2048.model.CubeGrille;
 import p2048.model.Solo;
 
 public class P2048 extends Application {
+    private static Stage stage;
+    
+    public static void changerScene(String fxml) {
+        URL fxmlURL=P2048.class.getResource(fxml);
+        FXMLLoader loader=new FXMLLoader(fxmlURL);
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+        } catch (Exception e) {}
+        
+    }
     
     @Override
     public void start(Stage stage) throws Exception {
-        URL fxmlURL=getClass().getResource("vue/FXMLSolo.fxml");
-        FXMLLoader loader=new FXMLLoader(fxmlURL);
-        Parent root = loader.load();
-        Solo partie=new Solo();
-        SoloControleur controleur=loader.getController();
-        controleur.ajouterGrille(partie);
-        Scene scene = new Scene(root);
-        partie.getGrille().ajouterListenerCases(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() { 
-                        controleur.update();
-                    }
-                });
-              
-            }
-        });
-        partie.commencerPartie();
-        stage.setScene(scene);
+        this.stage=stage;
+        changerScene("vue/FXMLSolo.fxml");
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {

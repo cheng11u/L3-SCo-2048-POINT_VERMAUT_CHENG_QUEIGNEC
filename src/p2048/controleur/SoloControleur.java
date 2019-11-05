@@ -9,6 +9,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,7 +31,7 @@ import p2048.model.Solo;
  *
  * @author Nicolas QUEIGNEC
  */
-public class SoloControleur {
+public class SoloControleur implements Initializable {
     @FXML
     private Button haut;
     @FXML
@@ -56,10 +59,6 @@ public class SoloControleur {
     private List<Pane> panes=new ArrayList<Pane>();
     private Solo solo;
     
-    public void ajouterGrille(Solo solo){
-        this.solo=solo;
-    }
-    
     @FXML
     public void buttonClicked(Event e) {
         CubeGrille grille = solo.getGrille();
@@ -77,6 +76,7 @@ public class SoloControleur {
             grille.setDirection(CubeGrille.DIR_DESSOUS);
         else if (e.getSource()==quitter) {
             solo.quitterPartie();   
+            P2048.changerScene("vue/FXMLAccueil.fxml");
         }
         else if (e.getSource()==enregistrer)
             solo.sauvegarder();
@@ -113,5 +113,23 @@ public class SoloControleur {
                     }
                 }
         }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Solo partie=new Solo();
+        this.solo=partie;
+        partie.getGrille().ajouterListenerCases(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() { 
+                        update();
+                    }
+                });
+            }
+        });
+        partie.commencerPartie();
     }
 }
