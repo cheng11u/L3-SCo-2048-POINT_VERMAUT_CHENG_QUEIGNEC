@@ -135,7 +135,7 @@ public class SoloControleur implements Controleur, Initializable {
     }
     
     public void nouvellePartie() {
-        solo.getGrille().ajouterListenerCases(listener);
+        solo.getGrille().ajouterListener(listener);
         solo.commencerPartie();
     }
     
