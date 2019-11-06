@@ -1,0 +1,53 @@
+/* Partie commune*/
+#AnchorPane{
+	-fx-background-image: url("Images/milky_way.jpg");
+	-fx-background-size: contain;
+	
+
+}
+#bandeau{
+	-fx-border-style: solid;
+	-fx-border-color: white;
+	-fx-resize:both;
+	-fx-position: bottom;
+}
+
+.label{
+	-fx-background-color:white;
+	-fx-text-align:center;
+}
+
+.button:hover{
+	-fx-background-color:#685c5c;
+	-fx-position:relative;
+
+/* Fin partie commune*/
+
+/*Page d'accueil */
+/* Fenêtre des règles */
+#centre_regles{
+	-fx-background-color:silver;
+	-fx-opacity:0.3;
+}
+/* Fin fenêtre des règles */
+
+
+
+}
+
+#partcoop{
+
+
+}
+#partcomp{
+
+}
+
+#partmulti{
+
+}
+
+#info{
+
+}
+/*Fin page d'accueil*/
