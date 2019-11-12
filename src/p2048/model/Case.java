@@ -8,62 +8,53 @@ import javafx.beans.value.ChangeListener;
  * @author Nicolas QUEIGNEC
  */
 public class Case implements Serializable {
-    private final IntegerProperty valeur;
-    private final IntegerProperty x;
-    private final IntegerProperty y;
-    private final IntegerProperty z;
-    private ObjectProperty<CubeGrille> grille;
+    private int valeur;
+    private transient SimpleIntegerProperty valeurProperty;
+    private final int x;
+    private final int y;
+    private final int z;
+    private final CubeGrille grille;
     
     public Case(int x, int y, int z, CubeGrille grille) {
-        this.x = new SimpleIntegerProperty(x);
-        this.y = new SimpleIntegerProperty(y);
-        this.z = new SimpleIntegerProperty(z);
-        this.valeur = new SimpleIntegerProperty(1);
-        this.grille = new SimpleObjectProperty<>(grille);
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.valeur=1;
+        this.valeurProperty=new SimpleIntegerProperty(1);
+        this.grille = grille;
     }
-
+    
+    public void initProperty() {
+       this.valeurProperty=new SimpleIntegerProperty(this.valeur);
+    }
+    
     public int getValeur() {
-        return valeur.get();
+        return valeur;
     }
     
     public void setValeur(int valeur) {
-        this.valeur.set(valeur);
+        this.valeur=valeur;
+        this.valeurProperty.set(this.valeur);
     }
 
     public int getX() {
-        return x.get();
-    }
-    
-    private void setX(int x) {
-        this.x.set(x);
+        return x;
     }
     
     public int getY() {
-        return y.get();
+        return y;
     }
-    
-    private void setY(int y) {
-        this.y.set(y);
-    }
-    
+ 
     public int getZ() {
-        return z.get();
+        return z;
     }
     
-    private void setZ(int z) {
-        this.z.set(z);
-    }
-
     public CubeGrille getGrille() {
-        return grille.get();
-    }
-    
-    private void setGrille(CubeGrille grille) {
-        this.grille.set(grille);
+        return grille;
     }
     
     public void addListener(ChangeListener listener) {
-        valeur.addListener(listener);
+        valeurProperty.addListener(listener);
     }
     
     @Override
@@ -104,32 +95,32 @@ public class Case implements Serializable {
         switch (direction) {
             case CubeGrille.DIR_HAUT:
                 if (this.getY()!=0)
-                    for (Case c : grille.get().getCases())
+                    for (Case c : grille.getCases())
                       if (c.getY()==getY()-1 && c.getZ()==getZ() && c.getX()==getX()) res=c;
                 break;
             case CubeGrille.DIR_BAS:
-                if (getY()!=grille.get().getTaille()-1)
-                    for (Case c : grille.get().getCases())
+                if (getY()!=grille.getTaille()-1)
+                    for (Case c : grille.getCases())
                         if (c.getY()==getY()+1 && c.getZ()==getZ() && c.getX()==getX()) res=c;
                 break;
             case CubeGrille.DIR_GAUCHE:
                 if (getX()!=0)
-                    for (Case c : grille.get().getCases())
+                    for (Case c : grille.getCases())
                         if (c.getX()==getX()-1 && c.getZ()==getZ() && c.getY()==getY()) res=c;
                 break;
             case CubeGrille.DIR_DROITE:
-                if (getX()!=grille.get().getTaille()-1)
-                    for (Case c : grille.get().getCases())
+                if (getX()!=grille.getTaille()-1)
+                    for (Case c : grille.getCases())
                         if (c.getX()==getX()+1 && c.getZ()==getZ() && c.getY()==getY()) res=c;
                 break;
             case CubeGrille.DIR_DESSOUS:
                 if (getZ()!=0)
-                    for (Case c : grille.get().getCases())
+                    for (Case c : grille.getCases())
                         if (c.getZ()==getZ()-1 && c.getY()==getY() && c.getX()==getX()) res=c;
                 break;
             case CubeGrille.DIR_DESSUS:
-                if (getZ()!=grille.get().getTaille()-1)
-                    for (Case c : grille.get().getCases())
+                if (getZ()!=grille.getTaille()-1)
+                    for (Case c : grille.getCases())
                         if (c.getZ()==getZ()+1 && c.getY()==getY() && c.getX()==getX()) res=c;
                 break;
             default:
@@ -147,7 +138,7 @@ public class Case implements Serializable {
             return "    ";
         else {
             String res = "";
-            int val = this.valeur.get();
+            int val = this.valeur;
             int nbChiffres = ("" + val).length();
             for (int i=0; i<nbChiffres; i++){
                 res += " ";

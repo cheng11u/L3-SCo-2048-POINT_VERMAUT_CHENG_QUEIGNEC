@@ -31,13 +31,13 @@ public class Solo implements TypePartie {
      */
     public Solo(){
         this.grille = new CubeGrille(3);
-        this.jeu = new Thread(this.grille);
     }
     
     /**
      * Démarre une partie
      */
     public void commencerPartie(){
+        this.jeu = new Thread(this.grille);
         this.jeu.start();
     }
     
@@ -87,6 +87,7 @@ public class Solo implements TypePartie {
             Object obj = ois.readObject();
             if (obj instanceof CubeGrille){
                 this.grille = (CubeGrille) obj;
+                this.grille.initProperties();
             }
         }
         catch (IOException e){

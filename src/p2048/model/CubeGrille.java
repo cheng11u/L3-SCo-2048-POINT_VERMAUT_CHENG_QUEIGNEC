@@ -11,103 +11,107 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 
 /**
  * @author Nicolas QUEIGNEC
  */
 public class CubeGrille implements Runnable, Serializable {
-    private final SimpleIntegerProperty valeurMax;
-    private final SimpleIntegerProperty score;
-    private final SimpleIntegerProperty nbDeplacements;
-    private final SimpleIntegerProperty direction;
-    private final SimpleIntegerProperty taille;
-    private final SimpleBooleanProperty stop;
+    private int valeurMax;
+    private int score;
+    private int nbDeplacements;
+    private int direction;
+    private final int taille;
+    private boolean stop;
+    private transient SimpleBooleanProperty stopProperty;
     public static final int DIR_HAUT=1;
     public static final int DIR_BAS=-1;
     public static final int DIR_GAUCHE=2;
     public static final int DIR_DROITE=-2;
     public static final int DIR_DESSOUS=3;
     public static final int DIR_DESSUS=-3;
-    private final ListeCases cases;
+    private final List<Case> cases;
+    private transient SimpleListProperty<Case> casesProperty;
 
     public CubeGrille(int taille) {
-        this.valeurMax=new SimpleIntegerPropertySerializable(0);
-        this.score=new SimpleIntegerPropertySerializable(0);
-        this.nbDeplacements=new SimpleIntegerPropertySerializable(0);
-        this.stop=new SimpleBooleanPropertySerializable(false);
-        this.taille=new SimpleIntegerPropertySerializable(taille);
-        this.direction=new SimpleIntegerPropertySerializable(0);
-        List<Case> cases=new ArrayList<Case>();
-        for (int x=0; x<this.taille.get(); x++)
-            for (int y=0; y<this.taille.get(); y++)
-                for (int z=0; z<this.taille.get(); z++)
+        this.valeurMax=0;
+        this.score=0;
+        this.nbDeplacements=0;
+        this.stop=false;
+        this.stopProperty=new SimpleBooleanProperty(this.stop);
+        this.taille=taille;
+        this.direction=0;
+        this.cases=new ArrayList<Case>();
+        for (int x=0; x<this.taille; x++)
+            for (int y=0; y<this.taille; y++)
+                for (int z=0; z<this.taille; z++)
                     cases.add(new Case(x, y, z, this));
-        this.cases=new ListeCases(FXCollections.observableArrayList(cases));
+        this.casesProperty=new SimpleListProperty<Case>(FXCollections.observableList(this.cases));
+    }
+    
+    public void initProperties() {
+        if (this.stopProperty==null)
+            this.stopProperty=new SimpleBooleanProperty(this.stop);
+        if (this.casesProperty==null)
+            this.casesProperty=new SimpleListProperty<Case>(FXCollections.observableList(this.cases));
+        for (Case c : cases)
+            c.initProperty();
     }
 
     public List<Case> getCases() {
-        return ((SimpleListProperty <Case>)cases).get();
+        return cases;
     }
 
     public int getTaille() {
-        return taille.get();
+        return taille;
     }
 
     public int getScore() {
-        return score.get();
+        return score;
     }
 
     public int getDirection() {
-        return direction.get();
+        return direction;
     }
 
-    public int getNbdeplacements() {
-        return nbDeplacements.get();
+    public int getNbDeplacements() {
+        return nbDeplacements;
     }
 
     public boolean getStop() {
-        return stop.get();
+        return stop;
     }
 
     public int getValeurMax() {
-        return valeurMax.get();
-    }
-    
-    private void setCases(List<Case> cases) {
-        this.cases.set(FXCollections.observableArrayList(cases));
-    }
-    
-    private void setTaille(int taille) {
-        this.taille.set(taille);
+        return valeurMax;
     }
     
     private void setScore(int score) {
-        this.score.set(score);
+        this.score=score;
     }
     
     public synchronized void setDirection(int direction) {
-        this.direction.set(direction);
+        this.direction=direction;
         this.notify();
     }
     
     private void setNbDeplacements(int nbDeplacements) {
-        this.nbDeplacements.set(nbDeplacements);
+        this.nbDeplacements=nbDeplacements;
     }
     
     private void setStop(boolean stop) {
-        this.stop.set(stop);
+        this.stop=stop;
+        this.stopProperty.set(this.stop);
     }
     
     private void setValeurMax(int valeurMax) {
-        this.valeurMax.set(valeurMax);
+        this.valeurMax=valeurMax;
     }
     
-    public void ajouterListenerCases(ChangeListener listener) {
+    public void ajouterListener(ChangeListener listener) {
         for (Case c : cases) {
             c.addListener(listener);
         }
+        stopProperty.addListener(listener);
     }
     
     public synchronized void arreter() {
@@ -217,7 +221,7 @@ public class CubeGrille implements Runnable, Serializable {
     
     public boolean deplacer(int direction) {
         if (deplacerRecursif(direction, null, 0, 0, 0)) {
-           setNbDeplacements(getNbdeplacements()+1);
+           setNbDeplacements(getNbDeplacements()+1);
            return true;
         }
         return false;
@@ -225,7 +229,6 @@ public class CubeGrille implements Runnable, Serializable {
     
     public boolean partieTerminee() {
         boolean termine=true;
-        List<Case> casesVerifiees=new ArrayList<Case>();
         List<Integer> directions=new ArrayList<Integer>();
         directions.add(DIR_HAUT);
         directions.add(DIR_HAUT);
@@ -263,7 +266,7 @@ public class CubeGrille implements Runnable, Serializable {
     @Override
     public void run() {
         ajouterAleatoireCase();
-        while (!partieTerminee() && !stop.get()) {     
+        while (!partieTerminee() && !stop) {     
             try {
                 synchronized (this) {
                     this.wait();
@@ -271,7 +274,7 @@ public class CubeGrille implements Runnable, Serializable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (!stop.get())
+            if (!stop)
                 if (deplacer(getDirection()))
                     ajouterAleatoireCase();
         }

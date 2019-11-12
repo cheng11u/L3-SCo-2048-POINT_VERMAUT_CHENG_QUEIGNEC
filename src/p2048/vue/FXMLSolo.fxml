@@ -18,6 +18,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+
 <AnchorPane id="AnchorPane" onKeyPressed="#keyPressed" prefHeight="508.9999000000025" prefWidth="1067.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="p2048.controleur.SoloControleur">
   <children>
     <MenuBar layoutX="0.0" layoutY="0.0" prefHeight="25.0" prefWidth="1067.0">
@@ -144,7 +145,7 @@
           <children>
             <Label layoutX="6.0" layoutY="46.0" text="Nom du joueur" />
             <Label layoutX="9.0" layoutY="82.0" text="Score :" />
-            <Label layoutX="50.0" layoutY="82.0" text="points" />
+            <Label fx:id="points" layoutX="50.0" layoutY="82.0" text="points" />
           </children>
         </Pane>
       </left>
