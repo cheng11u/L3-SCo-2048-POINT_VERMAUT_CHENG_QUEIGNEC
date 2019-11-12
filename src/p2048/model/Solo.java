@@ -5,7 +5,6 @@
  */
 package p2048.model;
 import java.io.*;
-import javax.swing.JFileChooser;
 /**
  *
  * @author Luc Cheng

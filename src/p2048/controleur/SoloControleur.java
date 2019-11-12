@@ -14,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -77,6 +78,34 @@ public class SoloControleur {
             solo.sauvegarder();
     }
     
+    @FXML
+    public void keyPressed(Event e){
+        CubeGrille grille = this.solo.getGrille();
+        if (e instanceof KeyEvent){
+            String lettre = ((KeyEvent)e).getCode().getName().toLowerCase();
+            switch (lettre){
+                case "z":
+                    grille.setDirection(CubeGrille.DIR_HAUT);
+                    break;
+                case "q":
+                    grille.setDirection(CubeGrille.DIR_GAUCHE);
+                    break;
+                case "s":
+                    grille.setDirection(CubeGrille.DIR_BAS);
+                    break;
+                case "d":
+                    grille.setDirection(CubeGrille.DIR_DROITE);
+                    break;
+                case "f":
+                    grille.setDirection(CubeGrille.DIR_DESSOUS);
+                    break;
+                case "r":
+                    grille.setDirection(CubeGrille.DIR_DESSUS);
+                    break;
+            }
+        }
+    }
+    
     public void update() {
         etage0.getChildren().clear();
         etage1.getChildren().clear();
@@ -94,10 +123,16 @@ public class SoloControleur {
                 for (int j=0; j<3; j++) {
                     Pane pane=null;
                     if (grilleEtage[i][j]!=1) {
+                        int valeur = grilleEtage[i][j];
+                        int logBase2 = (int)(Math.log(valeur)/Math.log(2));
                         pane=new Pane();
-                        pane.setStyle("-fx-background-color:#999999");
                         
-                        Label label=new Label(grilleEtage[i][j]+"");
+                        int vert = (int)(255 - (255.0/11.0)*logBase2);
+                        if (vert < 0)
+                            vert = 0;
+                        pane.setStyle("-fx-background-color:rgb(255," + vert + ",0)");
+                        
+                        Label label=new Label(valeur+"");
                         label.setTextFill(Color.web("#000000"));
                         label.setFont(new Font(25));
                         label.setPadding(new Insets(30));
