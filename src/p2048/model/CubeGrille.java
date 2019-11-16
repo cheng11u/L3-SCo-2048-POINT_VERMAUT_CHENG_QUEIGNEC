@@ -16,22 +16,66 @@ import javafx.collections.FXCollections;
  * @author Nicolas QUEIGNEC
  */
 public class CubeGrille implements Runnable, Serializable {
+    /**
+     * Valeur maximale des cases
+     */
     private int valeurMax;
+    /**
+     * Score du joueur
+     */
     private int score;
+    /**
+     * Nombre de déplacements utilisés par le joueur
+     */
     private int nbDeplacements;
+    /**
+     * Direction du déplacement des cases
+     */
     private int direction;
+    /**
+     * Taille des grilles
+     */
     private final int taille;
+    /**
+     * Indique si la partie est terminée
+     */
     private boolean stop;
     private transient SimpleBooleanProperty stopProperty;
+    
+    /**
+     * Indique que les cases douvent être déplacées vers le haut
+     */
     public static final int DIR_HAUT=1;
+    /**
+     * Indique que les cases douvent être déplacées vers le bas
+     */
     public static final int DIR_BAS=-1;
+    /**
+     * Indique que les cases douvent être déplacées vers la gauchet
+     */
     public static final int DIR_GAUCHE=2;
+    /**
+     * Indique que les cases douvent être déplacées vers la droite
+     */
     public static final int DIR_DROITE=-2;
+    /**
+     * Indique que les cases douvent être déplacées vers l'étage inférieur
+     */
     public static final int DIR_DESSOUS=3;
+    /**
+     * Indique que les cases douvent être déplacées vers l'étage supérieur
+     */
     public static final int DIR_DESSUS=-3;
+    /**
+     * Liste des cases de la grille
+     */
     private final List<Case> cases;
     private transient SimpleListProperty<Case> casesProperty;
 
+    /**
+     * Constructeur
+     * @param taille dimension de chaque grille 
+     */
     public CubeGrille(int taille) {
         this.valeurMax=0;
         this.score=0;
@@ -48,6 +92,9 @@ public class CubeGrille implements Runnable, Serializable {
         this.casesProperty=new SimpleListProperty<Case>(FXCollections.observableList(this.cases));
     }
     
+    /**
+     * Initialise les propriétés
+     */
     public void initProperties() {
         if (this.stopProperty==null)
             this.stopProperty=new SimpleBooleanProperty(this.stop);
@@ -56,53 +103,99 @@ public class CubeGrille implements Runnable, Serializable {
         for (Case c : cases)
             c.initProperty();
     }
-
+    
+    /**
+     * Donne les cases de la grille
+     * @return cases
+     */
     public List<Case> getCases() {
         return cases;
     }
-
+    
+    /**
+     * Retourne la taille de la grille
+     * @return taille
+     */
     public int getTaille() {
         return taille;
     }
-
+    
+    /**
+     * Retourne le score du joueur
+     * @return score
+     */
     public int getScore() {
         return score;
     }
-
+    
+    /**
+     * Retourne la direction, sous la forme d'un entier, dans laquelle les
+     * cases vont se déplacer
+     * @return direction
+     */
     public int getDirection() {
         return direction;
     }
 
+    /**
+     * Retourne le nombre de déplacements exécutés par le joueur
+     * @return nombre de déplacements
+     */
     public int getNbDeplacements() {
         return nbDeplacements;
     }
-
+    
+    
     public boolean getStop() {
         return stop;
     }
-
+    
+    /**
+     * Retourne la valeur de la case ayant le plus grand nombre
+     * @return valeur maximale
+     */
     public int getValeurMax() {
         return valeurMax;
     }
     
+    /**
+     * Modifie le score du joueur
+     * @param score nouveau score
+     */
     private void setScore(int score) {
         this.score=score;
     }
     
+    /**
+     * Modifie la direction des cases
+     * @param direction nouvelle direction
+     */
     public synchronized void setDirection(int direction) {
         this.direction=direction;
         this.notify();
     }
     
+    /**
+     * Modifie le nombre de déplacements
+     * @param nbDeplacements nouveau nombre de déplacement
+     */
     private void setNbDeplacements(int nbDeplacements) {
         this.nbDeplacements=nbDeplacements;
     }
     
+    /**
+     * Modifie l'attribut indiquant si la partie est terminée
+     * @param stop nouvelle valeur
+     */
     private void setStop(boolean stop) {
         this.stop=stop;
         this.stopProperty.set(this.stop);
     }
     
+    /**
+     * Modifie la valeur maximale
+     * @param valeurMax nouvelle valeur
+     */
     private void setValeurMax(int valeurMax) {
         this.valeurMax=valeurMax;
     }
@@ -114,11 +207,19 @@ public class CubeGrille implements Runnable, Serializable {
         stopProperty.addListener(listener);
     }
     
+    /**
+     * Change l'état de la partie pour indiquer qu'elle est terminée
+     */
     public synchronized void arreter() {
         setStop(true);
         this.notify();
     }
     
+    /**
+     * Ajoute une case à un emplacement libre choisi aléatoirement et lui attribue
+     * une valeur de 2 (avec une probabilité de 0.66) ou de 4 (avec une probabilité 
+     * de 0.34)
+     */
     public void ajouterAleatoireCase() {
         Random r=new Random();
         List<Case> cases = this.getCases();
@@ -219,6 +320,7 @@ public class CubeGrille implements Runnable, Serializable {
         return aDeplace;
     }
     
+    
     public boolean deplacer(int direction) {
         if (deplacerRecursif(direction, null, 0, 0, 0)) {
            setNbDeplacements(getNbDeplacements()+1);
@@ -227,6 +329,10 @@ public class CubeGrille implements Runnable, Serializable {
         return false;
     }
     
+    /**
+     * Indique si la partie est terminée
+     * @return vrai si la partie est terminée, faux sinon
+     */
     public boolean partieTerminee() {
         boolean termine=true;
         List<Integer> directions=new ArrayList<Integer>();
@@ -252,6 +358,11 @@ public class CubeGrille implements Runnable, Serializable {
         return termine;
     }
     
+    /**
+     * Donne la grille à deux dimensions correspondant à l'étage passé en paramètres
+     * @param etage numéro de l'étage
+     * @return valeurs des cases appartenant à l'étage
+     */
     public int[][] getGrilleEtage(int etage){
         if (etage>=0 && etage<getTaille()) {
             int[][] res=new int[getTaille()][getTaille()];

@@ -30,35 +30,87 @@ import p2048.model.CubeGrille;
 import p2048.P2048;
 import p2048.model.Solo;
 /**
- *
+ * Classe permettant de gérer les éléments d'une partie en solo
  * @author Nicolas QUEIGNEC
  */
 public class SoloControleur implements Controleur, Initializable {
+    /**
+     * Bouton permettant de déplacer les cases vers le haut
+     */
     @FXML
     private Button haut;
+    
+    /**
+     * Bouton permettant de déplacer les cases vers le bas
+     */
     @FXML
     private Button bas;
+    
+    /**
+     * Bouton permettant de déplacer les cases vers la gauche
+     */
     @FXML
     private Button gauche;
+    
+    /**
+     * Bouton permettant de déplacer les cases vers la droite
+     */
     @FXML
     private Button droite;
+    
+    /**
+     * Bouton permettant de déplacer les cases vers l'étage inférieur
+     */
     @FXML
     private Button inf;
+    
+    /**
+     * Bouton permettant de déplacer les cases vers l'étage supérieur
+     */
     @FXML
     private Button sup;
+    
+    /**
+     * Grille située à gauche représentant l'étage inférieur
+     */
     @FXML
     private GridPane etage0;
+    
+    /**
+     * Grille du milieu représentant l'étage intermédiaire
+     */
     @FXML
     private GridPane etage1;
+    
+    /**
+     * Grille située à droite représentant l'étage supérieur
+     */
     @FXML
     private GridPane etage2;
+    
+    /**
+     * Bouton permettant de quitter l'application
+     */
     @FXML
     private Button quitter;
+    
+    /**
+     * Bouton permettant d'enregistrer la partie en cours
+     */
     @FXML
     private Button enregistrer;
+    
+    /**
+     * Label indiquant le score du joueur
+     */
     @FXML
     private Label points;
+    
+    /**
+     * Liste des cases
+     */
     private List<Pane> panes=new ArrayList<Pane>();
+    
     private Solo solo;
     private ChangeListener listener;
     
