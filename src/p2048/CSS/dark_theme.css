@@ -12,14 +12,18 @@
 	-fx-position: bottom;
 }
 
-.label{
-	-fx-background-color:white;
-	-fx-text-align:center;
+#etatPartie {
+    -fx-background-color: rgb(64,64,64);
 }
 
-.button:hover{
+.labelinfo {
+    -fx-text-fill: white;
+}
+
+.button:hover {
 	-fx-background-color:#685c5c;
 	-fx-position:relative;
+}
 
 /* Fin partie commune*/
 
@@ -31,9 +35,6 @@
 }
 /* Fin fenêtre des règles */
 
-
-
-}
 
 #partcoop{
 

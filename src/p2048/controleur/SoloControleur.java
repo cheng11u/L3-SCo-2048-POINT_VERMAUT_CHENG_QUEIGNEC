@@ -5,6 +5,7 @@
  */
 package p2048.controleur;
 
+import com.sun.javafx.css.Stylesheet;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -107,6 +110,18 @@ public class SoloControleur implements Controleur, Initializable {
     private Label points;
     
     /**
+     * AnchorPane regroupant les trois grilles
+     */
+    @FXML
+    private AnchorPane fenetre;
+    
+    @FXML
+    private MenuItem fondNormal;
+    
+    @FXML
+    private MenuItem fondSombre;
+    
+    /**
      * Liste des cases
      */
     private List<Pane> panes=new ArrayList<Pane>();
@@ -135,6 +150,20 @@ public class SoloControleur implements Controleur, Initializable {
         }
         else if (e.getSource()==enregistrer)
             solo.sauvegarder();
+    }
+    
+    @FXML
+    public void changerFond(Event e){
+        if (e.getSource() == fondNormal){
+            if (!fenetre.getStylesheets().isEmpty())
+                fenetre.getStylesheets().remove(0, fenetre.getStylesheets().size());
+        }
+        else {
+            if (fenetre.getStylesheets().isEmpty()){
+                fenetre.getStylesheets().add("p2048/CSS/dark_theme.css");
+            }
+        }
+        System.out.println("changerFond");
     }
     
     @FXML
