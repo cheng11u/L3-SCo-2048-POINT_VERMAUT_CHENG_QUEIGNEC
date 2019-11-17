@@ -64,7 +64,7 @@
                      <children>
                         <AnchorPane layoutX="194.0" layoutY="46.0" prefHeight="146.0" prefWidth="775.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="-21.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label text="2048" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="383.0" AnchorPane.topAnchor="39.0">
+                              <Label styleClass="labelinfo" text="2048" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="383.0" AnchorPane.topAnchor="39.0">
                                  <font>
                                     <Font name="Algerian" size="72.0" />
                                  </font>
@@ -78,17 +78,17 @@
                   <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="120.0" prefWidth="132.0">
                      <children>
                         <Button mnemonicParsing="false" text="Modifier les informations " AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="90.0" />
-                        <Label text="Nom " AnchorPane.leftAnchor="10.0">
+                        <Label styleClass="labelinfo" text="Nom " AnchorPane.leftAnchor="10.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label text="Prénom" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0">
+                        <Label styleClass="labelinfo" text="Prénom" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label text="Pseudo" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0">
+                        <Label styleClass="labelinfo" text="Pseudo" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -99,7 +99,7 @@
             </AnchorPane>
             <Pane layoutX="287.0" layoutY="143.0" prefHeight="364.0" prefWidth="524.0">
                <children>
-                  <Label layoutX="202.0" layoutY="20.0" text="Partie multi" underline="true">
+                  <Label styleClass="labelinfo" layoutX="202.0" layoutY="20.0" text="Partie multi" underline="true">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -108,7 +108,7 @@
                      <children>
                         <Button layoutX="87.0" layoutY="105.0" mnemonicParsing="false" text="Créer partie duo" />
                         <Button layoutX="74.0" layoutY="192.0" mnemonicParsing="false" text="Jouer en coopération" />
-                        <Label layoutX="74.0" layoutY="27.0" text="Coopération">
+                        <Label styleClass="labelinfo" layoutX="74.0" layoutY="27.0" text="Coopération">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -117,7 +117,7 @@
                   </Pane>
                   <Pane layoutX="277.0" layoutY="74.0" prefHeight="295.0" prefWidth="247.0">
                      <children>
-                        <Label layoutX="58.0" layoutY="28.0" text="Compétition">
+                        <Label styleClass="labelinfo" layoutX="58.0" layoutY="28.0" text="Compétition">
                            <font>
                               <Font size="24.0" />
                            </font>
