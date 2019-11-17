@@ -5,51 +5,68 @@
  */
 package serveur;
 
-import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author Nicolas QUEIGNEC
  */
 public class Client implements Runnable {
     private PrintWriter envoyeut;
-    private BufferedInputStream receveur;
+    private BufferedReader receveur;
+    private Socket socket;
     private Partie partieEnCours;
     
     public Client(Socket sock) {
         try {
             this.envoyeut=new PrintWriter(sock.getOutputStream());
-            this.receveur=new BufferedInputStream(sock.getInputStream());
+            this.receveur=new BufferedReader(new InputStreamReader(sock.getInputStream()));
+            this.socket=sock;
         } catch (IOException ex) {
             System.err.println("Erreur lors de la connexion de "+sock.getInetAddress());
         }   
     }
     
     private void creerPartie(int type) {
-        this.partieEnCours=new Partie(type, this);
-        Main.parties.put(this.partieEnCours.getId(), this.partieEnCours);
-    }
+        if (partieEnCours==null) {
+            this.partieEnCours=new Partie(type, this);
+            Main.parties.put(this.partieEnCours.getId(), this.partieEnCours);
+       }
+   }
     
     private boolean rejoindrePartie(int id) {
-        this.partieEnCours=Main.parties.get(id);
-        if (this.partieEnCours.rejoindre(this))
-            return true;
-        this.partieEnCours=null;
-        return false;
+        if (partieEnCours==null) {
+            this.partieEnCours=Main.parties.get(id);
+            if (this.partieEnCours.rejoindre(this))
+                return true;
+            this.partieEnCours=null;
+            return false;
+       }
+       return false;
     }
     
     public void quitterPartie() {
-        this.partieEnCours.quitter(this);
-        this.partieEnCours=null;
+        if (partieEnCours!=null) {
+            this.partieEnCours.quitter(this);
+            this.partieEnCours=null;
+        } 
+        deconnecter(); // a enlevé plus tard 
     }
     
     public void jouer(int direction) {
-        
+        if (partieEnCours!=null)
+            this.partieEnCours.jouer(this, direction);
+    }
+    
+    public void estPret() {
+        if (partieEnCours!=null)
+            partieEnCours.estPret(this);
     }
     
     public void envoyerMessage(String message) {
@@ -57,8 +74,48 @@ public class Client implements Runnable {
         this.envoyeut.flush();
     }
     
+    public void deconnecter(){
+        try {
+            this.socket.close();
+            this.receveur.close();
+            this.envoyeut.close();
+            Main.clients.remove(this);
+        } catch (IOException ex) {
+            System.err.println("Erreur");
+        }
+    }
+    
     @Override
     public void run() {
-
+        while (!this.socket.isClosed()) {
+            try {
+                String ligne=this.receveur.readLine();
+                String cmd=ligne.split(Protocole.SEPARATEUR_PARAM)[0];
+                switch (cmd) {
+                    case Protocole.REQ_CREER_PARTIE:
+                        int type=Integer.parseInt(Protocole.getParams(ligne).get("Type"));
+                        if (type==Partie.TYPE_PARTIE_COMPET || type==Partie.TYPE_PARTIE_COOP)
+                            creerPartie(type);
+                        break;
+                    case Protocole.REQ_REJOINDRE_PARTIE:
+                        rejoindrePartie(Integer.parseInt(Protocole.getParams(ligne).get("Id")));
+                        break;
+                    case Protocole.REQ_PRET:
+                        estPret();
+                        break;
+                    case Protocole.REQ_JOUER:
+                        jouer(Integer.parseInt(Protocole.getParams(ligne).get("Dir")));
+                        break;
+                    case Protocole.REQ_QUITTER_PARTIE:
+                        quitterPartie();
+                        break;
+                    case Protocole.REQ_AFFICHER_PARTIES:
+                        envoyerMessage(Protocole.REP_AFFICHER_PARTIES(new ArrayList<Partie>(Main.parties.values())));
+                }
+            } catch (IOException ex) {
+                System.err.println("Erreur réception");  
+                deconnecter();
+            }
+        }
     }
 }
