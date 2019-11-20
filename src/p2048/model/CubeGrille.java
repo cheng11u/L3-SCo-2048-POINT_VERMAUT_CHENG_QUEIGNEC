@@ -311,6 +311,8 @@ public class CubeGrille implements Runnable, Serializable {
                     actuelle.setValeur(actuelle.getValeur()*2);
                     suivante.setValeur(1);
                     setScore(getScore()+actuelle.getValeur());
+                    if (actuelle.getValeur()>getValeurMax())
+                        setValeurMax(actuelle.getValeur());
                     nbFusion++;
                     aDeplace=true;
                 }
@@ -334,6 +336,8 @@ public class CubeGrille implements Runnable, Serializable {
      * @return vrai si la partie est terminée, faux sinon
      */
     public boolean partieTerminee() {
+        if (getValeurMax()==2048)
+            return true;
         boolean termine=true;
         List<Integer> directions=new ArrayList<Integer>();
         directions.add(DIR_HAUT);
@@ -376,7 +380,8 @@ public class CubeGrille implements Runnable, Serializable {
     
     @Override
     public void run() {
-        ajouterAleatoireCase();
+        if (getNbDeplacements()==0)
+            ajouterAleatoireCase();
         while (!partieTerminee() && !stop) {     
             try {
                 synchronized (this) {

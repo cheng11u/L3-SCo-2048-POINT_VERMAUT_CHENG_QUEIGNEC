@@ -258,5 +258,6 @@ public class SoloControleur implements Controleur, Initializable {
     public void chargerPartie() {
         solo.charger();
         nouvellePartie();
+        update();
     }
 }
