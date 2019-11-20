@@ -51,7 +51,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="Afficher les règles" />
+            <MenuItem onAction="#afficherRegles" mnemonicParsing="false" text="Afficher les règles" />
           </items>
         </Menu>
       </menus>
@@ -69,7 +69,7 @@
                                     <Font name="Algerian" size="72.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="664.0" layoutY="36.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Afficher les règles" AnchorPane.bottomAnchor="85.0" AnchorPane.rightAnchor="36.0" />
+                              <Button layoutX="664.0" layoutY="36.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#afficherRegles" text="Afficher les règles" AnchorPane.bottomAnchor="85.0" AnchorPane.rightAnchor="36.0" />
                               <Button layoutX="663.0" layoutY="95.0" mnemonicParsing="false" text="Voir le classement" AnchorPane.bottomAnchor="26.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="100.0" />
                            </children>
                         </AnchorPane>

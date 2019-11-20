@@ -21,4 +21,9 @@ public class AccueilControleur implements Controleur {
     public void chargerSolo() {
         ((SoloControleur)p2048.P2048.changerScene("vue/FXMLSolo.fxml")).chargerPartie();
     }
+    
+    @FXML
+    public void afficherRegles(){
+        p2048.P2048.changerScene("vue/FXMLRegles.fxml");
+    }
 }
