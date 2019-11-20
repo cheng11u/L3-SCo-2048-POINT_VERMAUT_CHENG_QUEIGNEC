@@ -27,8 +27,8 @@ import p2048.model.TypePartie;
 public abstract class PartieReseau implements TypePartie {
     private int id;
 
-    public PartieReseau() {
-        
+    public PartieReseau(int id) {
+        this.id=id;
     }
     
     public int getId() {

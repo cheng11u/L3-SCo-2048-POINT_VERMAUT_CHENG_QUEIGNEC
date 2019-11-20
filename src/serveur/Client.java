@@ -115,6 +115,8 @@ public class Client implements Runnable {
                     case Protocole.ACC_RECEP_A_JOUER:
                         this.partieEnCours.mouvRecu(this);
                         break;
+                    case Protocole.REQ_DECONNECTER:
+                        deconnecter();
                 }
             } catch (IOException ex) {
                 System.err.println("Erreur réception");  
