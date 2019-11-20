@@ -22,6 +22,9 @@ public class Protocole {
         return REQ_CREER_PARTIE+"-Type:"+type;
     }
     public static final String REP_CREER_PARTIE_REUSSI="CrPaSu";
+    public static String REP_CREER_PARTIE_REUSSI(int id){
+        return "CrPaSu-Id:"+id;
+    }
     public static final String REP_CREER_PARTIE_ECHOUE="CrPaFa";
     public static final String REQ_AFFICHER_PARTIES="AfPa";
     public static final String REP_AFFICHER_PARTIES="AfPaSu";

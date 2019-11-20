@@ -11,8 +11,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Nicolas QUEIGNEC
@@ -37,7 +35,9 @@ public class Client implements Runnable {
         if (partieEnCours==null) {
             this.partieEnCours=new Partie(type, this);
             Main.parties.put(this.partieEnCours.getId(), this.partieEnCours);
+            envoyerMessage(Protocole.REP_CREER_PARTIE_REUSSI(this.partieEnCours.getId()));
        }
+       envoyerMessage(Protocole.REP_CREER_PARTIE_ECHOUE);
    }
     
     private boolean rejoindrePartie(int id) {
