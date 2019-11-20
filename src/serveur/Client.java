@@ -111,6 +111,10 @@ public class Client implements Runnable {
                         break;
                     case Protocole.REQ_AFFICHER_PARTIES:
                         envoyerMessage(Protocole.REP_AFFICHER_PARTIES(new ArrayList<Partie>(Main.parties.values())));
+                        break;
+                    case Protocole.ACC_RECEP_A_JOUER:
+                        this.partieEnCours.mouvRecu(this);
+                        break;
                 }
             } catch (IOException ex) {
                 System.err.println("Erreur réception");  

@@ -18,6 +18,9 @@ public class Partie {
     private Client client2;
     private boolean client1Pret;
     private boolean client2Pret;
+    private boolean mouvementEnCours;
+    private boolean client1MouvRecu;
+    private boolean client2MouvRecu;
     
     public Partie(int type, Client client) {
         this.typePartie=type;
@@ -26,6 +29,9 @@ public class Partie {
         this.client1=client;
         this.client1Pret=false;
         this.client2Pret=false;
+        this.mouvementEnCours=false;
+        this.client1MouvRecu=false;
+        this.client2MouvRecu=false;
     }
     
     public boolean estJoignable() {
@@ -70,10 +76,31 @@ public class Partie {
     }
     
     public void jouer(Client client, int direction){
-        if (client.equals(client1) && client2!=null) {
+        if (typePartie==TYPE_PARTIE_COOP) {
+            synchronized (this) { 
+                if (!mouvementEnCours) { 
+                    mouvementEnCours=true;
+                    client2.envoyerMessage(Protocole.REP_A_JOUER(client, direction));
+                    client1.envoyerMessage(Protocole.REP_A_JOUER(client, direction));
+                } 
+            } 
+        }
+        else if (client.equals(client1) && client2!=null) {
             client2.envoyerMessage(Protocole.REP_A_JOUER(client, direction));
         } else if (client.equals(client2) && client1!=null) {
             client1.envoyerMessage(Protocole.REP_A_JOUER(client, direction));
+        }
+    }
+    public void mouvRecu(Client client) {
+        if (client.equals(client1) && client2!=null) {
+            client1MouvRecu=true;
+        } else if (client.equals(client2) && client1!=null) {
+            client2MouvRecu=true;
+        }
+        if (client1MouvRecu && client2MouvRecu) {
+            mouvementEnCours=false;
+            client1MouvRecu=false;
+            client2MouvRecu=false;
         }
     }
     
