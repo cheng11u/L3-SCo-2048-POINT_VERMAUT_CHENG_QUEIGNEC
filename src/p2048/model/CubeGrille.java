@@ -380,7 +380,8 @@ public class CubeGrille implements Runnable, Serializable {
     
     @Override
     public void run() {
-        ajouterAleatoireCase();
+        if (getNbDeplacements()==0)
+            ajouterAleatoireCase();
         while (!partieTerminee() && !stop) {     
             try {
                 synchronized (this) {

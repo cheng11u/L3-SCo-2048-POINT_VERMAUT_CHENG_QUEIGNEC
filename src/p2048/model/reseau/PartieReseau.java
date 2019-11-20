@@ -38,10 +38,6 @@ public abstract class PartieReseau implements TypePartie {
     public void setId(int id) {
         this.id = id;
     }
-
-    public Socket getSocket() {
-        return socket;
-    }
     
     public abstract CubeGrille getGrilleReseauRecu();
 }
