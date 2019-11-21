@@ -14,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" stylesheets="@../CSS/dark_theme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar stylesheets="@../CSS/dark_theme.css" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
@@ -55,18 +55,18 @@
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <AnchorPane id="AnchorPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" stylesheets="@../CSS/dark_theme.css" VBox.vgrow="ALWAYS">
          <children>
             <HBox prefHeight="382.0" prefWidth="640.0">
                <children>
                   <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: ECA89C;" text="Je suis un Label, et je vais vous expliquer les règles !" textAlignment="JUSTIFY" />
+                        <Label alignment="TOP_LEFT" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" text="Comment jouer au 2048 : 3D ?" />
                      </children>
                   </Pane>
-                  <SplitPane dividerPositions="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="500.0" prefWidth="400.0">
+                  <SplitPane id="SplitPane" dividerPositions="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="500.0" prefWidth="400.0" stylesheets="@../CSS/dark_theme.css">
                      <items>
-                        <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="200.0" style="-fx-background-color: EC7A66;">
+                        <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="200.0">
                            <children>
                               <TextField layoutX="187.0" layoutY="68.0" />
                               <TextField layoutX="187.0" layoutY="108.0" />
@@ -80,7 +80,7 @@
                               <Button layoutX="300.0" layoutY="161.0" mnemonicParsing="false" text="connexion" />
                            </children>
                         </Pane>
-                        <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="293.0" prefWidth="400.0" style="-fx-background-color: C9796B;">
+                        <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="293.0" prefWidth="400.0" stylesheets="@../CSS/dark_theme.css">
                            <children>
                               <TextField layoutX="187.0" layoutY="92.0" />
                               <TextField layoutX="187.0" layoutY="135.0" />
