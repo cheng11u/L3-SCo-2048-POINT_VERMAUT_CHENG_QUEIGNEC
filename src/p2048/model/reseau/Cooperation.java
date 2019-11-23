@@ -8,27 +8,32 @@ package p2048.model.reseau;
 import p2048.model.CubeGrille;
 
 /**
- *
  * @author Nicolas QUEIGNEC
  */
-public class Cooperation extends PartieReseau{
-    public Cooperation(int id) {
-        super(id);
+public class Cooperation extends PartieReseau {
+    private GrilleReseau grille;
+    
+    public Cooperation(int id, boolean estJoueur1) {
+        super(id, estJoueur1);
+        this.grille=new GrilleReseau(3);
     }
 
     @Override
-    public CubeGrille getGrilleReseauRecu() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public GrilleReseau getGrilleReseauRecu() {
+        return this.grille;
     }
 
+    @Override
+    public GrilleReseau getGrilleReseauEnvoi() {
+        return this.grille;
+    }
+    
     @Override
     public void commencerPartie() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        new Thread(this.grille).start();
     }
 
     @Override
-    public void sauvegarderClassement() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void sauvegarderClassement() {}
     
 }

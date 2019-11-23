@@ -106,6 +106,10 @@ public class Protocole {
     public static String REP_A_JOUER(Client client, int direction){
         return REP_A_JOUER+"-Nom:"+client+"-Dir:"+direction;
     }
+    public static final String REP_CREER_CASE="CrCa";
+    public static String REP_CREER_CASE(int index, int val){
+        return REP_CREER_CASE+"-Index:"+index+"-Val:"+val;
+    }
     public static final String ACC_RECEP_A_JOUER="ReHaPl";
     public static final String REQ_QUITTER_PARTIE="QuPa";
     public static final String REP_A_QUITTER="HaQuPa";

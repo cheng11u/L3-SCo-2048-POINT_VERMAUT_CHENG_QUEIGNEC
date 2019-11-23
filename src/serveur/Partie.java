@@ -5,6 +5,10 @@
  */
 package serveur;
 
+import java.util.List;
+import java.util.Random;
+import p2048.model.Case;
+
 /**
  * @author Nicolas QUEIGNEC
  */
@@ -76,6 +80,7 @@ public class Partie {
     }
     
     public void jouer(Client client, int direction){
+        // création de la case aléatoire
         if (typePartie==TYPE_PARTIE_COOP) {
             synchronized (this) { 
                 if (!mouvementEnCours) { 
@@ -90,7 +95,9 @@ public class Partie {
         } else if (client.equals(client2) && client1!=null) {
             client1.envoyerMessage(Protocole.REP_A_JOUER(client, direction));
         }
+        creerCase();
     }
+    
     public void mouvRecu(Client client) {
         if (client.equals(client1) && client2!=null) {
             client1MouvRecu=true;
@@ -104,6 +111,14 @@ public class Partie {
         }
     }
     
+    public void creerCase() {
+        Random r=new Random();
+        int indexCase=r.nextInt(27);
+        int val=r.nextDouble()<0.66?2:4;
+        client1.envoyerMessage(Protocole.REP_CREER_CASE(indexCase, val));   
+        client2.envoyerMessage(Protocole.REP_CREER_CASE(indexCase, val));
+    }
+
     public int getId() {
         return id;
     }   

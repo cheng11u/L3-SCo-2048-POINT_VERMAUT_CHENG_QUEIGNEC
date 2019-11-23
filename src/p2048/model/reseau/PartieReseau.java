@@ -20,15 +20,35 @@ import java.util.logging.Logger;
 import jdk.net.Sockets;
 import p2048.model.CubeGrille;
 import p2048.model.TypePartie;
+import serveur.Protocole;
 
 /**
  * @author Nicolas QUEIGNEC
  */
 public abstract class PartieReseau implements TypePartie {
     private int id;
-
-    public PartieReseau(int id) {
+    private boolean joueur1pret;
+    private boolean joueur2pret;
+    private boolean estJoueur1;
+    private String nomAutreJoueur;
+    
+    public PartieReseau(int id, boolean estJoueur1) {
         this.id=id;
+        this.estJoueur1=estJoueur1;
+        this.joueur1pret=false;
+        this.joueur2pret=false;
+        new Thread(new ReceveurServeur(this)).start();
+    }
+    
+    public void pret() {
+        if (estJoueur1) {
+            joueur1pret=true;
+        } else {
+            joueur2pret=true;
+        }
+        Reseau.getInstance().envoyerMessage(Protocole.REQ_PRET);
+        if (joueur1pret && joueur2pret)
+            commencerPartie();
     }
     
     public int getId() {
@@ -39,5 +59,33 @@ public abstract class PartieReseau implements TypePartie {
         this.id = id;
     }
     
-    public abstract CubeGrille getGrilleReseauRecu();
+    public abstract GrilleReseau getGrilleReseauRecu();
+    public abstract GrilleReseau getGrilleReseauEnvoi();
+    
+    public void ajouterJoueur(String nom) {
+        if (nomAutreJoueur==null)
+            nomAutreJoueur=nom;
+    }
+    
+    public void enleverJoueur(String nom) {
+        if (nomAutreJoueur.equals(nom)) {
+            nomAutreJoueur=null;
+        }
+    }
+    
+    public void autreJoueurPret(String nom) {
+        if (nomAutreJoueur.equals(nom)) {
+            if (estJoueur1)
+                joueur2pret=true;
+            else
+                joueur1pret=true;
+            if (joueur1pret && joueur2pret)
+                commencerPartie();
+        }
+    }
+    
+    public void autreJoueurAJouer(String nom, int direction) {
+        if (nomAutreJoueur.equals(nom))
+            getGrilleReseauRecu().setDirection(direction);
+    }
 }

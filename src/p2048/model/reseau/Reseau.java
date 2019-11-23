@@ -76,8 +76,8 @@ public class Reseau {
         envoyerMessage(Protocole.REQ_CREER_PARTIE(Partie.TYPE_PARTIE_COOP));
         try {
             String recu=recevoirMessage();
-            if (recu.split("-")[0]==Protocole.REP_CREER_PARTIE_REUSSI)
-                return new Cooperation(Integer.parseInt(Protocole.getParams(recu).get("Id")));
+            if (recu.split("-")[0].equals(Protocole.REP_CREER_PARTIE_REUSSI))
+                return new Cooperation(Integer.parseInt(Protocole.getParams(recu).get("Id")), true);
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
