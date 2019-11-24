@@ -50,7 +50,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="Afficher les règles" />
+            <MenuItem onAction="#afficherRegles"  mnemonicParsing="false" text="Afficher les règles" />
           </items>
         </Menu>
       </menus>
@@ -88,7 +88,7 @@
                                     <Font name="Algerian" size="72.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="664.0" layoutY="36.0" mnemonicParsing="false" text="Afficher les règles" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="41.0" />
+                              <Button onAction="#afficherRegles" layoutX="664.0" layoutY="36.0" mnemonicParsing="false" text="Afficher les règles" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="41.0" />
                               <Button layoutX="663.0" layoutY="95.0" mnemonicParsing="false" text="Voir le classement" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="100.0" />
                            </children>
                         </AnchorPane>
@@ -118,7 +118,7 @@
                         </Label>
                         <AnchorPane layoutY="81.0" prefHeight="280.0" prefWidth="524.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="81.0">
                            <children>
-                              <Button layoutX="71.0" layoutY="109.0" mnemonicParsing="false" text="Jouer en compétition" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="71.0" AnchorPane.topAnchor="109.0" />
+                              <Button onAction="#rejoindrePartie" layoutX="71.0" layoutY="109.0" mnemonicParsing="false" text="Jouer en compétition" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="71.0" AnchorPane.topAnchor="109.0" />
                               <Button layoutX="78.0" layoutY="176.0" mnemonicParsing="false" text="Créer partie versus" AnchorPane.bottomAnchor="79.0" AnchorPane.leftAnchor="78.0" />
                               <Label alignment="CENTER" layoutX="70.0" layoutY="39.0" text="Compétition" AnchorPane.leftAnchor="70.0">
                                  <font>
@@ -126,7 +126,7 @@
                                  </font>
                               </Label>
                               <Button layoutX="360.0" layoutY="109.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Créer partie duo" AnchorPane.bottomAnchor="146.0" AnchorPane.rightAnchor="61.0" AnchorPane.topAnchor="109.0" />
-                              <Button layoutX="347.0" layoutY="176.0" mnemonicParsing="false" text="Jouer en coopération" AnchorPane.bottomAnchor="79.0" AnchorPane.rightAnchor="48.0" />
+                              <Button onAction="#rejoindrePartie" layoutX="347.0" layoutY="176.0" mnemonicParsing="false" text="Jouer en coopération" AnchorPane.bottomAnchor="79.0" AnchorPane.rightAnchor="48.0" />
                               <Label layoutX="345.0" layoutY="39.0" text="Coopération" AnchorPane.rightAnchor="47.0">
                                  <font>
                                     <Font size="24.0" />

@@ -26,4 +26,9 @@ public class AccueilControleur implements Controleur {
     public void afficherRegles(){
         p2048.P2048.changerScene("vue/FXMLRegles.fxml");
     }
+    
+    @FXML
+    public void rejoindrePartie(){
+        p2048.P2048.changerScene("vue/FXMLRejoindrePartie.fxml");
+    }
 }
