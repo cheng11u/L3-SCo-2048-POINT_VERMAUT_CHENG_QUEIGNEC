@@ -13,13 +13,20 @@
 }
 
 #etatPartie {
-    -fx-background-color: rgb(64,64,64);
+    -fx-background-color: rgba(192,192,192,0.7);
 }
 
-.labelinfo {
+GridPane {
+    -fx-border-color: white;
+}
+
+Label {
     -fx-text-fill: white;
 }
 
+Pane Label {
+    -fx-text-fill: black;
+}
 .button:hover {
 	-fx-background-color:#685c5c;
 	-fx-position:relative;
