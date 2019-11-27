@@ -10,18 +10,17 @@ import p2048.model.CubeGrille;
  */
 public class EtatAction {
     private CubeGrille etat;
-    private String action;
+    private int action;
     private int valeur;
-    private final String[] ACTIONS_POSSIBLES = {"DIR_HAUT","DIR_BAS","DIR_GAUCHE","DIR_DROITE","DIR_DESSUS","DIR_DESSOUS"};
     
-    public EtatAction(CubeGrille e, String a){
+    public EtatAction(CubeGrille e, int a){
         this.etat = e;
         this.valeur = 0;
-        if(Arrays.toString(this.ACTIONS_POSSIBLES).contains(a)){
+        if(a!=0 && a<=3 && a>=-3){
             this.action = a;
         } else {
             //si la commande n'est pas connue, on lui donne une valeur par défaut
-            this.action = this.ACTIONS_POSSIBLES[0]; 
+            this.action = 1; 
         }
     }
     
@@ -29,7 +28,7 @@ public class EtatAction {
         return(this.etat);
     }
     
-    public String getAction(){
+    public int getAction(){
         return(this.action);
     }
     

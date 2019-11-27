@@ -81,22 +81,22 @@ public class IA {
     private void deplacements(CubeGrille e){
         CubeGrille en = this.haut(e);
         if(!en.equals(e))
-            etats.add(new EtatAction(en,"DIR_HAUT"));
+            etats.add(new EtatAction(en,1));
         en = this.bas(e);
         if(!en.equals(e))
-            etats.add(new EtatAction(en,"DIR_BAS"));
+            etats.add(new EtatAction(en,-1));
         en = this.gauche(e);
         if(!en.equals(e))
-            etats.add(new EtatAction(en,"DIR_GAUCHE"));
+            etats.add(new EtatAction(en,2));
         en = this.droite(e);
         if(!en.equals(e))
-            etats.add(new EtatAction(en,"DIR_DROITE"));
+            etats.add(new EtatAction(en,-2));
         en = this.dessus(e);
         if(!en.equals(e))
-            etats.add(new EtatAction(en,"DIR_DESSUS"));
+            etats.add(new EtatAction(en,-3));
         en = this.dessous(e);
         if(!en.equals(e))
-            etats.add(new EtatAction(en,"DIR_DESSOUS"));
+            etats.add(new EtatAction(en,3));
     }
     
     /**
@@ -238,10 +238,10 @@ public class IA {
         return(valeur);
     }
     
-    public String conseil(CubeGrille e){
+    public int action(CubeGrille e){
         boolean but = false;
         int x = 0;
-        EtatAction choix = new EtatAction(e,"");
+        EtatAction choix = new EtatAction(e,1);
         this.deplacements(e);
         int i = 0;
         while(i<this.etats.size() && !but){
@@ -267,39 +267,18 @@ public class IA {
             return(choix.getAction());
         }
     }
-    
-    public CubeGrille action(CubeGrille e){
-        String choix = this.conseil(e);
-        CubeGrille ne = e;
-        switch(choix){
-            case "DIR_HAUT":
-                ne = this.haut(e);
-                break;
-            case "DIR_BAS":
-                ne = this.bas(e);
-                break;
-            case "DIR_GAUCHE":
-                ne = this.gauche(e);
-                break;
-            case "DIR_DROITE":
-                ne = this.droite(e);
-                break;
-            case "DIR_DESSUS":
-                ne = this.dessus(e);
-                break;
-            case "DIR_DESSOUS":
-                ne = this.dessous(e);
-                break;
-        }
-        return(ne);
-    }
-    
-    public CubeGrille resolu(CubeGrille e){
+        
+    public ArrayList resolution(CubeGrille e){
         boolean but = false;
+        int act = 0;
+        ArrayList<Integer> suiteActions = new ArrayList<>();
         while(!but && !e.getStop()){
-            e = this.action(e);
+            act = this.action(e);
+            suiteActions.add(suiteActions.size(), act);
+            /*ici il faudra faire en sorte que l'action soit effectuée afin de 
+            pouvoir voir si le but a été atteint.*/
             but = this.but(e);
         }
-        return(e);
+        return(suiteActions);
     }
 }
