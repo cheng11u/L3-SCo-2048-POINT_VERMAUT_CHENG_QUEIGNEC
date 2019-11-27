@@ -41,6 +41,7 @@ public class IA {
     private CubeGrille haut(CubeGrille e){
         CubeGrille ef = e ;
         ef.setDirection(CubeGrille.DIR_HAUT);
+        ef.deplacer(ef.getDirection());
         return(ef);
     }
     
@@ -52,6 +53,7 @@ public class IA {
     private CubeGrille bas(CubeGrille e){
         CubeGrille ef = e ;
         ef.setDirection(CubeGrille.DIR_BAS);
+        ef.deplacer(ef.getDirection());
         return(ef);
     }
     
@@ -63,6 +65,7 @@ public class IA {
     private CubeGrille gauche(CubeGrille e){
         CubeGrille ef = e ;
         ef.setDirection(CubeGrille.DIR_GAUCHE);
+        ef.deplacer(ef.getDirection());
         return(ef);
     }
     
@@ -74,6 +77,7 @@ public class IA {
     private CubeGrille droite(CubeGrille e){
         CubeGrille ef = e ;
         ef.setDirection(CubeGrille.DIR_DROITE);
+        ef.deplacer(ef.getDirection());
         return(ef);
     }
     
@@ -85,6 +89,7 @@ public class IA {
     private CubeGrille dessous(CubeGrille e){
         CubeGrille ef = e ;
         ef.setDirection(CubeGrille.DIR_DESSOUS);
+        ef.deplacer(ef.getDirection());
         return(ef);
     }
     
@@ -96,6 +101,7 @@ public class IA {
     private CubeGrille dessus(CubeGrille e){
         CubeGrille ef = e ;
         ef.setDirection(CubeGrille.DIR_DESSUS);
+        ef.deplacer(ef.getDirection());
         return(ef);
     }
     
