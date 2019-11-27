@@ -5,6 +5,7 @@
  */
 package p2048.controleur;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -48,4 +49,8 @@ public class ReseauRejoindreControleur implements Controleur {
     @FXML
     private AnchorPane partie3;
     
+    @FXML
+    public void onClick(Event e) {
+        
+    }
 }
