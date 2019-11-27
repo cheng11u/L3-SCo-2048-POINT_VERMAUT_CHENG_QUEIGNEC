@@ -27,6 +27,9 @@ public class Protocole {
     }
     public static final String REP_CREER_PARTIE_ECHOUE="CrPaFa";
     public static final String REQ_AFFICHER_PARTIES="AfPa";
+    public static String REQ_AFFICHER_PARTIES(int type){
+        return "AfPa-Type:"+type;
+    }
     public static final String REP_AFFICHER_PARTIES="AfPaSu";
     /**
      * AfPaSu-Ids:Id1,Id2,Id3-Proprios:J1,J2,J3-Ouvert:Oui,Non,Oui

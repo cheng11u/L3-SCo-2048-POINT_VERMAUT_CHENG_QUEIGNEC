@@ -31,24 +31,28 @@ public abstract class PartieReseau implements TypePartie {
     private boolean joueur2pret;
     private boolean estJoueur1;
     private String nomAutreJoueur;
+    private Thread receveur;
     
     public PartieReseau(int id, boolean estJoueur1) {
         this.id=id;
         this.estJoueur1=estJoueur1;
         this.joueur1pret=false;
         this.joueur2pret=false;
-        new Thread(new ReceveurServeur(this)).start();
+        this.receveur=new Thread(new ReceveurServeur(this));
+        this.receveur.start();
     }
     
     public void pret() {
-        if (estJoueur1) {
-            joueur1pret=true;
-        } else {
-            joueur2pret=true;
-        }
-        Reseau.getInstance().envoyerMessage(Protocole.REQ_PRET);
-        if (joueur1pret && joueur2pret)
-            commencerPartie();
+        if (nomAutreJoueur!=null) { 
+            if (estJoueur1) {
+                joueur1pret=true;
+            } else {
+                joueur2pret=true;
+            }
+            Reseau.getInstance().envoyerMessage(Protocole.REQ_PRET);
+            if (joueur1pret && joueur2pret)
+                commencerPartie();
+        } 
     }
     
     public int getId() {
@@ -70,6 +74,10 @@ public abstract class PartieReseau implements TypePartie {
     public void enleverJoueur(String nom) {
         if (nomAutreJoueur.equals(nom)) {
             nomAutreJoueur=null;
+            if (estJoueur1 && joueur1pret && !joueur2pret)
+                joueur1pret=false;
+            else if (!estJoueur1 && !joueur1pret && joueur2pret)
+                joueur2pret=false;
         }
     }
     
@@ -87,5 +95,14 @@ public abstract class PartieReseau implements TypePartie {
     public void autreJoueurAJouer(String nom, int direction) {
         if (nomAutreJoueur.equals(nom))
             getGrilleReseauRecu().setDirection(direction);
+    }
+    
+    public void jouer(int direction) {
+        this.getGrilleReseauEnvoi().setDirection(direction);
+        Reseau.getInstance().envoyerMessage(Protocole.REQ_JOUER(direction));
+    }
+    
+    public void quitter() {
+        Reseau.getInstance().envoyerMessage(Protocole.REQ_QUITTER_PARTIE);
     }
 }

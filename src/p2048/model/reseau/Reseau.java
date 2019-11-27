@@ -14,7 +14,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import p2048.model.CubeGrille;
@@ -68,11 +70,17 @@ public class Reseau {
             this.envoyeut.close();
             this.receveur.close();     
             this.socket.close();
+            instance=null;
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-    public PartieReseau creerPartieCoop() {
+    
+    public static boolean estConnecter() {
+        return instance!=null;
+    }
+    
+    public Cooperation creerPartieCoop() {
         envoyerMessage(Protocole.REQ_CREER_PARTIE(Partie.TYPE_PARTIE_COOP));
         try {
             String recu=recevoirMessage();
@@ -84,4 +92,40 @@ public class Reseau {
             return null;
         }
     }
+    
+    public Cooperation rejoindrePartieCoop(int id, String nomJoueur) {
+        envoyerMessage(Protocole.REQ_REJOINDRE_PARTIE(id));
+        try {
+            String recu=recevoirMessage();
+            if (recu.split("-")[0].equals(Protocole.REP_REJOINDRE_PARTIE_REUSSI)) {
+                Cooperation cooperation=new Cooperation(id, false);
+                cooperation.ajouterJoueur(nomJoueur);
+                return cooperation;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            return null;
+        }
+    }
+
+    public List<InfosPartie> afficherPartiesCoop() {
+        envoyerMessage(Protocole.REQ_AFFICHER_PARTIES(Partie.TYPE_PARTIE_COOP));
+        try {
+            String recu=recevoirMessage();
+            if (recu.split("-")[0].equals(Protocole.REP_AFFICHER_PARTIES)) {
+                List<InfosPartie> infos=new ArrayList<InfosPartie>();
+                String[] ids=Protocole.getParams(recu).get("Ids").split(Protocole.SEPARATEUR_VALEUR_MULTIPLE);
+                String[] noms=Protocole.getParams(recu).get("Proprios").split(Protocole.SEPARATEUR_VALEUR_MULTIPLE);
+                for (int i=0;i<ids.length;i++)
+                    infos.add(new InfosPartie(Integer.parseInt(ids[i]), noms[i]));
+                return infos;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            return null;
+        }
+    }
+    
 }

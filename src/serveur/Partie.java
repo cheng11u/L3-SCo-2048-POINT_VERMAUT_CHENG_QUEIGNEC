@@ -56,13 +56,19 @@ public class Partie {
     public void quitter(Client client) {
         if (client.equals(client1)) {
             client1=null;
-            if (client2!=null)
+            if (client2!=null) {
                 client2.envoyerMessage(Protocole.REP_A_QUITTER(client));
+                if (!client1Pret && client2Pret)
+                    client2Pret=false;
+            } 
         }
         else if (client.equals(client2)) {
             client2=null;
-            if (client1!=null)
+            if (client1!=null) { 
                 client1.envoyerMessage(Protocole.REP_A_QUITTER(client));
+                if (client1Pret && !client2Pret)
+                    client1Pret=false;
+            } 
         }
         if (client1==null && client2==null)
             Main.parties.remove(this.id);

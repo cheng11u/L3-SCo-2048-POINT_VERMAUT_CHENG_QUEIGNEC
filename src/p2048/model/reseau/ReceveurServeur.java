@@ -23,7 +23,7 @@ public class ReceveurServeur implements Runnable{
 
     @Override
     public void run() {
-        while (!partie.getGrilleReseauRecu().partieTerminee()) {            
+        while (!partie.getGrilleReseauRecu().partieTerminee() && Reseau.estConnecter()) {            
             try {
                 String message = Reseau.getInstance().recevoirMessage();
                 String cmd=message.split(Protocole.SEPARATEUR_PARAM)[0];

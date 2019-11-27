@@ -56,7 +56,6 @@ public class Client implements Runnable {
             this.partieEnCours.quitter(this);
             this.partieEnCours=null;
         } 
-        deconnecter(); // a enlevé plus tard 
     }
     
     public void jouer(int direction) {
@@ -75,6 +74,7 @@ public class Client implements Runnable {
     }
     
     public void deconnecter(){
+        quitterPartie();
         try {
             this.socket.close();
             this.receveur.close();
@@ -110,13 +110,19 @@ public class Client implements Runnable {
                         quitterPartie();
                         break;
                     case Protocole.REQ_AFFICHER_PARTIES:
-                        envoyerMessage(Protocole.REP_AFFICHER_PARTIES(new ArrayList<Partie>(Main.parties.values())));
+                        int type2=Integer.parseInt(Protocole.getParams(ligne).get("Type"));
+                        ArrayList<Partie> aAfficher=new ArrayList<Partie>();
+                        for (Partie p:Main.parties.values())
+                            if (p.getTypePartie()==type2 && p.estJoignable())
+                                aAfficher.add(p);
+                        envoyerMessage(Protocole.REP_AFFICHER_PARTIES(aAfficher));
                         break;
                     case Protocole.ACC_RECEP_A_JOUER:
                         this.partieEnCours.mouvRecu(this);
                         break;
                     case Protocole.REQ_DECONNECTER:
                         deconnecter();
+                        break;                       
                 }
             } catch (IOException ex) {
                 System.err.println("Erreur réception");  
