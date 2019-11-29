@@ -15,68 +15,100 @@ import p2048.model.CubeGrille;
  */
 public class IA {
     private ArrayList<EtatAction> etats = new ArrayList<>();
+    /**
+     * Multiplicateur attribué au nombre de points gagnés
+     */
     private final int COEF_POINTS = 1;
+    
+    /**
+     * Multiplicateur attribué au nombre de combinaisons possibles
+     */
     private final int COEF_COMBI = 50;
+    
+    /**
+     * Multiplicateur attribué au nombre de cases vides
+     */
     private final int COEF_VIDE = 50;
+    
     /**
      * Les fonctions qui suivent servent à effectuer un déplaement sur un état.
      */
     /**
      * Déplacement vers le haut.
+     * @param e
+     * @return 
      */
     private CubeGrille haut(CubeGrille e){
         CubeGrille ef = e ;
         ef.setDirection(CubeGrille.DIR_HAUT);
+        ef.deplacer(ef.getDirection());
         return(ef);
     }
     
     /**
      * Déplacement vers le bas.
+     * @param e
+     * @return 
      */
     private CubeGrille bas(CubeGrille e){
         CubeGrille ef = e ;
         ef.setDirection(CubeGrille.DIR_BAS);
+        ef.deplacer(ef.getDirection());
         return(ef);
     }
     
     /**
      * Déplacement vers la gauche.
+     * @param e
+     * @return 
      */
     private CubeGrille gauche(CubeGrille e){
         CubeGrille ef = e ;
         ef.setDirection(CubeGrille.DIR_GAUCHE);
+        ef.deplacer(ef.getDirection());
         return(ef);
     }
     
     /**
      * Déplacement vers la droite.
+     * @param e
+     * @return 
      */
     private CubeGrille droite(CubeGrille e){
         CubeGrille ef = e ;
         ef.setDirection(CubeGrille.DIR_DROITE);
+        ef.deplacer(ef.getDirection());
         return(ef);
     }
     
     /**
      * Déplacement vers le dessous.
+     * @param e
+     * @return 
      */
     private CubeGrille dessous(CubeGrille e){
         CubeGrille ef = e ;
         ef.setDirection(CubeGrille.DIR_DESSOUS);
+        ef.deplacer(ef.getDirection());
         return(ef);
     }
     
     /**
      * Déplacement vers le dessus.
+     * @param e
+     * @return 
      */
     private CubeGrille dessus(CubeGrille e){
         CubeGrille ef = e ;
         ef.setDirection(CubeGrille.DIR_DESSUS);
+        ef.deplacer(ef.getDirection());
         return(ef);
     }
     
     /**
      * Retourne la liste des états possibles après différentes actions sur un état donné.
+     * @param e
+     * @return 
      */
     private void deplacements(CubeGrille e){
         CubeGrille en = this.haut(e);
@@ -101,6 +133,8 @@ public class IA {
     
     /**
      * Retourne une valeur dépendant du nombre de combinaisons possibles.
+     * @param e
+     * @return 
      */
     private int possibilites(CubeGrille e){
         Case c;
@@ -115,6 +149,9 @@ public class IA {
     
     /**
      * Retourne le nombre de combinaisons possibles pour une case donnée.
+     * @param c
+     * @param e
+     * @return 
      */
     private int combinaisons(Case c, CubeGrille e){
         int nb = 0, i = 0, j = 0;
@@ -220,6 +257,8 @@ public class IA {
     
     /**
      * permet de dire si le but fixé (une case avec 2048) est atteint ou non.
+     * @param e
+     * @return 
      */
     private boolean but(CubeGrille e){
         if(e.getValeurMax()>=2048)
@@ -230,6 +269,9 @@ public class IA {
     
     /**
      * Retourne une valeur relatant la proximité avec le but fixé.
+     * @param ei
+     * @param ef
+     * @return 
      */
     private int objectif(CubeGrille ei, CubeGrille ef){
         int valeur = COEF_POINTS * (ef.getScore() - ei.getScore());
@@ -238,6 +280,12 @@ public class IA {
         return(valeur);
     }
     
+    /**
+     * Prend en paramètre un état et retourne un entier correspondant à la 
+     * meilleure action à effectuer.
+     * @param e
+     * @return 
+     */
     public int action(CubeGrille e){
         boolean but = false;
         int x = 0;
@@ -267,7 +315,13 @@ public class IA {
             return(choix.getAction());
         }
     }
-        
+    
+    /**
+     * Prend en paramètre un état et retourne une liste d'entiers représentant 
+     * les action à effectuer pour atteindre le but.
+     * @param e
+     * @return 
+     */
     public ArrayList resolution(CubeGrille e){
         boolean but = false;
         int act = 0;

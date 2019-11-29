@@ -32,6 +32,7 @@ public abstract class PartieReseau implements TypePartie {
     private boolean estJoueur1;
     private String nomAutreJoueur;
     private Thread receveur;
+    private boolean morte;
     
     public PartieReseau(int id, boolean estJoueur1) {
         this.id=id;
@@ -40,6 +41,7 @@ public abstract class PartieReseau implements TypePartie {
         this.joueur2pret=false;
         this.receveur=new Thread(new ReceveurServeur(this));
         this.receveur.start();
+        this.morte=false;
     }
     
     public void pret() {
@@ -104,5 +106,12 @@ public abstract class PartieReseau implements TypePartie {
     
     public void quitter() {
         Reseau.getInstance().envoyerMessage(Protocole.REQ_QUITTER_PARTIE);
+        morte=true;
     }
+
+    public boolean estMorte() {
+        return morte;
+    }
+    
+    
 }
