@@ -31,7 +31,11 @@ import javafx.stage.Stage;
 import javax.xml.bind.Marshaller;
 import p2048.model.CubeGrille;
 import p2048.P2048;
+import p2048.model.PartieMonoGrille;
 import p2048.model.Solo;
+import p2048.model.TypePartie;
+import p2048.model.reseau.Cooperation;
+import p2048.model.reseau.Reseau;
 /**
  * Classe permettant de gérer les éléments d'une partie en solo
  * @author Nicolas QUEIGNEC
@@ -126,30 +130,29 @@ public class SoloControleur implements Controleur, Initializable {
      */
     private List<Pane> panes=new ArrayList<Pane>();
     
-    private Solo solo;
+    private PartieMonoGrille partie;
     private ChangeListener listener;
     
     @FXML
     public void buttonClicked(Event e) {
-        CubeGrille grille = solo.getGrille();
         if (e.getSource()==haut)
-            grille.setDirection(CubeGrille.DIR_HAUT);
+            partie.jouer(CubeGrille.DIR_HAUT);
         else if (e.getSource()==bas)
-            grille.setDirection(CubeGrille.DIR_BAS);
+            partie.jouer(CubeGrille.DIR_BAS);
         else if (e.getSource()==gauche)
-            grille.setDirection(CubeGrille.DIR_GAUCHE);
+            partie.jouer(CubeGrille.DIR_GAUCHE);
         else if (e.getSource()==droite)
-            grille.setDirection(CubeGrille.DIR_DROITE);
+            partie.jouer(CubeGrille.DIR_DROITE);
         else if (e.getSource()==sup)
-            grille.setDirection(CubeGrille.DIR_DESSUS);
+            partie.jouer(CubeGrille.DIR_DESSUS);
         else if (e.getSource()==inf)
-            grille.setDirection(CubeGrille.DIR_DESSOUS);
+            partie.jouer(CubeGrille.DIR_DESSOUS);
         else if (e.getSource()==quitter) {
-            solo.quitterPartie();   
+            partie.quitter();
             P2048.changerScene("vue/FXMLAccueil.fxml");
         }
         else if (e.getSource()==enregistrer)
-            solo.sauvegarder();
+            ((Solo)partie).sauvegarder();
     }
     
     @FXML
@@ -168,27 +171,27 @@ public class SoloControleur implements Controleur, Initializable {
     
     @FXML
     public void keyPressed(Event e){
-        CubeGrille grille = this.solo.getGrille();
+        CubeGrille grille = this.partie.getGrille();
         if (e instanceof KeyEvent){
             String lettre = ((KeyEvent)e).getCode().getName().toLowerCase();
             switch (lettre){
                 case "z":
-                    grille.setDirection(CubeGrille.DIR_HAUT);
+                    partie.jouer(CubeGrille.DIR_HAUT);
                     break;
                 case "q":
-                    grille.setDirection(CubeGrille.DIR_GAUCHE);
+                    partie.jouer(CubeGrille.DIR_GAUCHE);
                     break;
                 case "s":
-                    grille.setDirection(CubeGrille.DIR_BAS);
+                    partie.jouer(CubeGrille.DIR_BAS);
                     break;
                 case "d":
-                    grille.setDirection(CubeGrille.DIR_DROITE);
+                    partie.jouer(CubeGrille.DIR_DROITE);
                     break;
                 case "f":
-                    grille.setDirection(CubeGrille.DIR_DESSOUS);
+                    partie.jouer(CubeGrille.DIR_DESSOUS);
                     break;
                 case "r":
-                    grille.setDirection(CubeGrille.DIR_DESSUS);
+                    partie.jouer(CubeGrille.DIR_DESSUS);
                     break;
             }
         }
@@ -199,7 +202,7 @@ public class SoloControleur implements Controleur, Initializable {
         etage1.getChildren().removeAll(panes);
         etage2.getChildren().removeAll(panes);
         panes.clear();
-        CubeGrille grille = solo.getGrille();
+        CubeGrille grille = partie.getGrille();
         points.setText(grille.getScore()+"");
         for (int numGrille=0; numGrille<3; numGrille++) {
             int[][] grilleEtage=grille.getGrilleEtage(numGrille);
@@ -235,8 +238,6 @@ public class SoloControleur implements Controleur, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Solo partie=new Solo(); 
-        this.solo=partie;
         listener=new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -251,13 +252,22 @@ public class SoloControleur implements Controleur, Initializable {
     }
     
     public void nouvellePartie() {
-        solo.getGrille().ajouterListener(listener);
-        solo.commencerPartie();
+        this.partie=new Solo();
+        partie.getGrille().ajouterListener(listener);
+        partie.commencerPartie();
     }
     
     public void chargerPartie() {
-        solo.charger();
-        nouvellePartie();
+        this.partie=new Solo();
+        ((Solo)partie).charger();
+        partie.getGrille().ajouterListener(listener);
+        partie.commencerPartie();
         update();
+    }
+    
+    public void initCoop(Cooperation partie) {
+        this.partie=partie;
+        partie.ajouterListener(listener);
+        partie.commencerPartie();
     }
 }

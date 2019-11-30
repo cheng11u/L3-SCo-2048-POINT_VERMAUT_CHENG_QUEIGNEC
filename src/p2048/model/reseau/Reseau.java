@@ -117,15 +117,14 @@ public class Reseau {
                 List<InfosPartie> infos=new ArrayList<InfosPartie>();
                 String[] ids=Protocole.getParams(recu).get("Ids").split(Protocole.SEPARATEUR_VALEUR_MULTIPLE);
                 String[] noms=Protocole.getParams(recu).get("Proprios").split(Protocole.SEPARATEUR_VALEUR_MULTIPLE);
-                for (int i=0;i<ids.length;i++)
-                    infos.add(new InfosPartie(Integer.parseInt(ids[i]), noms[i]));
+                if (!ids[0].equals(""))
+                    for (int i=0;i<ids.length;i++)
+                        infos.add(new InfosPartie(Integer.parseInt(ids[i]), noms[i]));
                 return infos;
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
             return null;
         }
+        return null;
     }
-    
 }

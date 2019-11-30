@@ -14,4 +14,8 @@ public interface TypePartie {
      * Sauvegarde la classement du joueur dans la base de données
      */
     public void sauvegarderClassement();
+    
+    public void jouer(int direction);
+    
+    public void quitter();
 }

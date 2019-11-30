@@ -5,10 +5,21 @@
  */
 package p2048.controleur;
 
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import p2048.P2048;
+import static p2048.P2048.changerScene;
+import p2048.model.reseau.Cooperation;
+import p2048.model.reseau.InfosPartie;
+import p2048.model.reseau.Reseau;
 
 /**
  *
@@ -34,18 +45,93 @@ public class ReseauRejoindreControleur implements Controleur {
     @FXML
     private Label nbJoueurs3;
     @FXML
-    private Label page;
+    private Label pageLabel;
     @FXML
-    private Label nbPages;
-    @FXML
-    private Button prec;
-    @FXML
-    private Button suiv;
+    private Label nbPagesLabel;
     @FXML
     private AnchorPane partie1;
     @FXML
     private AnchorPane partie2;
     @FXML
     private AnchorPane partie3;
+    private int nbPages;
+    private int page;
+    private List<InfosPartie> parties;
     
+    @FXML
+    public void onClick(ActionEvent e) {
+        int indexPartie=0;
+        if (e.getSource()==partie1)
+            indexPartie=(page-1)*3;
+        else if (e.getSource()==partie2)
+           indexPartie=(page-1)*3+1;
+        else if (e.getSource()==partie3)
+           indexPartie=(page-1)*3+2;   
+        if (e.getSource()==partie1 || e.getSource()==partie2 || e.getSource()==partie3) {
+            int id=parties.get(indexPartie).getId();
+            String nom=parties.get(indexPartie).getNomJoueur();
+            Cooperation partie=Reseau.getInstance().rejoindrePartieCoop(id, nom);
+            ((AttentePartieControleur)P2048.changerScene("vue/FXMLAttentePartie.fxml")).rejoindrePartieCoop(partie);
+        }
+    }
+    
+    @FXML
+    public void pageSuiv() {
+        if (this.page>1) {
+            this.page--;
+            update();
+        }
+    }
+    
+    @FXML
+    public void pagePrec() {
+        if (this.page<this.nbPages) {
+            this.page++;
+            update();
+        }
+    }
+
+    private void init(List<InfosPartie> parties) {
+        this.page=1;
+        this.parties=parties;
+        this.nbPages=this.parties.size()/3;
+        if (this.parties.size()%3>0)
+            this.nbPages++;
+        this.nbPagesLabel.setText(this.nbPages+"");
+        this.update();
+    }
+    
+    public void update() {
+        this.pageLabel.setText(this.page+"");
+        if (this.parties.size()>=1) {
+            this.partie1.setVisible(true);
+            this.id1.setText(this.parties.get((this.page-1)*3).getId()+"");
+            this.j1.setText(this.parties.get((this.page-1)*3).getNomJoueur());
+            this.nbJoueurs1.setText(1+"");
+        }   else
+            this.partie1.setVisible(false);
+        if (this.parties.size()%3==2) {
+            this.partie2.setVisible(true);
+            this.id2.setText(this.parties.get((this.page-1)*3+1).getId()+"");
+            this.j2.setText(this.parties.get((this.page-1)*3+1).getNomJoueur());
+            this.nbJoueurs2.setText(1+"");
+        }  else
+            this.partie2.setVisible(false);
+        if (this.parties.size()%3==0) {
+            this.partie3.setVisible(true);
+            this.id3.setText(this.parties.get((this.page-1)*3+2).getId()+"");
+            this.j3.setText(this.parties.get((this.page-1)*3+2).getNomJoueur());
+            this.nbJoueurs3.setText(1+"");
+        }  else
+            this.partie3.setVisible(false);
+    }
+    
+    public void initCoop() {
+        init(Reseau.getInstance().afficherPartiesCoop());
+    }
+    
+    @FXML
+    public void retourAccueil(){
+        P2048.changerScene("vue/FXMLAccueil.fxml");
+    }
 }
