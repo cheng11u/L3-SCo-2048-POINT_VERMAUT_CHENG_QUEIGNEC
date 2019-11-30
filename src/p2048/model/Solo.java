@@ -6,7 +6,7 @@
 package p2048.model;
 import java.io.*;
 /**
- *
+ * Cette classe permet de jouer une partie en solo.
  * @author Luc Cheng
  */
 public class Solo implements TypePartie {
@@ -44,13 +44,13 @@ public class Solo implements TypePartie {
     public void quitterPartie(){
         this.grille.arreter();
     }
+    
     public void sauvegarderClassement() {
         
     }
     
     /**
      * Sauvegarde la partie en cours
-     * @param fichier fichier dans lequel la partie est sauvegardée
      */
     public void sauvegarder() {
         ObjectOutputStream oos = null;
@@ -77,7 +77,6 @@ public class Solo implements TypePartie {
     
     /**
      * Charge la grille à partir d'un fichier
-     * @param fichier fichier correspondant au fichier à charger
      */
     public void charger(){
         ObjectInputStream ois = null;
