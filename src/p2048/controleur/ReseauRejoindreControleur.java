@@ -48,10 +48,6 @@ public class ReseauRejoindreControleur implements Controleur {
     @FXML
     private Label nbPagesLabel;
     @FXML
-    private Button prec;
-    @FXML
-    private Button suiv;
-    @FXML
     private AnchorPane partie1;
     @FXML
     private AnchorPane partie2;
