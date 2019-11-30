@@ -49,9 +49,11 @@ public class Protocole {
             proprios+=p.getClient1()+",";
             ouvert+=(p.estJoignable()?"Oui":"Non")+",";
         }
-        ids=ids.substring(0, ids.lastIndexOf(","));
-        proprios=proprios.substring(0, ids.lastIndexOf(","));
-        ouvert=ouvert.substring(0, ids.lastIndexOf(","));
+        if (parties.size()>0) {
+            ids=ids.substring(0, ids.lastIndexOf(","));
+            proprios=proprios.substring(0, ids.lastIndexOf(","));
+            ouvert=ouvert.substring(0, ids.lastIndexOf(","));
+        } 
         res+=ids+proprios+ouvert;
         return res;
     }
@@ -149,7 +151,10 @@ public class Protocole {
         String[] params=cmd.split(SEPARATEUR_PARAM);
         for (int i=1;i<params.length; i++) {
             String[] paramVal=params[i].split(SEPARATEUR_VALEUR_PARAM);
-            res.put(paramVal[0], paramVal[1]);
+            if (paramVal.length>1)
+                res.put(paramVal[0], paramVal[1]);
+            else
+                res.put(paramVal[0], "");
         }
         return res;
     }

@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import p2048.P2048;
 import static p2048.P2048.changerScene;
+import p2048.model.reseau.Cooperation;
 import p2048.model.reseau.InfosPartie;
 import p2048.model.reseau.Reseau;
 
@@ -59,7 +60,19 @@ public class ReseauRejoindreControleur implements Controleur {
     
     @FXML
     public void onClick(ActionEvent e) {
-        
+        int indexPartie=0;
+        if (e.getSource()==partie1)
+            indexPartie=(page-1)*3;
+        else if (e.getSource()==partie2)
+           indexPartie=(page-1)*3+1;
+        else if (e.getSource()==partie3)
+           indexPartie=(page-1)*3+2;   
+        if (e.getSource()==partie1 || e.getSource()==partie2 || e.getSource()==partie3) {
+            int id=parties.get(indexPartie).getId();
+            String nom=parties.get(indexPartie).getNomJoueur();
+            Cooperation partie=Reseau.getInstance().rejoindrePartieCoop(id, nom);
+            ((AttentePartieControleur)P2048.changerScene("vue/FXMLAttentePartie.fxml")).rejoindrePartieCoop(partie);
+        }
     }
     
     @FXML
@@ -90,9 +103,13 @@ public class ReseauRejoindreControleur implements Controleur {
     
     public void update() {
         this.pageLabel.setText(this.page+"");
-        this.id1.setText(this.parties.get((this.page-1)*3).getId()+"");
-        this.j1.setText(this.parties.get((this.page-1)*3).getNomJoueur());
-        this.nbJoueurs1.setText(1+"");
+        if (this.parties.size()>=1) {
+            this.partie1.setVisible(true);
+            this.id1.setText(this.parties.get((this.page-1)*3).getId()+"");
+            this.j1.setText(this.parties.get((this.page-1)*3).getNomJoueur());
+            this.nbJoueurs1.setText(1+"");
+        }   else
+            this.partie1.setVisible(false);
         if (this.parties.size()%3==2) {
             this.partie2.setVisible(true);
             this.id2.setText(this.parties.get((this.page-1)*3+1).getId()+"");

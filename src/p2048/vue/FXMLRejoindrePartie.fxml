@@ -52,7 +52,7 @@
             <Label layoutX="246.0" layoutY="34.0" text="Rejoindre une partie" textFill="WHITE" />
             <Button fx:id="suiv" layoutX="513.0" layoutY="425.0" mnemonicParsing="false" onAction="#pageSuiv" text="&gt;" />
             <Button fx:id="prec" layoutX="420.0" layoutY="425.0" mnemonicParsing="false" onAction="#pagePrec" text="&lt;" />
-            <Label id="CurrentPage" fx:id="page" layoutX="453.0" layoutY="429.0" prefHeight="21.0" prefWidth="21.0" style="-fx-background-color: white;" />
+            <Label id="CurrentPage" fx:id="pageLabel" layoutX="453.0" layoutY="429.0" prefHeight="21.0" prefWidth="21.0" style="-fx-background-color: white;" />
             <AnchorPane layoutY="177.0" prefHeight="116.0" prefWidth="600.0" style="-fx-background-color: yellow;">
                <children>
                   <AnchorPane fx:id="partie2" layoutX="14.0" layoutY="14.0" prefHeight="89.0" prefWidth="573.0" style="-fx-background-color: orange;">
@@ -84,7 +84,7 @@
                </children>
             </AnchorPane>
             <Label layoutX="474.0" layoutY="429.0" prefHeight="17.0" prefWidth="12.0" style="-fx-background-color: white;" text="/" />
-            <Label id="NmbrPages" fx:id="nbPages" layoutX="484.0" layoutY="429.0" prefHeight="21.0" prefWidth="21.0" style="-fx-background-color: white;" />
+            <Label id="NmbrPages" fx:id="nbPagesLabel" layoutX="484.0" layoutY="429.0" prefHeight="21.0" prefWidth="21.0" style="-fx-background-color: white;" />
          </children>
       </Pane>
       <Button fx:id="retour" layoutX="42.0" layoutY="427.0" mnemonicParsing="false" onAction="#retourAccueil" prefHeight="31.0" prefWidth="74.0" text="Retour" />

@@ -9,7 +9,7 @@ import java.io.*;
  *
  * @author Luc Cheng
  */
-public class Solo implements TypePartie {
+public class Solo implements PartieMonoGrille {
     
     /**
      * Grille correspondant à la partie solo
@@ -41,7 +41,8 @@ public class Solo implements TypePartie {
         this.jeu.start();
     }
     
-    public void quitterPartie(){
+    @Override
+    public void quitter(){
         this.grille.arreter();
     }
     public void sauvegarderClassement() {
@@ -111,7 +112,13 @@ public class Solo implements TypePartie {
      * Getter
      * @return Grille de la partie
      */
+    @Override
     public CubeGrille getGrille() {
         return grille;
+    }
+
+    @Override
+    public void jouer(int direction) {
+        grille.setDirection(direction);
     }
 }

@@ -6,11 +6,12 @@
 package p2048.model.reseau;
 
 import p2048.model.CubeGrille;
+import p2048.model.PartieMonoGrille;
 
 /**
  * @author Nicolas QUEIGNEC
  */
-public class Cooperation extends PartieReseau {
+public class Cooperation extends PartieReseau implements PartieMonoGrille {
     private GrilleReseau grille;
     
     public Cooperation(int id, boolean estJoueur1) {
@@ -26,6 +27,11 @@ public class Cooperation extends PartieReseau {
     @Override
     public GrilleReseau getGrilleReseauEnvoi() {
         return this.grille;
+    }
+
+    @Override
+    public CubeGrille getGrille() {
+        return grille;
     }
     
     @Override
