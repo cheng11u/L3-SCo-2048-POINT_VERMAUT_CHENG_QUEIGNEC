@@ -30,7 +30,6 @@ public class AccueilControleur implements Controleur {
     @FXML
     public void afficherClassement(){
         p2048.P2048.changerScene("vue/FXMLClassement.fxml");
-        System.out.println("classement");
     }    
 
     public void creerPartieCoop() {

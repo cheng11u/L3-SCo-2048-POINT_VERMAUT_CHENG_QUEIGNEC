@@ -166,7 +166,6 @@ public class SoloControleur implements Controleur, Initializable {
                 fenetre.getStylesheets().add("p2048/CSS/dark_theme.css");
             }
         }
-        System.out.println("changerFond");
     }
     
     @FXML

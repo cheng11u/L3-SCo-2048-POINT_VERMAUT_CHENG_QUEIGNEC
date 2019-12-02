@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import p2048.model.reseau.JoueurPoints;
 
 /**
  * @author Nicolas QUEIGNEC
@@ -122,7 +123,23 @@ public class Client implements Runnable {
                         break;
                     case Protocole.REQ_DECONNECTER:
                         deconnecter();
-                        break;                       
+                        break;
+                    case Protocole.REQ_AFFICHER_CLASSEMENT:
+                        ArrayList<Jouer> classement = RequetesBDD.donnerClassement();
+                        String message = Protocole.REP_AFFICHER_CLASSEMENT;
+                        String pseudo = Protocole.SEPARATEUR_PARAM + "Pseudos" + Protocole.SEPARATEUR_VALEUR_PARAM;
+                        String scores = Protocole.SEPARATEUR_PARAM + "Scores" + Protocole.SEPARATEUR_VALEUR_PARAM;
+                        for (int i=0; i<classement.size(); i++){
+                            Jouer jouer = classement.get(i);
+                            pseudo += jouer.getJoueur().getPseudo();
+                            scores += jouer.getScore();
+                            if (i < classement.size()-1){
+                                pseudo += Protocole.SEPARATEUR_VALEUR_MULTIPLE;
+                                scores += Protocole.SEPARATEUR_VALEUR_MULTIPLE;
+                            }
+                        }
+                        envoyerMessage(message + pseudo + scores);
+                        break;
                 }
             } catch (IOException ex) {
                 System.err.println("Erreur réception");  

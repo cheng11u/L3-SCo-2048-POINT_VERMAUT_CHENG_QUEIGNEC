@@ -127,4 +127,23 @@ public class Reseau {
         }
         return null;
     }
+    
+    public List<JoueurPoints> afficherClassement(){
+        List<JoueurPoints> res = new ArrayList<JoueurPoints>();
+        envoyerMessage(Protocole.REQ_AFFICHER_CLASSEMENT);
+        try {
+            String recu = recevoirMessage();
+            if (recu.split("-")[0].equals(Protocole.REP_AFFICHER_CLASSEMENT)){
+                String[] pseudos = Protocole.getParams(recu).get("Pseudos").split(Protocole.SEPARATEUR_VALEUR_MULTIPLE);
+                String[] scores = Protocole.getParams(recu).get("Scores").split(Protocole.SEPARATEUR_VALEUR_MULTIPLE);
+                if (pseudos.length == scores.length){
+                    for (int i=0; i<pseudos.length; i++)
+                        res.add(new JoueurPoints(pseudos[i], Integer.parseInt(scores[i])));
+                }
+            }
+        } catch (IOException e){
+            res = null;
+        }
+        return res;
+    }
 }
