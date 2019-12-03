@@ -83,11 +83,9 @@ public class Partie {
             client2Pret=true;
             client1.envoyerMessage(Protocole.REP_PRET(client));
         } 
-        System.out.println(client+"pret");
     }
     
     public void jouer(Client client, int direction){
-        // création de la case aléatoire
         if (typePartie==TYPE_PARTIE_COOP) {
             synchronized (this) { 
                 if (!mouvementEnCours) { 
