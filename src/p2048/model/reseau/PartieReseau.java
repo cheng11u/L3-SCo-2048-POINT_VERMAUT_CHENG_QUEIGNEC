@@ -83,8 +83,8 @@ public abstract class PartieReseau implements TypePartie {
     }
     
     public void enleverJoueur(String nom) {
-        if (nomAutreJoueur.equals(nom)) {
-            nomAutreJoueur=null;
+        if (getNomAutreJoueur().equals(nom)) {
+            nomAutreJoueur.set(null);
             if (estJoueur1 && joueur1pret() && !joueur2pret())
                 joueur1pret.set(false);
             else if (!estJoueur1 && !joueur1pret() && joueur2pret())
@@ -93,8 +93,7 @@ public abstract class PartieReseau implements TypePartie {
     }
     
     public void autreJoueurPret(String nom) {
-        System.out.println(nomAutreJoueur+" "+nom+" "+nomAutreJoueur.equals(nom));
-        if (nomAutreJoueur.equals(nom)) {
+        if (getNomAutreJoueur().equals(nom)) {
             if (estJoueur1)
                 joueur2pret.set(true);
             else
@@ -105,7 +104,7 @@ public abstract class PartieReseau implements TypePartie {
     }
     
     public void autreJoueurAJouer(String nom, int direction) {
-        if (nomAutreJoueur.equals(nom))
+        if (getNomAutreJoueur().equals(nom))
             getGrilleReseauRecu().setDirection(direction);
     }
     
