@@ -100,7 +100,6 @@ public class Partie {
         } else if (client.equals(client2) && client1!=null) {
             client1.envoyerMessage(Protocole.REP_A_JOUER(client, direction));
         }
-        creerCase();
     }
     
     public void mouvRecu(Client client) {
@@ -116,12 +115,16 @@ public class Partie {
         }
     }
     
-    public void creerCase() {
-        Random r=new Random();
-        int indexCase=r.nextInt(27);
-        int val=r.nextDouble()<0.66?2:4;
-        client1.envoyerMessage(Protocole.REP_CREER_CASE(indexCase, val));   
-        client2.envoyerMessage(Protocole.REP_CREER_CASE(indexCase, val));
+    public synchronized void creerCase(Client client) {
+        if (client==client1 || (client==client2 && client1==null)) { 
+            Random r=new Random();
+            int indexCase=r.nextInt(27);
+            int val=r.nextDouble()<0.66?2:4;
+            if (client1!=null)
+                client1.envoyerMessage(Protocole.REP_CREER_CASE(indexCase, val));   
+            if (client2!=null)
+                client2.envoyerMessage(Protocole.REP_CREER_CASE(indexCase, val));
+        }
     }
 
     public int getId() {

@@ -140,6 +140,8 @@ public class Client implements Runnable {
                         }
                         envoyerMessage(message + pseudo + scores);
                         break;
+                    case Protocole.REQ_CREER_CASE:
+                        partieEnCours.creerCase(this);
                 }
             } catch (IOException ex) {
                 deconnecter();
