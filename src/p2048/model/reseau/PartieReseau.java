@@ -144,6 +144,9 @@ public abstract class PartieReseau implements TypePartie {
         joueur1pret.addListener(listener);
         joueur2pret.addListener(listener);
         nomAutreJoueur.addListener(listener);
+        getGrilleReseauRecu().ajouterListener(listener);
+        if (getGrilleReseauRecu()!=getGrilleReseauEnvoi())
+            getGrilleReseauEnvoi().ajouterListener(listener);
     }
     
 }
