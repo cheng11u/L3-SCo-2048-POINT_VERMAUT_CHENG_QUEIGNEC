@@ -51,8 +51,8 @@ public class Protocole {
         }
         if (parties.size()>0) {
             ids=ids.substring(0, ids.lastIndexOf(","));
-            proprios=proprios.substring(0, ids.lastIndexOf(","));
-            ouvert=ouvert.substring(0, ids.lastIndexOf(","));
+            proprios=proprios.substring(0, proprios.lastIndexOf(","));
+            ouvert=ouvert.substring(0, ouvert.lastIndexOf(","));
         } 
         res+=ids+proprios+ouvert;
         return res;

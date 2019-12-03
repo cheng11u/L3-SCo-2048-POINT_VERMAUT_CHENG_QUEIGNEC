@@ -36,7 +36,7 @@
             </MenuBar>
             <AnchorPane layoutY="61.0" prefHeight="116.0" prefWidth="600.0" style="-fx-background-color: yellow;">
                <children>
-                  <AnchorPane fx:id="partie1" layoutX="14.0" layoutY="14.0" prefHeight="89.0" prefWidth="573.0" style="-fx-background-color: orange;">
+                  <AnchorPane fx:id="partie1" onMouseClicked="#onClick"  layoutX="14.0" layoutY="14.0" prefHeight="89.0" prefWidth="573.0" style="-fx-background-color: orange;">
                      <children>
                         <Label layoutX="14.0" layoutY="6.0" text="Partie n°" />
                         <Label id="PartieOrdre" fx:id="id1" layoutX="70.0" layoutY="6.0" prefHeight="17.0" prefWidth="21.0" style="-fx-background-color: white;" />
@@ -55,7 +55,7 @@
             <Label id="CurrentPage" fx:id="pageLabel" layoutX="453.0" layoutY="429.0" prefHeight="21.0" prefWidth="21.0" style="-fx-background-color: white;" />
             <AnchorPane layoutY="177.0" prefHeight="116.0" prefWidth="600.0" style="-fx-background-color: yellow;">
                <children>
-                  <AnchorPane fx:id="partie2" layoutX="14.0" layoutY="14.0" prefHeight="89.0" prefWidth="573.0" style="-fx-background-color: orange;">
+                  <AnchorPane fx:id="partie2" onMouseClicked="#onClick" layoutX="14.0" layoutY="14.0" prefHeight="89.0" prefWidth="573.0" style="-fx-background-color: orange;">
                      <children>
                         <Label layoutX="14.0" layoutY="6.0" text="Partie n°" />
                         <Label id="PartieOrdre" fx:id="id2" layoutX="70.0" layoutY="6.0" prefHeight="17.0" prefWidth="21.0" style="-fx-background-color: white;" />
@@ -70,7 +70,7 @@
             </AnchorPane>
             <AnchorPane layoutY="293.0" prefHeight="116.0" prefWidth="600.0" style="-fx-background-color: yellow;">
                <children>
-                  <AnchorPane fx:id="partie3" layoutX="14.0" layoutY="14.0" prefHeight="89.0" prefWidth="573.0" style="-fx-background-color: orange;">
+                  <AnchorPane fx:id="partie3" onMouseClicked="#onClick" layoutX="14.0" layoutY="14.0" prefHeight="89.0" prefWidth="573.0" style="-fx-background-color: orange;">
                      <children>
                         <Label layoutX="14.0" layoutY="6.0" text="Partie n°" />
                         <Label id="PartieOrdre" fx:id="id3" layoutX="71.0" layoutY="6.0" prefHeight="17.0" prefWidth="21.0" style="-fx-background-color: white;" />

@@ -103,9 +103,8 @@ public class Reseau {
             }
         } catch (IOException ex) {
             ex.printStackTrace();
-        } finally {
-            return null;
         }
+        return null;
     }
 
     public List<InfosPartie> afficherPartiesCoop() {

@@ -59,7 +59,7 @@ public class ReseauRejoindreControleur implements Controleur {
     private List<InfosPartie> parties;
     
     @FXML
-    public void onClick(ActionEvent e) {
+    public void onClick(Event e) {
         int indexPartie=0;
         if (e.getSource()==partie1)
             indexPartie=(page-1)*3;

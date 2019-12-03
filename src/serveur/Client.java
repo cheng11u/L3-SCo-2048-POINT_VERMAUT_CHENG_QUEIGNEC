@@ -146,4 +146,11 @@ public class Client implements Runnable {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return socket.getInetAddress().getHostAddress();
+    }
+    
+    
 }
