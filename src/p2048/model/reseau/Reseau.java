@@ -87,10 +87,9 @@ public class Reseau {
             if (recu.split("-")[0].equals(Protocole.REP_CREER_PARTIE_REUSSI))
                 return new Cooperation(Integer.parseInt(Protocole.getParams(recu).get("Id")), true);
         } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            return null;
+               ex.printStackTrace();
         }
+        return null;
     }
     
     public Cooperation rejoindrePartieCoop(int id, String nomJoueur) {

@@ -46,7 +46,6 @@ public abstract class PartieReseau implements TypePartie {
         this.joueur2pret=new SimpleBooleanProperty(false);
         this.receveur=new Thread(new ReceveurServeur(this));
         this.nomAutreJoueur=new SimpleStringProperty(null);
-        this.receveur.start();
         this.morte=false;
     }
     
@@ -69,6 +68,10 @@ public abstract class PartieReseau implements TypePartie {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Thread getReceveur() {
+        return receveur;
     }
     
     public abstract GrilleReseau getGrilleReseauRecu();

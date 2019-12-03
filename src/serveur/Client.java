@@ -142,7 +142,6 @@ public class Client implements Runnable {
                         break;
                 }
             } catch (IOException ex) {
-                System.err.println("Erreur réception");  
                 deconnecter();
             }
         }

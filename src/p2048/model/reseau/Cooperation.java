@@ -17,6 +17,7 @@ public class Cooperation extends PartieReseau implements PartieMonoGrille {
     public Cooperation(int id, boolean estJoueur1) {
         super(id, estJoueur1);
         this.grille=new GrilleReseau(3);
+        this.getReceveur().start();
     }
 
     @Override
