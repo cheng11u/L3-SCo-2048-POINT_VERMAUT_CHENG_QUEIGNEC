@@ -104,8 +104,10 @@ public abstract class PartieReseau implements TypePartie {
     }
     
     public void autreJoueurAJouer(String nom, int direction) {
-        if (getNomAutreJoueur().equals(nom))
+        if (getNomAutreJoueur().equals(nom)) { 
             getGrilleReseauRecu().setDirection(direction);
+            Reseau.getInstance().envoyerMessage(Protocole.ACC_RECEP_A_JOUER);
+        } 
     }
     
     @Override
