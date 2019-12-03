@@ -93,6 +93,7 @@ public abstract class PartieReseau implements TypePartie {
     }
     
     public void autreJoueurPret(String nom) {
+        System.out.println(nomAutreJoueur+" "+nom+" "+nomAutreJoueur.equals(nom));
         if (nomAutreJoueur.equals(nom)) {
             if (estJoueur1)
                 joueur2pret.set(true);

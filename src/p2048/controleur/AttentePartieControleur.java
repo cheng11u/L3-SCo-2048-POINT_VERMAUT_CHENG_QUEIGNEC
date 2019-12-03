@@ -5,6 +5,7 @@
  */
 package p2048.controleur;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -35,7 +36,17 @@ public class AttentePartieControleur implements Controleur{
         partie.ajouterListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                update();
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                update();          
+                            }
+                        });
+                    }
+                });
             }
         });
         partieCoop=true;
@@ -47,7 +58,17 @@ public class AttentePartieControleur implements Controleur{
         partie.ajouterListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                update();
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                update();          
+                            }
+                        });
+                    }
+                });
             }
         });
         partieCoop=true;
