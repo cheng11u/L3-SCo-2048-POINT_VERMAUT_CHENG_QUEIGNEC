@@ -94,7 +94,7 @@ public class ReseauRejoindreControleur implements Controleur {
     private void init(List<InfosPartie> parties) {
         this.page=1;
         this.parties=parties;
-        this.nbPages=this.parties.size()/3;
+        this.nbPages=1+(this.parties.size()-1)/3;
         if (this.parties.size()%3>0)
             this.nbPages++;
         this.nbPagesLabel.setText(this.nbPages+"");
@@ -103,7 +103,7 @@ public class ReseauRejoindreControleur implements Controleur {
     
     public void update() {
         this.pageLabel.setText(this.page+"");
-        if (this.parties.size()>=1) {
+        if (this.parties.size()>0) {
             this.partie1.setVisible(true);
             this.id1.setText(this.parties.get((this.page-1)*3).getId()+"");
             this.j1.setText(this.parties.get((this.page-1)*3).getNomJoueur());
@@ -117,7 +117,7 @@ public class ReseauRejoindreControleur implements Controleur {
             this.nbJoueurs2.setText(1+"");
         }  else
             this.partie2.setVisible(false);
-        if (this.parties.size()%3==0) {
+        if (this.parties.size()%3==0 && this.parties.size()>0) {
             this.partie3.setVisible(true);
             this.id3.setText(this.parties.get((this.page-1)*3+2).getId()+"");
             this.j3.setText(this.parties.get((this.page-1)*3+2).getNomJoueur());
