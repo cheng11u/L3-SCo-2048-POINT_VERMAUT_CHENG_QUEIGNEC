@@ -14,7 +14,16 @@ import p2048.model.CubeGrille;
  * @author cleve_000
  */
 public class IA {
+    /**
+     * L'état dont va s'occuper l'IA
+     */
+    private CubeGrille etat;
+    
+    /**
+     * Liste des état sauvegardés et des actions qui leur sont associés.
+     */
     private ArrayList<EtatAction> etats = new ArrayList<>();
+        
     /**
      * Multiplicateur attribué au nombre de points gagnés
      */
@@ -30,13 +39,14 @@ public class IA {
      */
     private final int COEF_VIDE = 50;
     
-    /**
-     * Les fonctions qui suivent servent à effectuer un déplaement sur un état.
-     */
+    public IA(CubeGrille e){
+        this.etat = e;
+    }
+    
     /**
      * Déplacement vers le haut.
-     * @param e
-     * @return 
+     * @param e Un CubeGrille
+     * @return retourne le nouveau CubeGrille après déplacement
      */
     private CubeGrille haut(CubeGrille e){
         CubeGrille ef = e ;
@@ -47,8 +57,8 @@ public class IA {
     
     /**
      * Déplacement vers le bas.
-     * @param e
-     * @return 
+     * @param e Un CubeGrille
+     * @return retourne le nouveau CubeGrille après déplacement
      */
     private CubeGrille bas(CubeGrille e){
         CubeGrille ef = e ;
@@ -59,8 +69,8 @@ public class IA {
     
     /**
      * Déplacement vers la gauche.
-     * @param e
-     * @return 
+     * @param e Un CubeGrille
+     * @return retourne le nouveau CubeGrille après déplacement
      */
     private CubeGrille gauche(CubeGrille e){
         CubeGrille ef = e ;
@@ -71,8 +81,8 @@ public class IA {
     
     /**
      * Déplacement vers la droite.
-     * @param e
-     * @return 
+     * @param e Un CubeGrille
+     * @return retourne le nouveau CubeGrille après déplacement
      */
     private CubeGrille droite(CubeGrille e){
         CubeGrille ef = e ;
@@ -83,8 +93,8 @@ public class IA {
     
     /**
      * Déplacement vers le dessous.
-     * @param e
-     * @return 
+     * @param e Un CubeGrille
+     * @return retourne le nouveau CubeGrille après déplacement
      */
     private CubeGrille dessous(CubeGrille e){
         CubeGrille ef = e ;
@@ -95,8 +105,8 @@ public class IA {
     
     /**
      * Déplacement vers le dessus.
-     * @param e
-     * @return 
+     * @param e Un CubeGrille
+     * @return retourne le nouveau CubeGrille après déplacement
      */
     private CubeGrille dessus(CubeGrille e){
         CubeGrille ef = e ;
@@ -106,8 +116,8 @@ public class IA {
     }
     
     /**
-     * Retourne la liste des états possibles après différentes actions sur un état donné.
-     * @param e
+     * Modifie la liste des états atteignables à partir d'un état donné et d'une action.
+     * @param e l'état dont il est question
      * @return 
      */
     private void deplacements(CubeGrille e){
@@ -132,9 +142,9 @@ public class IA {
     }
     
     /**
-     * Retourne une valeur dépendant du nombre de combinaisons possibles.
-     * @param e
-     * @return 
+     * Donne le nombre de combinaisons possibles pour un état donné.
+     * @param e un CubeGrille
+     * @return retourne un entier naturel.
      */
     private int possibilites(CubeGrille e){
         Case c;
@@ -148,10 +158,10 @@ public class IA {
     }
     
     /**
-     * Retourne le nombre de combinaisons possibles pour une case donnée.
-     * @param c
-     * @param e
-     * @return 
+     * Donne le nombre de combinaisons possibles pour une case donnée.
+     * @param c la Case à vérifier
+     * @param e le CubeGrille dont il est question 
+     * @return retourne le nombre de combinaisons obtenu
      */
     private int combinaisons(Case c, CubeGrille e){
         int nb = 0, i = 0, j = 0;
@@ -256,9 +266,9 @@ public class IA {
     }
     
     /**
-     * permet de dire si le but fixé (une case avec 2048) est atteint ou non.
-     * @param e
-     * @return 
+     * Permet de dire si la valeur la plus haute de la partie a au moins atteint 2048.
+     * @param e un CubeGrille
+     * @return retourne oui si ce but est atteint, non sinon.
      */
     private boolean but(CubeGrille e){
         if(e.getValeurMax()>=2048)
@@ -268,10 +278,11 @@ public class IA {
     }
     
     /**
-     * Retourne une valeur relatant la proximité avec le but fixé.
-     * @param ei
-     * @param ef
-     * @return 
+     * Retourne une valeur relatant la proximité avec le but fixé après une action. 
+     * Plus elle est élevée, plus l'action effectuée est intéressante.
+     * @param ei le CubeGrille de départ.
+     * @param ef le CubeGrille après une action.
+     * @return retourne la valeur de proximité à l'objectif. 
      */
     private int objectif(CubeGrille ei, CubeGrille ef){
         int valeur = COEF_POINTS * (ef.getScore() - ei.getScore());
@@ -283,21 +294,21 @@ public class IA {
     /**
      * Prend en paramètre un état et retourne un entier correspondant à la 
      * meilleure action à effectuer.
-     * @param e
-     * @return 
+     * @param e le CubeGrille
+     * @return re
      */
-    public int action(CubeGrille e){
+    public int action(){
         boolean but = false;
         int x = 0;
-        EtatAction choix = new EtatAction(e,1);
-        this.deplacements(e);
+        EtatAction choix = new EtatAction(this.etat,1);
+        this.deplacements(this.etat);
         int i = 0;
         while(i<this.etats.size() && !but){
             but = this.but(this.etats.get(i).getEtat());
             if(but){
                 choix = this.etats.get(i);
             } else {
-                x = this.objectif(e, this.etats.get(i).getEtat());
+                x = this.objectif(this.etat, this.etats.get(i).getEtat());
                 this.etats.get(i).setValeur(this.etats.get(i).getEtat(), x);
             }
             i++;
@@ -314,25 +325,5 @@ public class IA {
             }
             return(choix.getAction());
         }
-    }
-    
-    /**
-     * Prend en paramètre un état et retourne une liste d'entiers représentant 
-     * les action à effectuer pour atteindre le but.
-     * @param e
-     * @return 
-     */
-    public ArrayList resolution(CubeGrille e){
-        boolean but = false;
-        int act = 0;
-        ArrayList<Integer> suiteActions = new ArrayList<>();
-        while(!but && !e.getStop()){
-            act = this.action(e);
-            suiteActions.add(suiteActions.size(), act);
-            /*ici il faudra faire en sorte que l'action soit effectuée afin de 
-            pouvoir voir si le but a été atteint.*/
-            but = this.but(e);
-        }
-        return(suiteActions);
     }
 }
