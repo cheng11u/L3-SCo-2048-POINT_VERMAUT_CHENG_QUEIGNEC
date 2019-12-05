@@ -24,7 +24,7 @@ public class GrilleReseau extends CubeGrille {
     }
     
     @Override
-    public void ajouterAleatoireCase() {
+    public synchronized void ajouterAleatoireCase() {
         Reseau.getInstance().envoyerMessage(Protocole.REQ_CREER_CASE);
         try {
             this.wait();
@@ -33,7 +33,7 @@ public class GrilleReseau extends CubeGrille {
         }
     }
     
-    public void creerCase(int index, int val){
+    public synchronized void creerCase(int index, int val){
         List<Case> cases=getCases();
         if (cases.get(index).estLibre())
             cases.get(index).setValeur(val);
