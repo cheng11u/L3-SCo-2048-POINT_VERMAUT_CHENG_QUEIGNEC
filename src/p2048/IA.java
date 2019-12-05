@@ -44,99 +44,34 @@ public class IA {
     }
     
     /**
-     * Déplacement vers le haut.
-     * @param e Un CubeGrille
-     * @return retourne le nouveau CubeGrille après déplacement
-     */
-    private CubeGrille haut(CubeGrille e){
-        CubeGrille ef = e ;
-        ef.setDirection(CubeGrille.DIR_HAUT);
-        ef.deplacer(ef.getDirection());
-        return(ef);
-    }
-    
-    /**
-     * Déplacement vers le bas.
-     * @param e Un CubeGrille
-     * @return retourne le nouveau CubeGrille après déplacement
-     */
-    private CubeGrille bas(CubeGrille e){
-        CubeGrille ef = e ;
-        ef.setDirection(CubeGrille.DIR_BAS);
-        ef.deplacer(ef.getDirection());
-        return(ef);
-    }
-    
-    /**
-     * Déplacement vers la gauche.
-     * @param e Un CubeGrille
-     * @return retourne le nouveau CubeGrille après déplacement
-     */
-    private CubeGrille gauche(CubeGrille e){
-        CubeGrille ef = e ;
-        ef.setDirection(CubeGrille.DIR_GAUCHE);
-        ef.deplacer(ef.getDirection());
-        return(ef);
-    }
-    
-    /**
-     * Déplacement vers la droite.
-     * @param e Un CubeGrille
-     * @return retourne le nouveau CubeGrille après déplacement
-     */
-    private CubeGrille droite(CubeGrille e){
-        CubeGrille ef = e ;
-        ef.setDirection(CubeGrille.DIR_DROITE);
-        ef.deplacer(ef.getDirection());
-        return(ef);
-    }
-    
-    /**
-     * Déplacement vers le dessous.
-     * @param e Un CubeGrille
-     * @return retourne le nouveau CubeGrille après déplacement
-     */
-    private CubeGrille dessous(CubeGrille e){
-        CubeGrille ef = e ;
-        ef.setDirection(CubeGrille.DIR_DESSOUS);
-        ef.deplacer(ef.getDirection());
-        return(ef);
-    }
-    
-    /**
-     * Déplacement vers le dessus.
-     * @param e Un CubeGrille
-     * @return retourne le nouveau CubeGrille après déplacement
-     */
-    private CubeGrille dessus(CubeGrille e){
-        CubeGrille ef = e ;
-        ef.setDirection(CubeGrille.DIR_DESSUS);
-        ef.deplacer(ef.getDirection());
-        return(ef);
-    }
-    
-    /**
      * Modifie la liste des états atteignables à partir d'un état donné et d'une action.
      * @param e l'état dont il est question
      * @return 
      */
     private void deplacements(CubeGrille e){
-        CubeGrille en = this.haut(e);
+        CubeGrille en = e;
+        en.setDirection(CubeGrille.DIR_HAUT);
+        en.deplacer(en.getDirection());
         if(!en.equals(e))
             etats.add(new EtatAction(en,1));
-        en = this.bas(e);
+        en.setDirection(CubeGrille.DIR_BAS);
+        en.deplacer(en.getDirection());
         if(!en.equals(e))
             etats.add(new EtatAction(en,-1));
-        en = this.gauche(e);
+        en.setDirection(CubeGrille.DIR_GAUCHE);
+        en.deplacer(en.getDirection());
         if(!en.equals(e))
             etats.add(new EtatAction(en,2));
-        en = this.droite(e);
+        en.setDirection(CubeGrille.DIR_DROITE);
+        en.deplacer(en.getDirection());
         if(!en.equals(e))
             etats.add(new EtatAction(en,-2));
-        en = this.dessus(e);
+        en.setDirection(CubeGrille.DIR_DESSUS);
+        en.deplacer(en.getDirection());
         if(!en.equals(e))
             etats.add(new EtatAction(en,-3));
-        en = this.dessous(e);
+        en.setDirection(CubeGrille.DIR_DESSOUS);
+        en.deplacer(en.getDirection());
         if(!en.equals(e))
             etats.add(new EtatAction(en,3));
     }
