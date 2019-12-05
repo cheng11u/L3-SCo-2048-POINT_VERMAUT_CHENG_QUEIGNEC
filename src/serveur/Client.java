@@ -142,6 +142,16 @@ public class Client implements Runnable {
                         break;
                     case Protocole.REQ_CREER_CASE:
                         partieEnCours.creerCase(this);
+                        break;
+                    case Protocole.REQ_AJOUTER_COMPTE:
+                        String pseudoJoueur = Protocole.getParams(ligne).get("Pseudo");
+                        String mdpJoueur = Protocole.getParams(ligne).get("MotDePasse");
+                        boolean ajoutReussi = RequetesBDD.creerJoueur(pseudoJoueur, "", "", mdpJoueur);
+                        if (ajoutReussi)
+                            envoyerMessage(Protocole.REP_AJOUT_REUSSI);
+                        else
+                            envoyerMessage(Protocole.REP_AJOUT_ECHOUE);
+                        break;
                 }
             } catch (IOException ex) {
                 deconnecter();

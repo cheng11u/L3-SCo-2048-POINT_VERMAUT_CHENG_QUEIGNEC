@@ -16,21 +16,30 @@ public class RequetesBDD {
     
     public static boolean creerJoueur(String pseudo, String nom, String prenom, String mdp){
         boolean res;
+        PreparedStatement ps = null;
         try {
             Connection connect = ConnexionBDD.getConnection();
-            PreparedStatement ps = connect.prepareStatement("INSERT INTO joueur VALUES (?, ?, ?, ?)");
+            ps = connect.prepareStatement("INSERT INTO joueur VALUES (?, ?, ?, ?)");
             ps.setString(1, pseudo);
             ps.setString(2, nom);
             ps.setString(3, prenom);
             ps.setString(4, mdp);
             int nbTuples = ps.executeUpdate();
-            ps.close();
             
             res = (nbTuples == 1);
         }
         catch (Exception e){
             e.printStackTrace();
             res = false;
+        }
+        finally {
+            try {
+                if (ps != null)
+                    ps.close();
+                }
+            catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return res;
     }

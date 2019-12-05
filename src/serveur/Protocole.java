@@ -146,6 +146,9 @@ public class Protocole {
     public static final String REP_SAUVEGARDE_ECHOUEE="SaScFa";
     public static final String REQ_AFFICHER_CLASSEMENT="AfCl";
     public static final String REP_AFFICHER_CLASSEMENT="AfClSu";
+    public static final String REQ_AJOUTER_COMPTE="AjCo";
+    public static final String REP_AJOUT_REUSSI="AjCoSu";
+    public static final String REP_AJOUT_ECHOUE="AjCoFa";
     
     public static Map<String,String> getParams(String cmd) {
         HashMap<String, String> res=new HashMap<String,String>();
