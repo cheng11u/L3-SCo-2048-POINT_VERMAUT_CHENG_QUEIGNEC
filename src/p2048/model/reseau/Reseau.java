@@ -144,4 +144,23 @@ public class Reseau {
         }
         return res;
     }
+    
+    public boolean ajouterJoueur(String pseudo, String mdp){
+        boolean res;
+        String message = Protocole.REQ_AJOUTER_COMPTE
+                + Protocole.SEPARATEUR_PARAM + "Pseudo" + Protocole.SEPARATEUR_VALEUR_PARAM + pseudo
+                + Protocole.SEPARATEUR_PARAM + "MotDePasse" + Protocole.SEPARATEUR_VALEUR_PARAM + mdp;
+        envoyerMessage(message);
+        try {
+            String recu = recevoirMessage();
+            if (recu.equals(Protocole.REP_AJOUT_REUSSI))
+                res = true;
+            else
+                res = false;
+        }
+        catch (IOException e){
+            res = false;
+        }
+        return res;
+    }
 }
