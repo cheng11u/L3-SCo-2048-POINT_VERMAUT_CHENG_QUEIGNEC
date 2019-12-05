@@ -7,8 +7,10 @@ package p2048.controleur;
 
 import java.net.URL;
 import java.util.*;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
@@ -20,8 +22,17 @@ import p2048.model.reseau.Reseau;
  */
 public class ClassementControleur implements Controleur, Initializable { 
     
+    /**
+     * Elément affichant le classement
+     */
     @FXML
     private ListView classement;
+    
+    /**
+     * Bouton permettant de retourner à l'accueil
+     */
+    @FXML
+    private Button retourAcceuil;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -34,5 +45,15 @@ public class ClassementControleur implements Controleur, Initializable {
             String chaine = rang + "    " + pseudo + "    " + score;
             classement.getItems().add(chaine);
         }
+    }
+    
+    /**
+     * Cette méthode permet de revenir à l'accueil
+     * @param e événement
+     */
+    @FXML
+    public void chargerAccueil(Event e){
+        if (e.getSource() == retourAcceuil)
+            p2048.P2048.changerScene("vue/FXMLAccueil.fxml");
     }
 }
