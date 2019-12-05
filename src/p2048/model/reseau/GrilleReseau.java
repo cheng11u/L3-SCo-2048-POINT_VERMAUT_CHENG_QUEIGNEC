@@ -19,35 +19,44 @@ import serveur.Protocole;
  * @author Nicolas QUEIGNEC
  */
 public class GrilleReseau extends CubeGrille {
+    private boolean attenteNouvelleCase;
+    
     public GrilleReseau(int taille) {
         super(3);
+        attenteNouvelleCase=false;
     }
     
     @Override
     public synchronized void ajouterAleatoireCase() {
-        Reseau.getInstance().envoyerMessage(Protocole.REQ_CREER_CASE);
-        try {
-            this.wait();
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+        if (!attenteNouvelleCase) { 
+            Reseau.getInstance().envoyerMessage(Protocole.REQ_CREER_CASE);
+            attenteNouvelleCase=true;
+            try {
+                this.wait();
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        } 
     }
     
     public synchronized void creerCase(int index, int val){
-        List<Case> cases=getCases();
-        if (cases.get(index).estLibre())
-            cases.get(index).setValeur(val);
-        else {
-            int i=index==0?26:index-1;
-            boolean fait=false;
-            while (i!=index+1 && !fait) {
-                if (cases.get(i).estLibre()) {
-                   cases.get(i).setValeur(val);
-                   fait=true;
+        if (attenteNouvelleCase) { 
+            List<Case> cases=getCases();
+            if (cases.get(index).estLibre())
+                cases.get(index).setValeur(val);
+            else {
+                int i=index==0?26:index-1;
+                boolean fait=false;
+                while (i!=index+1 && !fait) {
+                    if (cases.get(i).estLibre()) {
+                       cases.get(i).setValeur(val);
+                       fait=true;
+                    }
+                    i=i==0?26:i-1;
                 }
-                i=i==0?26:i-1;
             }
-        }
-        this.notify();
+            attenteNouvelleCase=false;
+            this.notify();
+        } 
     }
 }
