@@ -41,6 +41,9 @@ public class ReceveurServeur implements Runnable{
                     case Protocole.REP_A_JOUER:
                         partie.autreJoueurAJouer(params.get("Nom"), Integer.parseInt(params.get("Dir")));
                         break;                      
+                    case Protocole.REP_CREER_CASE:
+                        partie.getGrilleReseauRecu().creerCase(Integer.parseInt(params.get("Index")), Integer.parseInt(params.get("Val")));
+                        break;
                 }
             } catch (IOException ex) {
                 Logger.getLogger(ReceveurServeur.class.getName()).log(Level.SEVERE, null, ex);

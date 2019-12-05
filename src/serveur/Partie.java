@@ -102,7 +102,7 @@ public class Partie {
         }
     }
     
-    public void mouvRecu(Client client) {
+    public synchronized void mouvRecu(Client client) {
         if (client.equals(client1) && client2!=null) {
             client1MouvRecu=true;
         } else if (client.equals(client2) && client1!=null) {
@@ -124,6 +124,7 @@ public class Partie {
                 client1.envoyerMessage(Protocole.REP_CREER_CASE(indexCase, val));   
             if (client2!=null)
                 client2.envoyerMessage(Protocole.REP_CREER_CASE(indexCase, val));
+            System.out.println(client+" : "+indexCase+" / "+val);
         }
     }
 
