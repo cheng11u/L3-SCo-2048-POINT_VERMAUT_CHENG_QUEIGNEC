@@ -84,7 +84,7 @@ public class Reseau {
         envoyerMessage(Protocole.REQ_CREER_PARTIE(Partie.TYPE_PARTIE_COOP));
         try {
             String recu=recevoirMessage();
-            if (recu.split("-")[0].equals(Protocole.REP_CREER_PARTIE_REUSSI))
+            if (recu.split(Protocole.SEPARATEUR_PARAM)[0].equals(Protocole.REP_CREER_PARTIE_REUSSI))
                 return new Cooperation(Integer.parseInt(Protocole.getParams(recu).get("Id")), true);
         } catch (IOException ex) {
                ex.printStackTrace();
@@ -96,7 +96,7 @@ public class Reseau {
         envoyerMessage(Protocole.REQ_REJOINDRE_PARTIE(id));
         try {
             String recu=recevoirMessage();
-            if (recu.split("-")[0].equals(Protocole.REP_REJOINDRE_PARTIE_REUSSI)) {
+            if (recu.split(Protocole.SEPARATEUR_PARAM)[0].equals(Protocole.REP_REJOINDRE_PARTIE_REUSSI)) {
                 Cooperation cooperation=new Cooperation(id, false);
                 cooperation.ajouterJoueur(nomJoueur);
                 return cooperation;
@@ -111,7 +111,7 @@ public class Reseau {
         envoyerMessage(Protocole.REQ_AFFICHER_PARTIES(Partie.TYPE_PARTIE_COOP));
         try {
             String recu=recevoirMessage();
-            if (recu.split("-")[0].equals(Protocole.REP_AFFICHER_PARTIES)) {
+            if (recu.split(Protocole.SEPARATEUR_PARAM)[0].equals(Protocole.REP_AFFICHER_PARTIES)) {
                 List<InfosPartie> infos=new ArrayList<InfosPartie>();
                 String[] ids=Protocole.getParams(recu).get("Ids").split(Protocole.SEPARATEUR_VALEUR_MULTIPLE);
                 String[] noms=Protocole.getParams(recu).get("Proprios").split(Protocole.SEPARATEUR_VALEUR_MULTIPLE);
@@ -131,7 +131,7 @@ public class Reseau {
         envoyerMessage(Protocole.REQ_AFFICHER_CLASSEMENT);
         try {
             String recu = recevoirMessage();
-            if (recu.split("-")[0].equals(Protocole.REP_AFFICHER_CLASSEMENT)){
+            if (recu.split(Protocole.SEPARATEUR_PARAM)[0].equals(Protocole.REP_AFFICHER_CLASSEMENT)){
                 String[] pseudos = Protocole.getParams(recu).get("Pseudos").split(Protocole.SEPARATEUR_VALEUR_MULTIPLE);
                 String[] scores = Protocole.getParams(recu).get("Scores").split(Protocole.SEPARATEUR_VALEUR_MULTIPLE);
                 if (pseudos.length == scores.length){
