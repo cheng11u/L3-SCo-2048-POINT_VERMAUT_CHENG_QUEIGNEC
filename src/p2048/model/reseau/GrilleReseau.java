@@ -42,7 +42,7 @@ public class GrilleReseau extends CubeGrille {
             else {
                 int i=index==0?26:index-1;
                 boolean fait=false;
-                while (i!=index+1 || !fait) {
+                while (i!=index+1 && !fait) {
                     if (cases.get(i).estLibre()) {
                        cases.get(i).setValeur(val);
                        fait=true;
