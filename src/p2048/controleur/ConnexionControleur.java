@@ -77,7 +77,6 @@ public class ConnexionControleur implements Controleur {
             boolean ajoutReussi = Reseau.getInstance().ajouterJoueur(contenuPseudo, Cryptage.crypter(motDePasse));
             System.out.println(ajoutReussi);
             if (ajoutReussi){
-                params.setPseudo(contenuPseudo);
                 params.setMessage("L'inscription a bien été effectuée");
             }
             else {
@@ -95,7 +94,6 @@ public class ConnexionControleur implements Controleur {
         String contenuMdp = Cryptage.crypter(entrermdp.getText());
         boolean res = Reseau.getInstance().connecter(contenuPseudo, contenuMdp);
         if (res){
-            System.out.println(res);
             params.setPseudo(contenuPseudo);
             p2048.P2048.changerScene("vue/FXMLAccueil.fxml");
         }

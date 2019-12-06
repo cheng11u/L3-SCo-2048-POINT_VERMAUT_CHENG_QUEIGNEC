@@ -149,16 +149,18 @@ public class Client implements Runnable {
                         boolean ajoutReussi = RequetesBDD.creerJoueur(pseudoJoueur, "", "", mdpJoueur);
                         if (ajoutReussi)
                             envoyerMessage(Protocole.REP_AJOUT_REUSSI);
-                        else
+                        else {
                             envoyerMessage(Protocole.REP_AJOUT_ECHOUE);
+                            deconnecter();
+                        }
                         break;
                     case Protocole.REQ_CONNECTER_COMPTE:
                         String pseudoConnexion = Protocole.getParams(ligne).get("Id");
                         String mdpConnexion = Protocole.getParams(ligne).get("Mdp");
                         Joueur joueurBDD = RequetesBDD.donnerJoueur(pseudoConnexion);
                         if (joueurBDD == null || !joueurBDD.getMdp().equals(mdpConnexion)){
-                            System.out.println(joueurBDD.getMdp() + " " + mdpConnexion);
                             envoyerMessage(Protocole.REP_CONNEXION_ECHOUEE);
+                            deconnecter();
                         }
                         else
                             envoyerMessage(Protocole.REP_CONNEXION_REUSSIE);
