@@ -171,12 +171,8 @@ public class Reseau {
         envoyerMessage(message);
         try {
             String recu = recevoirMessage();
-            System.out.println(recu);
-            if (recu.equals(Protocole.REP_CONNEXION_REUSSIE)){
-                Parametres.getInstance().setPseudo(pseudo);
-                p2048.P2048.changerScene("vue/FXMLAccueil.fxml");
+            if (recu.equals(Protocole.REP_CONNEXION_REUSSIE))
                 res = true;
-            }
             else
                 res = false;
         }
