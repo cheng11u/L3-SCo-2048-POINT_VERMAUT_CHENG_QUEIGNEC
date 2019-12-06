@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package serveur;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -119,6 +120,45 @@ public class RequetesBDD {
             }
             catch (Exception e){
                 e.printStackTrace();
+            }
+        }
+        return res;
+    }
+    
+    public static Joueur donnerJoueur(String pseudo) {
+        String sql = "SELECT pseudo, mdp FROM joueur WHERE pseudo = ?";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Joueur res = null;
+        try {
+            ps = ConnexionBDD.getConnection().prepareStatement(sql);
+            ps.setString(1, pseudo);
+            rs = ps.executeQuery();
+            if (rs.next()){
+                String pseudoJoueur = rs.getString("pseudo");
+                String mdpJoueur = rs.getString("mdp");
+                res = new Joueur(pseudoJoueur, "", "", mdpJoueur);                
+            }
+            
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (ps != null)
+                    ps.close();
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+            finally {
+                try {
+                    rs.close();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         }
         return res;

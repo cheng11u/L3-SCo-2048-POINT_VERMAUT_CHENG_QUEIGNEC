@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import p2048.Parametres;
 import p2048.model.CubeGrille;
 import serveur.Partie;
 import serveur.Protocole;
@@ -155,6 +156,27 @@ public class Reseau {
             String recu = recevoirMessage();
             if (recu.equals(Protocole.REP_AJOUT_REUSSI))
                 res = true;
+            else
+                res = false;
+        }
+        catch (IOException e){
+            res = false;
+        }
+        return res;
+    }
+    
+    public boolean connecter(String pseudo, String mdp){
+        boolean res;
+        String message = Protocole.REQ_CONNECTER_COMPTE(pseudo, mdp);
+        envoyerMessage(message);
+        try {
+            String recu = recevoirMessage();
+            System.out.println(recu);
+            if (recu.equals(Protocole.REP_CONNEXION_REUSSIE)){
+                Parametres.getInstance().setPseudo(pseudo);
+                p2048.P2048.changerScene("vue/FXMLAccueil.fxml");
+                res = true;
+            }
             else
                 res = false;
         }

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -14,7 +18,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" fx:id="fenetre" onKeyPressed="#keyPressed" prefHeight="508.9999000000025" prefWidth="1067.0" stylesheets="@../CSS/dark_theme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p2048.controleur.SoloControleur">
+<AnchorPane id="AnchorPane" fx:id="fenetre" onKeyPressed="#keyPressed" prefHeight="508.9999000000025" prefWidth="1067.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="p2048.controleur.SoloControleur">
   <children>
     <MenuBar layoutX="0.0" layoutY="0.0" prefHeight="25.0" prefWidth="1067.0">
       <menus>
@@ -30,8 +34,8 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Fond">
           <items>
-            <MenuItem id="" fx:id="fondNormal" mnemonicParsing="false" onAction="#changerFond" text="Normal" />
-            <MenuItem fx:id="fondSombre" mnemonicParsing="false" onAction="#changerFond" text="Sombre" />
+            <MenuItem id="" mnemonicParsing="false" onAction="#changerFond" text="Normal" fx:id="fondNormal" />
+            <MenuItem mnemonicParsing="false" onAction="#changerFond" text="Sombre" fx:id="fondSombre" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
@@ -144,7 +148,7 @@
       <left>
         <Pane fx:id="etatPartie" prefHeight="387.0" prefWidth="191.0" style="" BorderPane.alignment="CENTER">
           <children>
-            <Label layoutX="6.0" layoutY="46.0" styleClass="labelinfo" text="Nom du joueur" />
+            <Label fx:id="pseudoJoueur" layoutX="6.0" layoutY="46.0" styleClass="labelinfo" text="Nom du joueur" />
             <Label layoutX="9.0" layoutY="82.0" styleClass="labelinfo" text="Score :" />
             <Label fx:id="points" layoutX="50.0" layoutY="82.0" styleClass="labelinfo" text="points" />
           </children>

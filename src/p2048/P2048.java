@@ -44,7 +44,7 @@ public class P2048 extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         this.stage=stage;
-        changerScene("vue/FXMLAccueil.fxml");
+        changerScene("vue/FXMLConnexion.fxml");
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {

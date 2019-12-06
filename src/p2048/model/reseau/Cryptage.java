@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package serveur;
+package p2048.model.reseau;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 /**

@@ -31,6 +31,7 @@ import javafx.stage.Stage;
 import javax.xml.bind.Marshaller;
 import p2048.model.CubeGrille;
 import p2048.P2048;
+import p2048.Parametres;
 import p2048.model.PartieMonoGrille;
 import p2048.model.Solo;
 import p2048.model.TypePartie;
@@ -118,6 +119,12 @@ public class SoloControleur implements Controleur, Initializable {
      */
     @FXML
     private AnchorPane fenetre;
+    
+    /**
+     * Label contenant le pseudo du joueur
+     */
+    @FXML
+    private Label pseudoJoueur;
     
     @FXML
     private MenuItem fondNormal;
@@ -237,6 +244,9 @@ public class SoloControleur implements Controleur, Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        String pseudo = Parametres.getInstance().getPseudo(); 
+        if (!pseudo.equals(""))
+            this.pseudoJoueur.setText(pseudo);
         listener=new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {

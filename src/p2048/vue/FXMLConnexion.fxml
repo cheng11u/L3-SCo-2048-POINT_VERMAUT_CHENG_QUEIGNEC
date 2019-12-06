@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
@@ -15,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p2048.controleur.ConnexionControleur">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p2048.controleur.ConnexionControleur">
   <children>
     <MenuBar stylesheets="@../CSS/dark_theme.css" VBox.vgrow="NEVER">
       <menus>
@@ -62,19 +65,15 @@
                <children>
                   <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0">
                      <children>
-                        <Label accessibleRole="TEXT_AREA" alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="2.0" layoutY="52.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="448.0" prefWidth="398.0" text="LE BUT &#10;Réussir à atteindre le nombre 2048 en additionnant des tuiles affichant&#10;des nombres.&#10;&#10;COMMENT JOUER &#10;Vous aurez trois grilles qui s'afficheront devant vous, symbolisant&#10;trois étages, sur lesquelles sont disposées deux tuiles au hasard.&#10;Les tuiles de base et celles qui apparaîtront affichent soit 2, soit 4.&#10;Vous devez les déplacer, le but étant de les faire se rencontrer.&#10;Chaque mouvement fera apparaître deux nouvelles tuiles au hasard&#10;quelque part sur les trois grilles.&#10;Les tuiles s'additionnent et fusionnent si elles sont du même nombre.&#10;Pour vous déplacer, utilisez les flèches du clavier (F pour monter,&#10;R pour descendre) ou les boutons situés en dessous des grilles !&#10;&#10;POURQUOI 2048 : 3D ?&#10;En plus de pouvoir aller à droite, à gauche, en haut et en bas,&#10;vous pouvez passer à l'étage supérieur ou à l'étage inférieur. Les tuiles&#10;s'additionnent dans toutes les directions.&#10;Attention, quand vous faites un déplacement, toutes les grilles sont &#10;touchées ! Les tuiles vont se déplacer de la même façon&#10;sur les trois grilles.&#10;&#10;CONSEIL&#10;Si vous craignez d'être coincé, essayez de changer d'étage !" />
-                        <Label id="ConnexionTitle" accessibleRole="TEXT_AREA" alignment="TOP_CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="52.0" prefWidth="400.0" text="Comment jouer au 2048 : 3D ?" textAlignment="CENTER" underline="true">
-                           <font>
-                              <Font size="25.0" />
-                           </font>
-                        </Label>
+                        <Label fx:id="labelErreur" id="erreur" alignment="TOP_LEFT" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" text="" textFill="RED" />
                      </children>
                   </Pane>
                   <SplitPane id="SplitPane" dividerPositions="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="500.0" prefWidth="400.0" stylesheets="@../CSS/dark_theme.css">
                      <items>
                         <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="200.0">
                            <children>
-                              <TextField layoutX="187.0" layoutY="68.0" />
+                              <TextField fx:id="pseudoConnexion" layoutX="187.0" layoutY="68.0" />
+                              <PasswordField fx:id="entrermdp" layoutX="187.0" layoutY="108.0" />
                               <Label alignment="CENTER_RIGHT" layoutX="63.0" layoutY="72.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="80.0" text="Identifiant :" />
                               <Label alignment="CENTER_RIGHT" layoutX="63.0" layoutY="112.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="80.0" text="Mot de passe :" />
                               <Label alignment="CENTER_RIGHT" layoutX="25.0" layoutY="38.0" prefHeight="30.0" prefWidth="118.0" text="Se connecter">
@@ -82,13 +81,14 @@
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="300.0" layoutY="161.0" mnemonicParsing="false" text="connexion" />
-                              <PasswordField id="entrermdp" layoutX="187.0" layoutY="108.0" />
+                              <Button onAction="#connecter" layoutX="300.0" layoutY="161.0" mnemonicParsing="false" text="connexion" />
                            </children>
                         </Pane>
                         <Pane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="293.0" prefWidth="400.0" stylesheets="@../CSS/dark_theme.css">
                            <children>
                               <TextField fx:id="pseudo" layoutX="187.0" layoutY="92.0" />
+                              <PasswordField fx:id="mdp" layoutX="187.0" layoutY="135.0" />
+                              <PasswordField fx:id="confirmation" layoutX="187.0" layoutY="178.0" />
                               <Label alignment="CENTER_RIGHT" layoutX="63.0" layoutY="96.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="80.0" text="Identifiant :" />
                               <Label alignment="CENTER_RIGHT" layoutX="63.0" layoutY="139.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="80.0" text="Mot de passe :" />
                               <Label alignment="CENTER_RIGHT" layoutX="63.0" layoutY="174.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="80.0" text="Vérification&#10;Mot de passe :" />
@@ -97,9 +97,7 @@
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="300.0" layoutY="254.0" mnemonicParsing="false" onAction="#verifierInfos" text="inscription" />
-                              <PasswordField fx:id="mdp" layoutX="187.0" layoutY="135.0" />
-                              <PasswordField fx:id="confirmation" layoutX="187.0" layoutY="179.0" />
+                              <Button onAction="#verifierInfos"  layoutX="300.0" layoutY="254.0" mnemonicParsing="false" text="inscription" />
                            </children>
                         </Pane>
                      </items>

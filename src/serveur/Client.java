@@ -152,6 +152,17 @@ public class Client implements Runnable {
                         else
                             envoyerMessage(Protocole.REP_AJOUT_ECHOUE);
                         break;
+                    case Protocole.REQ_CONNECTER_COMPTE:
+                        String pseudoConnexion = Protocole.getParams(ligne).get("Id");
+                        String mdpConnexion = Protocole.getParams(ligne).get("Mdp");
+                        Joueur joueurBDD = RequetesBDD.donnerJoueur(pseudoConnexion);
+                        if (joueurBDD == null || !joueurBDD.getMdp().equals(mdpConnexion)){
+                            System.out.println(joueurBDD.getMdp() + " " + mdpConnexion);
+                            envoyerMessage(Protocole.REP_CONNEXION_ECHOUEE);
+                        }
+                        else
+                            envoyerMessage(Protocole.REP_CONNEXION_REUSSIE);
+                        break;
                 }
             } catch (IOException ex) {
                 deconnecter();

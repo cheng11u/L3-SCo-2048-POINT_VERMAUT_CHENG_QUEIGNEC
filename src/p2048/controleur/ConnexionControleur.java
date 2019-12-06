@@ -22,6 +22,24 @@ import serveur.Protocole;
 public class ConnexionControleur implements Controleur {
     
     /**
+     * Label contenant l'éventuel message d'erreur
+     */
+    @FXML
+    private Label labelErreur;
+    
+    /**
+     * Champ correpondant au pseudo pour la connexion
+     */
+    @FXML
+    private TextField pseudoConnexion;
+    
+    /**
+     * Champ correspondant au mot de passe pour la connexion
+     */
+    @FXML
+    private PasswordField entrermdp;
+    
+    /**
      * Zone de texte permettant d'entrer son pseudo pour l'inscription
      */
     @FXML
@@ -39,11 +57,7 @@ public class ConnexionControleur implements Controleur {
     @FXML
     private PasswordField confirmation;
     
-    /**
-     * Label contenant l'éventuel message d'erreur
-     */
-    @FXML
-    private Label labelErreur;
+    
     
     /**
      * Cette méthode permet de vérifier les information entrées et effectue le traitement.
@@ -53,7 +67,6 @@ public class ConnexionControleur implements Controleur {
      */
     @FXML
     public void verifierInfos(Event e){
-        System.out.println("verifierInfos");
         Parametres params = Parametres.getInstance();
         String contenuPseudo = pseudo.getText();
         String motDePasse = mdp.getText();
@@ -72,7 +85,23 @@ public class ConnexionControleur implements Controleur {
             }
             
         }
-        //labelErreur.setText(params.getMessage());
-        System.out.println("Message : " + params.getMessage());
+        labelErreur.setText(params.getMessage());
+    }
+    
+    @FXML
+    public void connecter(){
+        Parametres params = Parametres.getInstance();
+        String contenuPseudo = pseudoConnexion.getText();
+        String contenuMdp = Cryptage.crypter(entrermdp.getText());
+        boolean res = Reseau.getInstance().connecter(contenuPseudo, contenuMdp);
+        if (res){
+            System.out.println(res);
+            params.setPseudo(contenuPseudo);
+            p2048.P2048.changerScene("vue/FXMLAccueil.fxml");
+        }
+        else {
+            params.setMessage("Erreur lors de la connexion");
+        }
+        labelErreur.setText(params.getMessage());
     }
 }

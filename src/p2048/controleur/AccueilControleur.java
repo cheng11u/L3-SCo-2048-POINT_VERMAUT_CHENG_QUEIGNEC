@@ -6,6 +6,7 @@
 package p2048.controleur;
 
 import javafx.fxml.FXML;
+import p2048.Parametres;
 
 /**
  *
@@ -14,14 +15,24 @@ import javafx.fxml.FXML;
 public class AccueilControleur implements Controleur {
     @FXML
     public void creerSolo() {
-        ((SoloControleur)p2048.P2048.changerScene("vue/FXMLSolo.fxml")).nouvellePartie();
+        if (!Parametres.getInstance().getPseudo().equals(""))
+            ((SoloControleur)p2048.P2048.changerScene("vue/FXMLSolo.fxml")).nouvellePartie();
+        else
+            this.chargerConnexion();
     }
     
     @FXML
     public void chargerSolo() {
-        ((SoloControleur)p2048.P2048.changerScene("vue/FXMLSolo.fxml")).chargerPartie();
+        if (!Parametres.getInstance().getPseudo().equals(""))
+            ((SoloControleur)p2048.P2048.changerScene("vue/FXMLSolo.fxml")).chargerPartie();
+        else
+            this.chargerConnexion();
     }
     
+    @FXML
+    public void chargerConnexion(){
+        p2048.P2048.changerScene("vue/FXMLConnexion.fxml");
+    }
     @FXML
     public void afficherRegles(){
         p2048.P2048.changerScene("vue/FXMLRegles.fxml");
