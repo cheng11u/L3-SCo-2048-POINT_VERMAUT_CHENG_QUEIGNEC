@@ -7,7 +7,6 @@ package serveur;
 
 import java.util.List;
 import java.util.Random;
-import p2048.model.Case;
 
 /**
  * @author Nicolas QUEIGNEC
@@ -124,7 +123,6 @@ public class Partie {
                 client1.envoyerMessage(Protocole.REP_CREER_CASE(indexCase, val));   
             if (client2!=null)
                 client2.envoyerMessage(Protocole.REP_CREER_CASE(indexCase, val));
-            System.out.println(client+" : "+indexCase+" / "+val);
         }
     }
 
