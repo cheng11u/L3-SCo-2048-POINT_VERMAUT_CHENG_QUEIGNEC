@@ -54,16 +54,13 @@ public abstract class PartieReseau implements TypePartie {
     public void pret() {
         if (getNomAutreJoueur()!=null) { 
             if (estJoueur1) {
-                if (!joueur1pret()) { 
-                    Reseau.getInstance().envoyerMessage(Protocole.REQ_PRET);
+                if (!joueur1pret())
                     joueur1pret.set(true);
-                } 
             } else {
-                if (!joueur2pret()) { 
-                    Reseau.getInstance().envoyerMessage(Protocole.REQ_PRET); 
+                if (!joueur2pret())
                     joueur2pret.set(true);
-                } 
             }                
+            Reseau.getInstance().envoyerMessage(Protocole.REQ_PRET);
             if (joueur1pret() && joueur2pret() && !commencee){
                 commencerPartie();
                 commencee=true;
