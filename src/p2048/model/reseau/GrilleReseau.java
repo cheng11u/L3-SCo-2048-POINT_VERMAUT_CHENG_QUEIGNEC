@@ -27,7 +27,7 @@ public class GrilleReseau extends CubeGrille {
     }
     
     @Override
-    public synchronized void ajouterAleatoireCase() {
+    public void ajouterAleatoireCase() {
         if (!attente) { 
         Reseau.getInstance().envoyerMessage(Protocole.REQ_CREER_CASE);
         System.out.println("p2048.model.reseau.GrilleReseau.ajouterAleatoireCase() wait case");
@@ -36,7 +36,7 @@ public class GrilleReseau extends CubeGrille {
         }
     }
     
-    public synchronized void creerCase(int index, int val){
+    public void creerCase(int index, int val){
         System.out.println("p2048.model.reseau.GrilleReseau.creerCase()");
         attente=false;
         List<Case> cases=getCases();
