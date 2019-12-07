@@ -384,9 +384,11 @@ public class CubeGrille implements Runnable, Serializable {
             ajouterAleatoireCase();
         while (!partieTerminee() && !stop) {     
             try {
+                System.out.println("p2048.model.CubeGrille.run() wait jouer1");
                 synchronized (this) {
                     this.wait();
                 }
+                System.out.println("p2048.model.CubeGrille.run() wait jouer2");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
