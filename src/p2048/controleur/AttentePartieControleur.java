@@ -61,12 +61,7 @@ public class AttentePartieControleur implements Controleur{
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                update();          
-                            }
-                        });
+                        update();
                     }
                 });
             }
@@ -74,6 +69,7 @@ public class AttentePartieControleur implements Controleur{
         partieCoop=true;
         update();
     }
+    
     public void update() {
         if (partie.estJoueur1()) {
            j1.setText("vous");
@@ -84,10 +80,6 @@ public class AttentePartieControleur implements Controleur{
         }
         statut1.setText(partie.joueur1pret()?"Prêt":"Pas prêt");
         statut2.setText(partie.joueur2pret()?"Prêt":"Pas prêt");
-        if (partie.joueur1pret() && partie.joueur2pret()) {
-            if (partieCoop)
-                ((SoloControleur)P2048.changerScene("vue/FXMLSolo.fxml")).initCoop((Cooperation)partie);
-        }
     }
     
     @FXML
@@ -99,5 +91,9 @@ public class AttentePartieControleur implements Controleur{
     @FXML
     public void pret() {
         partie.pret();
-    }
+        if (partie.joueur1pret() && partie.joueur2pret())
+            if (partieCoop)
+                ((SoloControleur)P2048.changerScene("vue/FXMLSolo.fxml")).initCoop((Cooperation)partie);
+    } 
 }
+

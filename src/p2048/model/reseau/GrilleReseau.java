@@ -50,25 +50,6 @@ public class GrilleReseau extends CubeGrille {
                 i=i==0?26:i-1;
             }
         }
-    }
-    
-    @Override
-    public void run() {
-        if (getNbDeplacements()==0) 
-            ajouterAleatoireCase();
-        while (!partieTerminee() && !getStop()) {     
-            try {
-                System.out.println("p2048.model.CubeGrille.run() wait jouer1");
-                synchronized (this) {
-                    this.wait();
-                }
-                System.out.println("p2048.model.CubeGrille.run() wait jouer2");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (!getStop())
-                if (deplacer(getDirection()))
-                    ajouterAleatoireCase();
-        }
+        this.notify();
     }
 }
