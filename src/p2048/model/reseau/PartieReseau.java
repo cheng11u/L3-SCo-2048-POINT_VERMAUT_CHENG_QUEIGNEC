@@ -115,6 +115,7 @@ public abstract class PartieReseau implements TypePartie {
         if (getNomAutreJoueur().equals(nom)) { 
             getGrilleReseauRecu().setDirection(direction);
             Reseau.getInstance().envoyerMessage(Protocole.ACC_RECEP_A_JOUER);
+            System.out.println("p2048.model.reseau.PartieReseau.autreJoueurAJouer()");
         } 
     }
     
@@ -122,6 +123,7 @@ public abstract class PartieReseau implements TypePartie {
     public void jouer(int direction) {
         this.getGrilleReseauEnvoi().setDirection(direction);
         Reseau.getInstance().envoyerMessage(Protocole.REQ_JOUER(direction));
+        System.out.println("p2048.model.reseau.PartieReseau.jouer()");
     }
     
     @Override
