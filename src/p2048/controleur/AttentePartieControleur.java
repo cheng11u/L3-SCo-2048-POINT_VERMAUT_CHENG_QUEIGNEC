@@ -42,8 +42,6 @@ public class AttentePartieControleur implements Controleur{
                         update();
                     }
                 });
-                if (partie.joueur1pret() && partie.joueur2pret() && partieCoop)
-                    ((SoloControleur)P2048.changerScene("vue/FXMLSolo.fxml")).initCoop((Cooperation)partie);
             }
         });
         partieCoop=true;
@@ -61,8 +59,6 @@ public class AttentePartieControleur implements Controleur{
                         update();
                     }
                 });
-                if (partie.joueur1pret() && partie.joueur2pret() && partieCoop)
-                    ((SoloControleur)P2048.changerScene("vue/FXMLSolo.fxml")).initCoop((Cooperation)partie);
             }
         });
         partieCoop=true;
@@ -90,6 +86,7 @@ public class AttentePartieControleur implements Controleur{
     @FXML
     public void pret() {
         partie.pret();
+        if (partieCoop)
+                    ((SoloControleur)P2048.changerScene("vue/FXMLSolo.fxml")).initCoop((Cooperation)partie);
     } 
 }
-
