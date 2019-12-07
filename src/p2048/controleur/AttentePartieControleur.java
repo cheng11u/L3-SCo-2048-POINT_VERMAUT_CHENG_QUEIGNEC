@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import p2048.P2048;
 import p2048.model.reseau.Cooperation;
@@ -28,6 +29,9 @@ public class AttentePartieControleur implements Controleur{
     private Label statut1;
     @FXML
     private Label statut2;
+    @FXML
+    private Button go;
+    
     private PartieReseau partie;
     private boolean partieCoop;
     
@@ -75,6 +79,8 @@ public class AttentePartieControleur implements Controleur{
         }
         statut1.setText(partie.joueur1pret()?"Prêt":"Pas prêt");
         statut2.setText(partie.joueur2pret()?"Prêt":"Pas prêt");
+        if (partie.joueur1pret() && partie.joueur2pret())
+            go.setText("Commencer la partie");
     }
     
     @FXML
@@ -86,7 +92,7 @@ public class AttentePartieControleur implements Controleur{
     @FXML
     public void pret() {
         partie.pret();
-        if (partieCoop)
-                    ((SoloControleur)P2048.changerScene("vue/FXMLSolo.fxml")).initCoop((Cooperation)partie);
+        if (partie.joueur1pret() && partie.joueur2pret() && partieCoop)
+           ((SoloControleur)P2048.changerScene("vue/FXMLSolo.fxml")).initCoop((Cooperation)partie);
     } 
 }

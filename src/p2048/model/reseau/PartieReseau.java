@@ -56,7 +56,8 @@ public abstract class PartieReseau implements TypePartie {
             } else {
                 joueur2pret.set(true);
             }
-            Reseau.getInstance().envoyerMessage(Protocole.REQ_PRET);
+            if ((estJoueur1 && !joueur1pret()) || (!estJoueur1 && !joueur2pret()))
+                Reseau.getInstance().envoyerMessage(Protocole.REQ_PRET);
             if (joueur1pret() && joueur2pret())
                 commencerPartie();
         } 

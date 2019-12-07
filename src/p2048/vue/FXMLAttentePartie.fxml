@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p2048.controleur.AttentePartieControleur">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p2048.controleur.AttentePartieControleur">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="600.0">
         <menus>
@@ -58,7 +58,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <Button layoutX="449.0" layoutY="308.0" mnemonicParsing="false" onAction="#pret" text="Lancer la partie !" />
+            <Button fx:id="go" layoutX="449.0" layoutY="308.0" mnemonicParsing="false" onAction="#pret" text="Prêt à jouer" />
          </children>
       </Pane>
       <Button layoutX="294.0" layoutY="332.0" mnemonicParsing="false" onAction="#retourAccueil" text="Quitter la partie" />

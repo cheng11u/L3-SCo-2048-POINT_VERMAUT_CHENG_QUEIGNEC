@@ -28,6 +28,7 @@ public class GrilleReseau extends CubeGrille {
     public synchronized void ajouterAleatoireCase() {
         Reseau.getInstance().envoyerMessage(Protocole.REQ_CREER_CASE);
         try {
+            System.out.println("p2048.model.reseau.GrilleReseau.ajouterAleatoireCase()");
             this.wait();
         } catch (InterruptedException ex) {
             ex.printStackTrace();
