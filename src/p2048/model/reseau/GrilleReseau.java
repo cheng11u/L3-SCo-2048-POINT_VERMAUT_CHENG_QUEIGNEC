@@ -34,7 +34,6 @@ public class GrilleReseau extends CubeGrille {
         attente=true;
         while (attente) {} 
         }
-        }
     }
     
     public synchronized void creerCase(int index, int val){
