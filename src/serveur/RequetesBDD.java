@@ -75,7 +75,7 @@ public class RequetesBDD {
         return res;
     }
     
-    public boolean insererPartie(String typePartie){
+    public static boolean insererPartie(String typePartie){
         String sqlInsererPartie = "INSERT INTO partie (idPartie, typePartie) SELECT MAX(idPartie)+1, ? FROM partie";
         PreparedStatement reqInsererPartie = null;
         boolean res = true;
@@ -99,7 +99,7 @@ public class RequetesBDD {
         return res;        
     }
     
-    public boolean insererJouer(String pseudo, int score){
+    public static boolean insererJouer(String pseudo, int score){
         String sql = "INSERT INTO jouer (pseudo, idPartie, score) SELECT ?, MAX(idPartie), ? FROM partie";
         PreparedStatement ps = null;
         boolean res;
@@ -154,7 +154,8 @@ public class RequetesBDD {
             }
             finally {
                 try {
-                    rs.close();
+                    if (rs != null)
+                        rs.close();
                 }
                 catch (Exception e){
                     e.printStackTrace();

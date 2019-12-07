@@ -132,6 +132,8 @@ public class SoloControleur implements Controleur, Initializable {
     @FXML
     private MenuItem fondSombre;
     
+    private boolean partieSauvegardee = false;
+    
     /**
      * Liste des cases
      */
@@ -240,6 +242,12 @@ public class SoloControleur implements Controleur, Initializable {
                     }
                 }
         }
+        if (grille.getStop() && !partieSauvegardee){
+            String pseudo = Parametres.getInstance().getPseudo();
+            Reseau.getInstance().ajouterPartie(pseudo, "Solo", grille.getScore());
+            partieSauvegardee = true;
+        }        
+        
     }
 
     @Override

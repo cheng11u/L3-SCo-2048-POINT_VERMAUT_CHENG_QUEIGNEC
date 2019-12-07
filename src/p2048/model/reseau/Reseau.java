@@ -181,4 +181,21 @@ public class Reseau {
         }
         return res;
     }
+    
+    public boolean ajouterPartie(String pseudo, String typePartie, int score){
+        boolean res;
+        String message = Protocole.REQ_SAUVEGARDER_SCORE
+                + Protocole.SEPARATEUR_PARAM + "Pseudo" + Protocole.SEPARATEUR_VALEUR_PARAM + pseudo
+                + Protocole.SEPARATEUR_PARAM + "Type" + Protocole.SEPARATEUR_VALEUR_PARAM + typePartie
+                + Protocole.SEPARATEUR_PARAM + "Score" + Protocole.SEPARATEUR_VALEUR_PARAM + score;
+        envoyerMessage(message);
+        try {
+            String recu = recevoirMessage();
+            res = recu.equals(Protocole.REP_SAUVEGARDE_REUSSIE);
+        }
+        catch (IOException e){
+            res = false;
+        }
+        return res;
+    }
 }
