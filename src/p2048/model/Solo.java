@@ -5,6 +5,8 @@
  */
 package p2048.model;
 import java.io.*;
+import p2048.Parametres;
+import p2048.model.reseau.Reseau;
 /**
  * Cette classe permet de jouer une partie en solo.
  * @author Luc Cheng
@@ -47,7 +49,11 @@ public class Solo implements PartieMonoGrille {
     }
     
     public void sauvegarderClassement() {
-        
+        Reseau reseau = Reseau.getInstance();
+        String pseudo = Parametres.getInstance().getPseudo();
+        String typePartie = "Solo";
+        int score = this.grille.getScore();
+        reseau.ajouterPartie(pseudo, typePartie, score);
     }
     
     /**

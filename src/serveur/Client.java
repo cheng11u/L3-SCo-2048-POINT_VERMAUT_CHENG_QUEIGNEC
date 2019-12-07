@@ -165,6 +165,19 @@ public class Client implements Runnable {
                         else
                             envoyerMessage(Protocole.REP_CONNEXION_REUSSIE);
                         break;
+                    case Protocole.REQ_SAUVEGARDER_SCORE:
+                        String pseudoSauvegarde = Protocole.getParams(ligne).get("Pseudo");
+                        String typePartie = Protocole.getParams(ligne).get("Type");
+                        int score = Integer.parseInt(Protocole.getParams(ligne).get("Score"));
+                        boolean sauvegardeReussie = RequetesBDD.insererPartie(typePartie)
+                        && RequetesBDD.insererJouer(pseudoSauvegarde, score);
+                        if (sauvegardeReussie)
+                            envoyerMessage(Protocole.REP_SAUVEGARDE_REUSSIE);
+                        else {
+                            envoyerMessage(Protocole.REP_SAUVEGARDE_ECHOUEE);
+                            deconnecter();
+                        }
+                        break;
                 }
             } catch (IOException ex) {
                 deconnecter();
