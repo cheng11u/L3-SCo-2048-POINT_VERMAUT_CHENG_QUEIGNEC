@@ -20,25 +20,22 @@ import serveur.Protocole;
  * @author Nicolas QUEIGNEC
  */
 public class GrilleReseau extends CubeGrille {
-    private boolean attente;
     public GrilleReseau(int taille) {
         super(3);
-        attente=false;
     }
     
     @Override
-    public void ajouterAleatoireCase() {
-        if (!attente) { 
+    public synchronized void ajouterAleatoireCase() {
         Reseau.getInstance().envoyerMessage(Protocole.REQ_CREER_CASE);
-        System.out.println("p2048.model.reseau.GrilleReseau.ajouterAleatoireCase() wait case");
-        attente=true;
-        while (attente) {} 
+        try {
+            this.wait();
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
         }
     }
     
-    public void creerCase(int index, int val){
+    public synchronized void creerCase(int index, int val){
         System.out.println("p2048.model.reseau.GrilleReseau.creerCase()");
-        attente=false;
         List<Case> cases=getCases();
         if (cases.get(index).estLibre())
             cases.get(index).setValeur(val);
@@ -53,10 +50,25 @@ public class GrilleReseau extends CubeGrille {
                 i=i==0?26:i-1;
             }
         }
-//        try {
-//            this.notify();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+    }
+    
+    @Override
+    public void run() {
+        if (getNbDeplacements()==0) 
+            ajouterAleatoireCase();
+        while (!partieTerminee() && !getStop()) {     
+            try {
+                System.out.println("p2048.model.CubeGrille.run() wait jouer1");
+                synchronized (this) {
+                    this.wait();
+                }
+                System.out.println("p2048.model.CubeGrille.run() wait jouer2");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (!getStop())
+                if (deplacer(getDirection()))
+                    ajouterAleatoireCase();
+        }
     }
 }
