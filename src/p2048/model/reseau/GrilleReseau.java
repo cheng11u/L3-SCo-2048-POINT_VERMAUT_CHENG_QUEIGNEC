@@ -8,6 +8,7 @@ package p2048.model.reseau;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import p2048.model.Case;
@@ -19,21 +20,26 @@ import serveur.Protocole;
  * @author Nicolas QUEIGNEC
  */
 public class GrilleReseau extends CubeGrille {
+    private boolean attente;
     public GrilleReseau(int taille) {
         super(3);
+        attente=false;
     }
     
     @Override
     public synchronized void ajouterAleatoireCase() {
+        if (!attente) { 
         Reseau.getInstance().envoyerMessage(Protocole.REQ_CREER_CASE);
-        try {
-            this.wait();
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
+        System.out.println("p2048.model.reseau.GrilleReseau.ajouterAleatoireCase() wait case");
+        attente=true;
+        while (attente) {} 
+        }
         }
     }
     
     public synchronized void creerCase(int index, int val){
+        System.out.println("p2048.model.reseau.GrilleReseau.creerCase()");
+        attente=false;
         List<Case> cases=getCases();
         if (cases.get(index).estLibre())
             cases.get(index).setValeur(val);
@@ -48,5 +54,10 @@ public class GrilleReseau extends CubeGrille {
                 i=i==0?26:i-1;
             }
         }
+//        try {
+//            this.notify();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 }
