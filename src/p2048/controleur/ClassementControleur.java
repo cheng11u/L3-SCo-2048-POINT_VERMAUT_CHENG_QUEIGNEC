@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import p2048.Parametres;
 import p2048.model.reseau.JoueurPoints;
 import p2048.model.reseau.Reseau;
 /**
@@ -34,16 +35,46 @@ public class ClassementControleur implements Controleur, Initializable {
     @FXML
     private Button retourAcceuil;
     
+    /**
+     * Initialise le controleur.
+     * Affiche les dix premiers du classement, et ajoute le joueur et son rang, s'il 
+     * n'en fait pas parti
+     * @param url
+     * @param rb 
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        boolean joueurDixPremiers = false;
         List<JoueurPoints> listeClassement = Reseau.getInstance().afficherClassement();
-        for (int i=0; i<listeClassement.size(); i++){
+        for (int i=0; i<listeClassement.size() && i<10; i++){
             JoueurPoints joueurPoints = listeClassement.get(i);
             int rang = i+1;
             String pseudo = joueurPoints.getPseudo();
             int score = joueurPoints.getScore();
             String chaine = rang + "    " + pseudo + "    " + score;
             classement.getItems().add(chaine);
+            if (pseudo.equals(Parametres.getInstance().getPseudo()))
+                joueurDixPremiers = true;
+        }
+        
+        //si le joueur n'est pas dans les dix premiers, on affiche son rang à part
+        if (!joueurDixPremiers){
+            int rang = 11;
+            boolean trouve = false;
+            while (rang <= listeClassement.size() && !trouve){
+                String pseudoListeClassement = listeClassement.get(rang-1).getPseudo();
+                String pseudoJoueur = Parametres.getInstance().getPseudo();
+                if (pseudoListeClassement.equals(pseudoJoueur))
+                    trouve = true;
+                else
+                    rang++;
+            }
+            
+            if (trouve){
+                JoueurPoints elt = listeClassement.get(rang-1);
+                String chaine = rang + "    " + elt.getPseudo() + "    " + elt.getScore();
+                classement.getItems().add(chaine);
+            }
         }
     }
     
