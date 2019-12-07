@@ -38,6 +38,7 @@ public abstract class PartieReseau implements TypePartie {
     private StringProperty nomAutreJoueur;
     private Thread receveur;
     private boolean morte;
+    private boolean commencee;
     
     public PartieReseau(int id, boolean estJoueur1) {
         this.id=id;
@@ -47,6 +48,7 @@ public abstract class PartieReseau implements TypePartie {
         this.receveur=new Thread(new ReceveurServeur(this));
         this.nomAutreJoueur=new SimpleStringProperty(null);
         this.morte=false;
+        this.commencee=false;
     }
     
     public void pret() {
@@ -62,8 +64,10 @@ public abstract class PartieReseau implements TypePartie {
                     joueur2pret.set(true);
                 } 
             }                
-            if (joueur1pret() && joueur2pret())
+            if (joueur1pret() && joueur2pret() && !commencee){
                 commencerPartie();
+                commencee=true;
+            }
         } 
     }
     
@@ -103,8 +107,10 @@ public abstract class PartieReseau implements TypePartie {
                 joueur2pret.set(true);
             else
                 joueur1pret.set(true);
-            if (joueur1pret() && joueur2pret())
+            if (joueur1pret() && joueur2pret() && !commencee) {
                 commencerPartie();
+                commencee=true;
+            }
         }
     }
     
