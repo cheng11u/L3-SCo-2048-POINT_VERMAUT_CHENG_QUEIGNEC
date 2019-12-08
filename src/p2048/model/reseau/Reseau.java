@@ -52,8 +52,12 @@ public class Reseau {
     }
     
     public static synchronized Reseau getInstance() {
-        if (instance==null || instance.socket.isClosed())
+        if (instance==null)
             instance=new Reseau();
+        else if (instance.socket.isClosed() || !instance.socket.isConnected() || instance.socket.isInputShutdown() || instance.socket.isOutputShutdown()) { 
+            instance.deconnecter();
+            instance=new Reseau();
+        }
         return instance;
     }
     
@@ -68,10 +72,10 @@ public class Reseau {
     
     public void deconnecter() {
         try {     
+            instance=null;
             this.envoyeut.close();
             this.receveur.close();     
             this.socket.close();
-            instance=null;
         } catch (IOException ex) {
             ex.printStackTrace();
         }
