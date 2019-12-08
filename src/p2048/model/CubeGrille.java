@@ -380,8 +380,8 @@ public class CubeGrille implements Runnable, Serializable {
     
     @Override
     public void run() {
-        if (getNbDeplacements()==0) 
-            ajouterAleatoireCase();
+//        if (getNbDeplacements()==0) 
+//            ajouterAleatoireCase();
         while (!partieTerminee() && !stop) {     
             try {
                 System.out.println("p2048.model.CubeGrille.run() wait jouer1");
