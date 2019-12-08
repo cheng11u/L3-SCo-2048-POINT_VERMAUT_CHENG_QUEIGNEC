@@ -279,6 +279,7 @@ public class SoloControleur implements Controleur, Initializable {
         ((Solo)partie).charger();
         partie.getGrille().ajouterListener(listener);
         partie.commencerPartie();
+        update();
     }
     
     public void initCoop(Cooperation partie) {
