@@ -20,8 +20,10 @@ import serveur.Protocole;
  * @author Nicolas QUEIGNEC
  */
 public class GrilleReseau extends CubeGrille {
+    private boolean attente;
     public GrilleReseau(int taille) {
         super(3);
+        attente=false;
     }
     
     @Override
@@ -29,13 +31,17 @@ public class GrilleReseau extends CubeGrille {
         Reseau.getInstance().envoyerMessage(Protocole.REQ_CREER_CASE);
         try {
             System.out.println("p2048.model.reseau.GrilleReseau.ajouterAleatoireCase()");
-            this.wait();
+            attente=true;
+            while (attente) {                
+                this.wait();
+            }
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
     }
     
     public synchronized void creerCase(int index, int val){
+        attente=false;
         System.out.println("p2048.model.reseau.GrilleReseau.creerCase()");
         List<Case> cases=getCases();
         if (cases.get(index).estLibre())
