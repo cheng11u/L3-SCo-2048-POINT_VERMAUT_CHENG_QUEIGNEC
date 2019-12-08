@@ -166,15 +166,14 @@ public class SoloControleur implements Controleur, Initializable {
     
     @FXML
     public void changerFond(Event e){
+        Parametres params = Parametres.getInstance();
         if (e.getSource() == fondNormal){
-            if (!fenetre.getStylesheets().isEmpty())
-                fenetre.getStylesheets().remove(0, fenetre.getStylesheets().size());
+            params.setChemin("");
         }
         else {
-            if (fenetre.getStylesheets().isEmpty()){
-                fenetre.getStylesheets().add("p2048/CSS/dark_theme.css");
-            }
+            params.setChemin("p2048/CSS/dark_theme.css");
         }
+        this.chargerStyle();
     }
     
     @FXML
@@ -202,6 +201,14 @@ public class SoloControleur implements Controleur, Initializable {
                     partie.jouer(CubeGrille.DIR_DESSUS);
                     break;
             }
+        }
+    }
+    
+    public void chargerStyle(){
+        fenetre.getStylesheets().clear();
+        String chemin = Parametres.getInstance().getChemin();
+        if (!chemin.equals("")){
+            fenetre.getStylesheets().add(chemin);
         }
     }
     
@@ -261,6 +268,7 @@ public class SoloControleur implements Controleur, Initializable {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() { 
+                        chargerStyle();
                         update();
                     }
                 });
@@ -279,6 +287,7 @@ public class SoloControleur implements Controleur, Initializable {
         ((Solo)partie).charger();
         partie.getGrille().ajouterListener(listener);
         partie.commencerPartie();
+        this.chargerStyle();
         update();
     }
     

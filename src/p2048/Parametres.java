@@ -23,6 +23,12 @@ public class Parametres {
     private String message;
     
     /**
+     * Chemin menant vers l'image de fond de l'application
+     */
+    private String chemin;
+    
+    
+    /**
      * Instance courante
      */
     private static Parametres instance = null;
@@ -33,6 +39,7 @@ public class Parametres {
     private Parametres(){
         this.pseudo = "";
         this.message = "";
+        this.chemin = "";
     }
     
     /**
@@ -76,4 +83,21 @@ public class Parametres {
     public void setMessage(String message){
         this.message = message;
     }
+    
+    /**
+     * Retourne le chemin vers l'image de l'interface graphique
+     * @return chemin
+     */
+    public String getChemin(){
+        return this.chemin;
+    }
+    
+    /**
+     * Modifie le chemin vers l'image de l'interface graphique
+     * @param chemin nouveau chemin
+     */
+    public void setChemin(String chemin){
+        this.chemin = chemin;
+    }
+    
 }
