@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package p2048.model;
 import java.io.*;
 import p2048.Parametres;
@@ -14,17 +9,17 @@ import p2048.model.reseau.Reseau;
 public class Solo implements PartieMonoGrille {
     
     /**
-     * Grille correspondant à la partie solo
+     * Grille correspondant à la partie solo.
      */
     private CubeGrille grille;
     
     /**
-     * Thread correspondant au jeu
+     * Thread correspondant au jeu.
      */
     private Thread jeu;
     
     /**
-     * Nom du fichier de sauvegarde
+     * Nom du fichier de sauvegarde.
      */
     public static final String NOM_FICHIER = "jeu2048";
     
@@ -35,9 +30,7 @@ public class Solo implements PartieMonoGrille {
         this.grille = new CubeGrille(3);
     }
     
-    /**
-     * Démarre une partie
-     */
+    @Override
     public void commencerPartie(){
         this.jeu = new Thread(this.grille);
         this.jeu.start();
@@ -48,6 +41,7 @@ public class Solo implements PartieMonoGrille {
         this.grille.arreter();
     }
     
+    @Override
     public void sauvegarderClassement() {
         Reseau reseau = Reseau.getInstance();
         String pseudo = Parametres.getInstance().getPseudo();
@@ -57,7 +51,7 @@ public class Solo implements PartieMonoGrille {
     }
     
     /**
-     * Sauvegarde la partie en cours
+     * Sauvegarde la partie en cours.
      */
     public void sauvegarder() {
         ObjectOutputStream oos = null;
@@ -83,7 +77,7 @@ public class Solo implements PartieMonoGrille {
     }
     
     /**
-     * Charge la grille à partir d'un fichier
+     * Charge la grille à partir d'un fichier.
      */
     public void charger(){
         ObjectInputStream ois = null;
@@ -113,10 +107,6 @@ public class Solo implements PartieMonoGrille {
         }
     }
 
-    /**
-     * Getter
-     * @return Grille de la partie
-     */
     @Override
     public CubeGrille getGrille() {
         return grille;
