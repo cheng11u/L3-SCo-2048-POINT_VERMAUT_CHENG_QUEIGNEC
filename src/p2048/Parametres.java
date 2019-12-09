@@ -78,7 +78,7 @@ public class Parametres {
     
     /**
      * Modifie le message d'erreur à afficher
-     * @return message d'erreur
+     * @param message nouveau message d'erreur
      */
     public void setMessage(String message){
         this.message = message;
