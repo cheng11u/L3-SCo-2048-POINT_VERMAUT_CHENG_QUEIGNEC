@@ -1,14 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package p2048.model;
 
 /**
- *
+ * Partie de 2048-3D avec une seule grille à afficher.
  * @author Nicolas QUEIGNEC
  */
 public interface PartieMonoGrille extends TypePartie {
+    /**
+     * Grille de la partie.
+     * @return 
+     *  Grille.
+     */
     public CubeGrille getGrille();
 }

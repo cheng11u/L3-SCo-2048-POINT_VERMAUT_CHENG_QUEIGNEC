@@ -1,80 +1,91 @@
 package p2048.model;
 
 import java.io.Serializable;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 
 /**
+ * Grille à 3 dimensions. 
  * @author Nicolas QUEIGNEC
  */
 public class CubeGrille implements Runnable, Serializable {
     /**
-     * Valeur maximale des cases
+     * Valeur maximale des cases.
      */
     private int valeurMax;
     /**
-     * Score du joueur
+     * Score du joueur.
      */
     private int score;
     /**
-     * Nombre de déplacements utilisés par le joueur
+     * Nombre de déplacements utilisés par le joueur.
      */
     private int nbDeplacements;
     /**
-     * Direction du déplacement des cases
+     * Direction dans laquelle on doit déplacer les cases.
+     * @see #DIR_BAS
+     * @see #DIR_HAUT 
+     * @see #DIR_GAUCHE 
+     * @see #DIR_DROITE 
+     * @see #DIR_DESSOUS
+     * @see #DIR_DESSUS 
      */
     private int direction;
     /**
-     * Taille des grilles
+     * Taille de la grille.
      */
     private final int taille;
     /**
-     * Indique si la partie est terminée
+     * Indique si le joueur a quitté la partie.
      */
     private boolean stop;
-    private transient SimpleBooleanProperty stopProperty;
-    
     /**
-     * Indique que les cases douvent être déplacées vers le haut
+     * Property égale à stop pour pouvoir mettre à jour l'interface graphique lorsque la valeur change.
+     */
+    private transient SimpleBooleanProperty stopProperty;
+    /**
+     * Indique que les cases douvent être déplacées vers le haut.
      */
     public static final int DIR_HAUT=1;
     /**
-     * Indique que les cases douvent être déplacées vers le bas
+     * Indique que les cases douvent être déplacées vers le bas.
      */
     public static final int DIR_BAS=-1;
     /**
-     * Indique que les cases douvent être déplacées vers la gauchet
+     * Indique que les cases douvent être déplacées vers la gauche.
      */
     public static final int DIR_GAUCHE=2;
     /**
-     * Indique que les cases douvent être déplacées vers la droite
+     * Indique que les cases douvent être déplacées vers la droite.
      */
     public static final int DIR_DROITE=-2;
     /**
-     * Indique que les cases douvent être déplacées vers l'étage inférieur
+     * Indique que les cases douvent être déplacées vers l'étage inférieur.
      */
     public static final int DIR_DESSOUS=3;
     /**
-     * Indique que les cases douvent être déplacées vers l'étage supérieur
+     * Indique que les cases douvent être déplacées vers l'étage supérieur.
      */
     public static final int DIR_DESSUS=-3;
     /**
-     * Liste des cases de la grille
+     * Liste des cases de la grille.
      */
     private final List<Case> cases;
+    /**
+     * Property égale à cases pour pouvoir mettre à jour l'interface graphique lorsque la valeur change.
+     */
     private transient SimpleListProperty<Case> casesProperty;
 
     /**
      * Constructeur
-     * @param taille dimension de chaque grille 
+     * @param taille
+     *  {@link #taille}
      */
     public CubeGrille(int taille) {
         this.valeurMax=0;
@@ -93,7 +104,7 @@ public class CubeGrille implements Runnable, Serializable {
     }
     
     /**
-     * Initialise les propriétés
+     * Initialise les propriétés, utile pour la désérialisation.
      */
     public void initProperties() {
         if (this.stopProperty==null)
@@ -105,70 +116,81 @@ public class CubeGrille implements Runnable, Serializable {
     }
     
     /**
-     * Donne les cases de la grille
-     * @return cases
+     * Getter.
+     * @return 
+     *  {@link #cases}
      */
     public List<Case> getCases() {
         return cases;
     }
     
     /**
-     * Retourne la taille de la grille
-     * @return taille
+     * Getter.
+     * @return 
+     *  {@link #taille}
      */
     public int getTaille() {
         return taille;
     }
     
     /**
-     * Retourne le score du joueur
-     * @return score
+     * Getter.
+     * @return 
+     *  {@link #score} 
      */
     public int getScore() {
         return score;
     }
     
     /**
-     * Retourne la direction, sous la forme d'un entier, dans laquelle les
-     * cases vont se déplacer
-     * @return direction
+     * Getter.
+     * @return 
+     *  {@link #direction}
      */
     public int getDirection() {
         return direction;
     }
 
     /**
-     * Retourne le nombre de déplacements exécutés par le joueur
-     * @return nombre de déplacements
+     * Getter.
+     * @return 
+     *  {@link #nbDeplacements}
      */
     public int getNbDeplacements() {
         return nbDeplacements;
     }
     
-    
+    /**
+     * Getter.
+     * @return 
+     *  {@link #stop}
+     */
     public boolean getStop() {
         return stop;
     }
     
     /**
-     * Retourne la valeur de la case ayant le plus grand nombre
-     * @return valeur maximale
+     * Getter.
+     * @return 
+     *  {@link #valeurMax}
      */
     public int getValeurMax() {
         return valeurMax;
     }
     
     /**
-     * Modifie le score du joueur
-     * @param score nouveau score
+     * Setter.
+     * @param score 
+     *  {@link #score}
      */
     private void setScore(int score) {
         this.score=score;
     }
     
     /**
-     * Modifie la direction des cases
-     * @param direction nouvelle direction
+     * Setter. Permet d'avancer dans la partie.
+     * @param direction 
+     *  {@link #direction}
      */
     public synchronized void setDirection(int direction) {
         this.direction=direction;
@@ -176,16 +198,18 @@ public class CubeGrille implements Runnable, Serializable {
     }
     
     /**
-     * Modifie le nombre de déplacements
-     * @param nbDeplacements nouveau nombre de déplacement
+     * Setter.
+     * @param nbDeplacements 
+     *  {@link #nbDeplacements}
      */
     private void setNbDeplacements(int nbDeplacements) {
         this.nbDeplacements=nbDeplacements;
     }
     
     /**
-     * Modifie l'attribut indiquant si la partie est terminée
-     * @param stop nouvelle valeur
+     * Setter.
+     * @param stop 
+     *  {@link #stop}
      */
     private void setStop(boolean stop) {
         this.stop=stop;
@@ -193,13 +217,19 @@ public class CubeGrille implements Runnable, Serializable {
     }
     
     /**
-     * Modifie la valeur maximale
-     * @param valeurMax nouvelle valeur
+     * Setter.
+     * @param valeurMax 
+     *  {@link #valeurMax}
      */
     private void setValeurMax(int valeurMax) {
         this.valeurMax=valeurMax;
     }
     
+    /**
+     * Ajoute un listener pour pouvoir afficher la case en temps réel.
+     * @param listener 
+     *  Listener mettant à jour l'interface graphique.
+     */
     public void ajouterListener(ChangeListener listener) {
         for (Case c : cases) {
             c.addListener(listener);
@@ -208,7 +238,7 @@ public class CubeGrille implements Runnable, Serializable {
     }
     
     /**
-     * Change l'état de la partie pour indiquer qu'elle est terminée
+     * Change l'état de la partie pour indiquer qu'elle est terminée.
      */
     public synchronized void arreter() {
         setStop(true);
@@ -217,8 +247,8 @@ public class CubeGrille implements Runnable, Serializable {
     
     /**
      * Ajoute une case à un emplacement libre choisi aléatoirement et lui attribue
-     * une valeur de 2 (avec une probabilité de 0.66) ou de 4 (avec une probabilité 
-     * de 0.34)
+     * une valeur de 2 (avec une probabilité de 0.66) ou de 4 (avec une probabilité
+     * de 0.34).
      */
     public void ajouterAleatoireCase() {
         Random r=new Random();
@@ -229,6 +259,13 @@ public class CubeGrille implements Runnable, Serializable {
         cases.get(indexCase).setValeur(r.nextDouble()<0.66?2:4);
     }
     
+    /**
+     * Renvoi toute les cases à la surface du côté choisi.
+     * @param direction
+     *  {@link #direction} - Côté du cube.
+     * @return 
+     *  Cases à la surface.
+     */
     public Case[] getCasesExtremites(int direction) {
         Case[] res=new Case[getTaille()*getTaille()];
         int i=0;
@@ -279,6 +316,21 @@ public class CubeGrille implements Runnable, Serializable {
         return res;
     }
     
+    /**
+     * Permet de déplacer les cases de manière récursive.
+     * @param direction
+     *  {@link #direction} - Direction voulu.
+     * @param actuelle
+     *  Case en cours de traitement
+     * @param i
+     *  Indice de la case dans sa rangée du tableau {@link #getCasesExtremites(int)}.
+     * @param nbPassage
+     *  Nombre de traitement de la case actuelle.
+     * @param nbFusion
+     *  Nombre de fusion de case ayant eu lieu sur la rangée.
+     * @return 
+     * <code>true</code> si le déplacement a été possible et effectué sinon <code>false</code>.
+     */
     private boolean deplacerRecursif(int direction, Case actuelle, int i, int nbPassage, int nbFusion) {
         Case[] rangee=getCasesExtremites(direction);
         boolean aDeplace=false;
@@ -322,7 +374,13 @@ public class CubeGrille implements Runnable, Serializable {
         return aDeplace;
     }
     
-    
+    /**
+     * Permet de faire un déplacement dans la direction choisi.
+     * @param direction
+     *  {@link #direction} - Direction voulu.
+     * @return 
+     *  <code>true</code> si le déplacement a été possible et effectué sinon <code>false</code>.
+     */
     public boolean deplacer(int direction) {
         if (deplacerRecursif(direction, null, 0, 0, 0)) {
            setNbDeplacements(getNbDeplacements()+1);
@@ -332,8 +390,9 @@ public class CubeGrille implements Runnable, Serializable {
     }
     
     /**
-     * Indique si la partie est terminée
-     * @return vrai si la partie est terminée, faux sinon
+     * Indique si la partie est terminée.
+     * @return 
+     *  <code>true</code> si la grille est terminée sinon <code>false</code>.
      */
     public boolean partieTerminee() {
         if (getValeurMax()==2048)
@@ -363,9 +422,11 @@ public class CubeGrille implements Runnable, Serializable {
     }
     
     /**
-     * Donne la grille à deux dimensions correspondant à l'étage passé en paramètres
-     * @param etage numéro de l'étage
-     * @return valeurs des cases appartenant à l'étage
+     * Donne la grille à deux dimensions correspondant à l'étage passé en paramètres.
+     * @param etage 
+     *  Numéro de l'étage.
+     * @return 
+     *  Valeurs des cases appartenant à l'étage.
      */
     public int[][] getGrilleEtage(int etage){
         if (etage>=0 && etage<getTaille()) {
@@ -384,11 +445,9 @@ public class CubeGrille implements Runnable, Serializable {
             ajouterAleatoireCase();
         while (!partieTerminee() && !stop) {     
             try {
-                System.out.println("p2048.model.CubeGrille.run() wait jouer1");
                 synchronized (this) {
                     this.wait();
                 }
-                System.out.println("p2048.model.CubeGrille.run() wait jouer2");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
