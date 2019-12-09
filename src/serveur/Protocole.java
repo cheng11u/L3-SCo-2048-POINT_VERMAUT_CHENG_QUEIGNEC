@@ -94,6 +94,7 @@ public class Protocole {
      * Pl_Dir:-3
      * Dir : direction voir les directions dans la grille
      * @param direction 
+     *  Direction dans laquelle le joueur a joué.
      * @return chaine descriptive
      */
     public static String REQ_JOUER(int direction){
@@ -106,6 +107,7 @@ public class Protocole {
      * Dir : direction voir les directions dans la grille
      * @param client Joueur ayant joué
      * @param direction
+     *  Direction dans laquelle le joueur a joué.
      * @return chaine descriptive
      */
     public static String REP_A_JOUER(Client client, int direction){

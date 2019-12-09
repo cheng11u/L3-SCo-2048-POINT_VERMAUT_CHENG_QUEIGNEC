@@ -1,80 +1,85 @@
 package p2048.model;
 
 import java.io.Serializable;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 
 /**
+ * Grille à 3 dimensions. 
  * @author Nicolas QUEIGNEC
  */
 public class CubeGrille implements Runnable, Serializable {
     /**
-     * Valeur maximale des cases
+     * Valeur maximale des cases.
      */
     private int valeurMax;
     /**
-     * Score du joueur
+     * Score du joueur.
      */
     private int score;
     /**
-     * Nombre de déplacements utilisés par le joueur
+     * Nombre de déplacements utilisés par le joueur.
      */
     private int nbDeplacements;
     /**
-     * Direction du déplacement des cases
+     * Direction dans laquelle on doit déplacer les cases.
      */
     private int direction;
     /**
-     * Taille des grilles
+     * Taille de la grille.
      */
     private final int taille;
     /**
-     * Indique si la partie est terminée
+     * Indique si le joueur a quitté la partie.
      */
     private boolean stop;
-    private transient SimpleBooleanProperty stopProperty;
-    
     /**
-     * Indique que les cases douvent être déplacées vers le haut
+     * Property égale à stop pour pouvoir mettre à jour l'interface graphique lorsque la valeur change.
+     */
+    private transient SimpleBooleanProperty stopProperty;
+    /**
+     * Indique que les cases douvent être déplacées vers le haut.
      */
     public static final int DIR_HAUT=1;
     /**
-     * Indique que les cases douvent être déplacées vers le bas
+     * Indique que les cases douvent être déplacées vers le bas.
      */
     public static final int DIR_BAS=-1;
     /**
-     * Indique que les cases douvent être déplacées vers la gauchet
+     * Indique que les cases douvent être déplacées vers la gauche.
      */
     public static final int DIR_GAUCHE=2;
     /**
-     * Indique que les cases douvent être déplacées vers la droite
+     * Indique que les cases douvent être déplacées vers la droite.
      */
     public static final int DIR_DROITE=-2;
     /**
-     * Indique que les cases douvent être déplacées vers l'étage inférieur
+     * Indique que les cases douvent être déplacées vers l'étage inférieur.
      */
     public static final int DIR_DESSOUS=3;
     /**
-     * Indique que les cases douvent être déplacées vers l'étage supérieur
+     * Indique que les cases douvent être déplacées vers l'étage supérieur.
      */
     public static final int DIR_DESSUS=-3;
     /**
-     * Liste des cases de la grille
+     * Liste des cases de la grille.
      */
     private final List<Case> cases;
+    /**
+     * Property égale à cases pour pouvoir mettre à jour l'interface graphique lorsque la valeur change.
+     */
     private transient SimpleListProperty<Case> casesProperty;
 
     /**
      * Constructeur
-     * @param taille dimension de chaque grille 
+     * @param taille
+     *  {@link #taille}
      */
     public CubeGrille(int taille) {
         this.valeurMax=0;
@@ -93,7 +98,7 @@ public class CubeGrille implements Runnable, Serializable {
     }
     
     /**
-     * Initialise les propriétés
+     * Initialise les propriétés, utile pour la désérialisation.
      */
     public void initProperties() {
         if (this.stopProperty==null)
@@ -105,8 +110,9 @@ public class CubeGrille implements Runnable, Serializable {
     }
     
     /**
-     * Donne les cases de la grille
-     * @return cases
+     * Getter.
+     * @return 
+     *  {@link #cases}
      */
     public List<Case> getCases() {
         return cases;

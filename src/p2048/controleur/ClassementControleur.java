@@ -39,8 +39,10 @@ public class ClassementControleur implements Controleur, Initializable {
      * Initialise le controleur.
      * Affiche les dix premiers du classement, et ajoute le joueur et son rang, s'il 
      * n'en fait pas parti
-     * @param url
+     * @param url 
+     *  URL
      * @param rb 
+     *  RessourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

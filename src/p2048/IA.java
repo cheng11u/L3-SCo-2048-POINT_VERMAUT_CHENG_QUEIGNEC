@@ -229,7 +229,6 @@ public class IA {
     /**
      * Prend en paramètre un état et retourne un entier correspondant à la 
      * meilleure action à effectuer.
-     * @param e le CubeGrille
      * @return re
      */
     public int action(){

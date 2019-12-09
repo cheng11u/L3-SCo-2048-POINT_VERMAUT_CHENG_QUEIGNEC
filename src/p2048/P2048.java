@@ -9,27 +9,32 @@ import java.net.URL;
 import java.util.Scanner;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import p2048.controleur.Controleur;
-import p2048.controleur.SoloControleur;
 import p2048.model.CubeGrille;
-import p2048.model.Solo;
 
+/**
+ * Classe principale permettant de démarrer l'application et gérer la scène à afficher. 
+ * @author Nicolas QUEIGNEC, Luc Cheng
+ */
 public class P2048 extends Application {
+    /**
+     * Stage de l'application JavaFX
+     */
     private static Stage stage;
     
+    /**
+     * Change la scène a afficher.
+     * @param fxml
+     *  Chemin du fichier FXML à afficher.
+     * @return 
+     *  Controleur lié au FXML.
+     */
     public static Controleur changerScene(String fxml) {
         URL fxmlURL=P2048.class.getResource(fxml);
         FXMLLoader loader=new FXMLLoader(fxmlURL);
@@ -41,8 +46,13 @@ public class P2048 extends Application {
         return loader.getController();
     }
     
+    /**
+     * Démarre l'application JavaFX et affiche la page de connexion.
+     * @param stage
+     *  Stage de l'application JavaFX
+     */
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         this.stage=stage;
         changerScene("vue/FXMLConnexion.fxml");
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -56,7 +66,9 @@ public class P2048 extends Application {
     }
 
     /**
-     * @param args the command line arguments
+     * Méthode main exécutée au lancement de l'application. Si l'argument -c est entré en premier, démarre une partie de 2048-3D en mode console sinon démarre l'application complète avec interface graphique.
+     * @param args 
+     *  Arguments en ligne de commande. -c pour démarrer en mode console.
      */
     public static void main(String[] args) {
         if (args.length == 0 || !args[0].equals("-c"))
