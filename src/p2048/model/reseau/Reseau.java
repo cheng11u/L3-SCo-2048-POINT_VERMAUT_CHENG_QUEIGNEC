@@ -177,8 +177,10 @@ public class Reseau {
             String recu = recevoirMessage();
             if (recu.equals(Protocole.REP_CONNEXION_REUSSIE))
                 res = true;
-            else
+            else {
                 res = false;
+                deconnecter();
+            }
         }
         catch (IOException e){
             res = false;
