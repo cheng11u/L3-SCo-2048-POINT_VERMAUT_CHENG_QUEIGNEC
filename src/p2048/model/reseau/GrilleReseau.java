@@ -16,27 +16,40 @@ import p2048.model.CubeGrille;
 import serveur.Protocole;
 
 /**
- *
+ * Grille utilisé pour les parties en réseau.
  * @author Nicolas QUEIGNEC
  */
 public class GrilleReseau extends CubeGrille {
+    /**
+     * Constructeur.
+     * @param taille
+     *  {@link CubeGrille#taille}
+     */
     public GrilleReseau(int taille) {
         super(3);
     }
     
     @Override
+    /**
+     * Demande au serveur de créer une case aléatoire.
+     */
     public synchronized void ajouterAleatoireCase() {
         Reseau.getInstance().envoyerMessage(Protocole.REQ_CREER_CASE);
         try {
-            System.out.println("p2048.model.reseau.GrilleReseau.ajouterAleatoireCase()");
             this.wait();
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
     }
     
+    /**
+     * Créer une case. Si la place est déjà occupée, prend la case disponible la plus proche.
+     * @param index
+     *  Index de la case dans la liste des cases de la grille.
+     * @param val 
+     *  Valeur de la nouvelle case.
+     */
     public synchronized void creerCase(int index, int val){
-        System.out.println("p2048.model.reseau.GrilleReseau.creerCase()");
         List<Case> cases=getCases();
         if (cases.get(index).estLibre())
             cases.get(index).setValeur(val);
