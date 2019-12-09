@@ -17,24 +17,47 @@ import p2048.model.reseau.PartieReseau;
 import p2048.model.reseau.Reseau;
 
 /**
- *
+ * Cette classe est responsable des événement ayant lieu sur l'interface d'attente d'une partie
  * @author Nicolas QUEIGNEC
  */
 public class AttentePartieControleur implements Controleur{
+    /**
+     * Label représentant le joueur 1
+     */
     @FXML
     private Label j1;
+    /**
+     * Label représentant le joueur 2
+     */
     @FXML
     private Label j2;
+    /**
+     * Statut du joueur 1
+     */
     @FXML
     private Label statut1;
+    /**
+     * Statut du joueur 2
+     */
     @FXML
     private Label statut2;
+    /**
+     * Bouton permettant de lancer la partie
+     */
     @FXML
     private Button go;
-    
+    /**
+     * Partie à créer
+     */
     private PartieReseau partie;
+    /**
+     * Indique si la partie à créer est une partie en coopération
+     */
     private boolean partieCoop;
     
+    /**
+     * Crée une partie en coopération
+     */
     public void creerPartieCoop() {
         partie=Reseau.getInstance().creerPartieCoop();
         partie.ajouterListener(new ChangeListener() {
@@ -52,6 +75,10 @@ public class AttentePartieControleur implements Controleur{
         update();
     }
     
+    /**
+     * Méthode permettant de rejoindre une partie en coopération
+     * @param partie partie en cours
+     */
     public void rejoindrePartieCoop(Cooperation partie) {
         this.partie=partie;
         partie.ajouterListener(new ChangeListener() {
@@ -69,6 +96,9 @@ public class AttentePartieControleur implements Controleur{
         update();
     }
     
+    /**
+     * Met à jour les différentes informations
+     */
     public void update() {
         if (partie.estJoueur1()) {
            j1.setText("vous");
@@ -83,12 +113,18 @@ public class AttentePartieControleur implements Controleur{
             go.setText("Commencer la partie");
     }
     
+    /**
+     * Cette méthode permet de retourner à l'accueil
+     */
     @FXML
     public void retourAccueil(){
         partie.quitter();
         P2048.changerScene("vue/FXMLAccueil.fxml");
     }
     
+    /**
+     * Initialise la partie
+     */
     @FXML
     public void pret() {
         partie.pret();

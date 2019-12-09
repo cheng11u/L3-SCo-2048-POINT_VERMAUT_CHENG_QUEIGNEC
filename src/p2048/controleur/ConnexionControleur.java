@@ -87,6 +87,9 @@ public class ConnexionControleur implements Controleur {
         labelErreur.setText(params.getMessage());
     }
     
+    /**
+     * Cette méthode permet de se connecter à son compte
+     */
     @FXML
     public void connecter(){
         Parametres params = Parametres.getInstance();

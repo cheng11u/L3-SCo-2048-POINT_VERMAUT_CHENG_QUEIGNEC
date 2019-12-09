@@ -9,10 +9,15 @@ import javafx.fxml.FXML;
 import p2048.Parametres;
 
 /**
- *
+ * Cette classe est responsable des événements de la page d'accueil
  * @author Nicolas QUEIGNEC
  */
 public class AccueilControleur implements Controleur {
+    
+    /**
+     * Crée une partie solo. Si l'utilisateur n'est pas connecté, il est redirigé vers 
+     * la page de connexion
+     */
     @FXML
     public void creerSolo() {
         if (!Parametres.getInstance().getPseudo().equals(""))
@@ -21,6 +26,10 @@ public class AccueilControleur implements Controleur {
             this.chargerConnexion();
     }
     
+    /**
+     * Charge une partie solo. Si l'utilisateur n'est pas connecté, il est redirigé vers la 
+     * page de connexion
+     */
     @FXML
     public void chargerSolo() {
         if (!Parametres.getInstance().getPseudo().equals(""))
@@ -29,24 +38,40 @@ public class AccueilControleur implements Controleur {
             this.chargerConnexion();
     }
     
+    /**
+     * Affiche la page de connexion
+     */
     @FXML
     public void chargerConnexion(){
         p2048.P2048.changerScene("vue/FXMLConnexion.fxml");
     }
+    
+    /**
+     * Affiche la page expliquant les règles du jeu
+     */
     @FXML
     public void afficherRegles(){
         p2048.P2048.changerScene("vue/FXMLRegles.fxml");
     }
     
+    /**
+     * Affiche le classement
+     */
     @FXML
     public void afficherClassement(){
         p2048.P2048.changerScene("vue/FXMLClassement.fxml");
     }    
-
+    
+    /**
+     * Crée une partie multijoueurs en mode coopératif
+     */
     public void creerPartieCoop() {
         ((AttentePartieControleur)p2048.P2048.changerScene("vue/FXMLAttentePartie.fxml")).creerPartieCoop();
     }
     
+    /**
+     * Initialise la partie lorsque l'utilisateur la rejoint
+     */
     @FXML
     public void rejoindrePartieCoop(){
         ((ReseauRejoindreControleur)p2048.P2048.changerScene("vue/FXMLRejoindrePartie.fxml")).initCoop();
