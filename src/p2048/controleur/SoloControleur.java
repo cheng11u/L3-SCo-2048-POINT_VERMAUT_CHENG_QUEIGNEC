@@ -5,7 +5,6 @@
  */
 package p2048.controleur;
 
-import com.sun.javafx.css.Stylesheet;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -27,14 +25,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import javax.xml.bind.Marshaller;
 import p2048.model.CubeGrille;
 import p2048.P2048;
 import p2048.Parametres;
 import p2048.model.PartieMonoGrille;
 import p2048.model.Solo;
-import p2048.model.TypePartie;
 import p2048.model.reseau.Cooperation;
 import p2048.model.reseau.Reseau;
 /**
@@ -126,12 +121,21 @@ public class SoloControleur implements Controleur, Initializable {
     @FXML
     private Label pseudoJoueur;
     
+    /**
+     * Bouton permettant de supprimer le fond sombre
+     */
     @FXML
     private MenuItem fondNormal;
     
+    /**
+     * Bouton permettant d'ajouter un fond sombre
+     */
     @FXML
     private MenuItem fondSombre;
     
+    /**
+     * Indique si la partie courante a été sauvegardée dans la base de données
+     */
     private boolean partieSauvegardee = false;
     
     /**
@@ -139,9 +143,21 @@ public class SoloControleur implements Controleur, Initializable {
      */
     private List<Pane> panes=new ArrayList<Pane>();
     
+    /**
+     * Partie courante
+     */
     private PartieMonoGrille partie;
+    
+    /**
+     * Listener de la partie solo
+     */
     private ChangeListener listener;
     
+    /**
+     * Cette méthode met à jour l'état du jeu. Elle s'exécute lorsqu'un clic sur l'un des boutons
+     * de l'interface graphique est effectué
+     * @param e événement
+     */
     @FXML
     public void buttonClicked(Event e) {
         if (e.getSource()==haut)
@@ -164,6 +180,10 @@ public class SoloControleur implements Controleur, Initializable {
             ((Solo)partie).sauvegarder();
     }
     
+    /**
+     * Ajoute ou enlève l'image de fond de la partie
+     * @param e événement
+     */
     @FXML
     public void changerFond(Event e){
         Parametres params = Parametres.getInstance();
@@ -176,6 +196,10 @@ public class SoloControleur implements Controleur, Initializable {
         this.chargerStyle();
     }
     
+    /**
+     * Cette méthode, qui met à jour l'état de la partie, est exécutée à chaque frappe de clavier.
+     * @param e événement
+     */
     @FXML
     public void keyPressed(Event e){
         CubeGrille grille = this.partie.getGrille();
@@ -204,6 +228,9 @@ public class SoloControleur implements Controleur, Initializable {
         }
     }
     
+    /**
+     * Charge l'image à mettre en fond, si elle existe
+     */
     public void chargerStyle(){
         fenetre.getStylesheets().clear();
         String chemin = Parametres.getInstance().getChemin();
@@ -212,6 +239,9 @@ public class SoloControleur implements Controleur, Initializable {
         }
     }
     
+    /**
+     * Met à jour l'état de la grille
+     */
     public void update() {
         etage0.getChildren().removeAll(panes);
         etage1.getChildren().removeAll(panes);
@@ -257,6 +287,9 @@ public class SoloControleur implements Controleur, Initializable {
         
     }
 
+    /**
+     * @see <a href="https://docs.oracle.com/javase/8/javafx/api/javafx/fxml/Initializable.html">javafx.fxml.Initializable.initialize</a>
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         String pseudo = Parametres.getInstance().getPseudo(); 
@@ -276,12 +309,18 @@ public class SoloControleur implements Controleur, Initializable {
         };
     }
     
+    /**
+     * Crée une nouvelle partie solo
+     */
     public void nouvellePartie() {
         this.partie=new Solo();
         partie.getGrille().ajouterListener(listener);
         partie.commencerPartie();
     }
     
+    /**
+     * Charge une partie solo
+     */
     public void chargerPartie() {
         this.partie=new Solo();
         ((Solo)partie).charger();
@@ -291,6 +330,10 @@ public class SoloControleur implements Controleur, Initializable {
         update();
     }
     
+    /**
+     * Démarre la partie en coopération que 2 joueurs ont rejoint au préalable.
+     * @param partie partie à démarrer
+     */
     public void initCoop(Cooperation partie) {
         this.partie=partie;
         partie.ajouterListener(listener);

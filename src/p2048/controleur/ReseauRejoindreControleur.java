@@ -5,24 +5,18 @@
  */
 package p2048.controleur;
 
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import p2048.P2048;
-import static p2048.P2048.changerScene;
 import p2048.model.reseau.Cooperation;
 import p2048.model.reseau.InfosPartie;
 import p2048.model.reseau.Reseau;
 
 /**
- *
+ * Cette classe est responsable de l'interface permettant de rejoindre une partie
  * @author Nicolas QUEIGNEC
  */
 public class ReseauRejoindreControleur implements Controleur {
@@ -32,32 +26,78 @@ public class ReseauRejoindreControleur implements Controleur {
     private Label id2;
     @FXML
     private Label id3;
+    /**
+     * Label contenant le nom du joueur de la première partie
+     */
     @FXML
     private Label j1;
+    /**
+     * Label contenant le nom du joueur de la deuxième partie
+     */
     @FXML
     private Label j2;
+    /**
+     * Label contenant le nom du joueur de la troisième partie
+     */
     @FXML
     private Label j3;
+    /**
+     * Label contenant le nombre de joueurs de la première partie
+     */
     @FXML
     private Label nbJoueurs1;
+    /**
+     * Label contenant le nombre de joueurs de la deuxième partie
+     */
     @FXML
     private Label nbJoueurs2;
+    /**
+     * Label contenant le nombre de joueurs de la troisième partie
+     */
     @FXML
     private Label nbJoueurs3;
+    /**
+     * Label contenant le numéro de page
+     */
     @FXML
     private Label pageLabel;
+    /**
+     * Label contenant le nombre total de pages
+     */
     @FXML
     private Label nbPagesLabel;
+    /**
+     * Elément contenant les informations à propos de la première partie
+     */
     @FXML
     private AnchorPane partie1;
+    /**
+     * Elément contenant les informations à propos de la deuxième partie
+     */
     @FXML
     private AnchorPane partie2;
+    /**
+     * Elément contenant les informations à propos de la troisième partie
+     */
     @FXML
     private AnchorPane partie3;
+    /**
+     * Nombre de pages total
+     */
     private int nbPages;
+    /**
+     * Page actuelle
+     */
     private int page;
+    /**
+     * Liste des parties
+     */
     private List<InfosPartie> parties;
     
+    /**
+     * Cette méthode est exécutée à chaque clic sur une partie
+     * @param e événement
+     */
     @FXML
     public void onClick(Event e) {
         int indexPartie=0;
@@ -75,6 +115,9 @@ public class ReseauRejoindreControleur implements Controleur {
         }
     }
     
+    /**
+     * Affiche la page suivante
+     */
     @FXML
     public void pageSuiv() {
         if (this.page>1) {
@@ -83,6 +126,9 @@ public class ReseauRejoindreControleur implements Controleur {
         }
     }
     
+    /**
+     * Affiche la page précédente
+     */
     @FXML
     public void pagePrec() {
         if (this.page<this.nbPages) {
@@ -90,7 +136,11 @@ public class ReseauRejoindreControleur implements Controleur {
             update();
         }
     }
-
+    
+    /**
+     * Initialise l'affichage
+     * @param parties liste des parties
+     */
     private void init(List<InfosPartie> parties) {
         this.page=1;
         this.parties=parties;
@@ -101,6 +151,9 @@ public class ReseauRejoindreControleur implements Controleur {
         this.update();
     }
     
+    /**
+     * Met à jour l'affichage
+     */
     public void update() {
         this.pageLabel.setText(this.page+"");
         if (this.parties.size()>0) {
@@ -126,10 +179,16 @@ public class ReseauRejoindreControleur implements Controleur {
             this.partie3.setVisible(false);
     }
     
+    /**
+     * Gère l'initialisation
+     */
     public void initCoop() {
         init(Reseau.getInstance().afficherPartiesCoop());
     }
     
+    /**
+     * Redirige vers l'accueil
+     */
     @FXML
     public void retourAccueil(){
         P2048.changerScene("vue/FXMLAccueil.fxml");
