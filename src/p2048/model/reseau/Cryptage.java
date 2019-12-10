@@ -1,17 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package p2048.model.reseau;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 /**
- *
+ * Classe pour crypter les mots de passe.
  * @author Luc Cheng
  */
 public class Cryptage {
-    
+    /**
+     * Crypte une chaîne en SHA-256.
+     * @param chaine
+     *  Chaine à crypter.
+     * @return 
+     *  Chaine cryptée.
+     */
     public static String crypter(String chaine){
         String res = "";
         try {
