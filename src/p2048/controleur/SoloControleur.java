@@ -79,6 +79,12 @@ public class SoloControleur implements Controleur, Initializable {
      */
     @FXML
     private Button auto;
+
+    /**
+     * Bouton permettant de terminer la partie avec l'IA
+     */
+    @FXML
+    private Button finir;
     
     /**
      * Grille située à gauche représentant l'étage inférieur
@@ -182,6 +188,13 @@ public class SoloControleur implements Controleur, Initializable {
         else if (e.getSource()==auto){
             IA x = new IA(partie.getGrille());
             partie.jouer(x.action());
+        }
+        else if (e.getSource()==finir){
+            IA x;
+            while(!partie.getGrille().partieTerminee()){
+                x = new IA(partie.getGrille());
+                partie.jouer(x.action());
+            }
         }
         else if (e.getSource()==quitter) {
             partie.quitter();
