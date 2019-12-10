@@ -21,6 +21,7 @@ public class Client implements Runnable {
     private BufferedReader receveur;
     private Socket socket;
     private Partie partieEnCours;
+    private String pseudo;
     
     public Client(Socket sock) {
         try {
@@ -162,8 +163,10 @@ public class Client implements Runnable {
                             envoyerMessage(Protocole.REP_CONNEXION_ECHOUEE);
                             deconnecter();
                         }
-                        else
+                        else { 
                             envoyerMessage(Protocole.REP_CONNEXION_REUSSIE);
+                            this.pseudo=pseudoConnexion;
+                        }
                         break;
                     case Protocole.REQ_SAUVEGARDER_SCORE:
                         String pseudoSauvegarde = Protocole.getParams(ligne).get("Pseudo");
@@ -187,7 +190,7 @@ public class Client implements Runnable {
 
     @Override
     public String toString() {
-        return socket.getInetAddress().getHostAddress();
+        return pseudo;
     }
     
     
