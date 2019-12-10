@@ -10,11 +10,19 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
- *
+ * Cette classe contient les fonctions permettant d'interagir avec la base de données
  * @author Luc Cheng
  */
 public class RequetesBDD {
     
+    /**
+     * Ajoute un joueur dans la base de données.
+     * @param pseudo pseudo du joueur
+     * @param nom nom du joueur
+     * @param prenom prénom du joueur
+     * @param mdp mot de passe du joueur
+     * @return <code>true</code> si le joueur a pu être ajouté, <code>false</code> sinon
+     */
     public static boolean creerJoueur(String pseudo, String nom, String prenom, String mdp){
         boolean res;
         PreparedStatement ps = null;
@@ -44,7 +52,11 @@ public class RequetesBDD {
         }
         return res;
     }
-    
+    /**
+     * Donne le classement des joueurs dans l'odre décroissant des scores maximaux
+     * de chaque joueur.
+     * @return classement
+     */
     public static ArrayList<Jouer> donnerClassement(){
         ArrayList<Jouer> res = new ArrayList<Jouer>();
         try {
@@ -75,6 +87,11 @@ public class RequetesBDD {
         return res;
     }
     
+    /**
+     * Ajoute une partie dans la base de données.
+     * @param typePartie type de la partie
+     * @return <code>true</code> si la partie a pu être ajoutée, <code>false</code> sinon
+     */
     public static boolean insererPartie(String typePartie){
         String sqlInsererPartie = "INSERT INTO partie (idPartie, typePartie) SELECT MAX(idPartie)+1, ? FROM partie";
         PreparedStatement reqInsererPartie = null;
@@ -99,6 +116,13 @@ public class RequetesBDD {
         return res;        
     }
     
+    /**
+     * Ajoute un tuple dans la table jouer. Comme cette fonction est appelée juste après 
+     * la fonction insérant une partie, on prend en compte la partie qui vient d'être insérée
+     * @param pseudo pseudo du joueur
+     * @param score score du joueur
+     * @return <code>true</code> si le tuple a été inséré, <code>false</code> sinon
+     */
     public static boolean insererJouer(String pseudo, int score){
         String sql = "INSERT INTO jouer (pseudo, idPartie, score) SELECT ?, MAX(idPartie), ? FROM partie";
         PreparedStatement ps = null;
@@ -125,6 +149,11 @@ public class RequetesBDD {
         return res;
     }
     
+    /**
+     * Donne le mot de passe d'un joueur à partir de son pseudo.
+     * @param pseudo pseudo du joueur
+     * @return joueur
+     */
     public static Joueur donnerJoueur(String pseudo) {
         String sql = "SELECT pseudo, mdp FROM joueur WHERE pseudo = ?";
         PreparedStatement ps = null;

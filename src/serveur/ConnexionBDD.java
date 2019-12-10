@@ -12,14 +12,38 @@ import java.util.Properties;
  * @author Luc Cheng
  */
 public class ConnexionBDD {
+    /**
+     * Nom d'utilisateur
+     */
     private static String username = "root";
+    /**
+     * Mot de passe
+     */
     private static String password = "root";
+    /**
+     * Nom du serveur pour la base de données
+     */
     private static String serverName = "localhost";
+    /**
+     * Port utilisé pour la connexion
+     */
     private static int port = 3306;
+    /**
+     * Nom de la base de données
+     */
     private static String dbName = "jeu2048";
+    /**
+     * Chemin vers le fichier de configuration
+     */
     private static String fichierConf = "src/serveur/conf/db.conf";
+    /**
+     * Connexion courante
+     */
     private static Connection instance = null;
     
+    /**
+     * Constructeur
+     */
     private ConnexionBDD(){
         BufferedReader br = null;
         try {
@@ -77,6 +101,10 @@ public class ConnexionBDD {
         }
     }
     
+    /**
+     * Retourne la connexion courante après l'avoir initialisée si elle n'a pas été initialisée.
+     * @return connexion courante
+     */
     public static synchronized Connection getConnection(){
         if (instance == null)
             new ConnexionBDD();
