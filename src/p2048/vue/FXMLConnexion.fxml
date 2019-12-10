@@ -89,9 +89,9 @@
                               <TextField fx:id="pseudo" layoutX="187.0" layoutY="92.0" />
                               <PasswordField fx:id="mdp" layoutX="187.0" layoutY="135.0" />
                               <PasswordField fx:id="confirmation" layoutX="187.0" layoutY="178.0" />
-                              <Label alignment="CENTER_RIGHT" layoutX="63.0" layoutY="96.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="80.0" text="Identifiant :" />
-                              <Label alignment="CENTER_RIGHT" layoutX="63.0" layoutY="139.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="80.0" text="Mot de passe :" />
-                              <Label alignment="CENTER_RIGHT" layoutX="63.0" layoutY="174.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="80.0" text="Vérification&#10;Mot de passe :" />
+                              <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="96.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="80.0" text="Identifiant :" />
+                              <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="129.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" text="Mot de passe&#10;(8 caracères minimum) :" />
+                              <Label alignment="CENTER_RIGHT" layoutX="43.0" layoutY="174.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="80.0" text="Vérification&#10;Mot de passe :" />
                               <Label alignment="CENTER_RIGHT" layoutX="39.0" layoutY="62.0" prefHeight="30.0" prefWidth="104.0" text="S'inscrire">
                                  <font>
                                     <Font size="20.0" />
