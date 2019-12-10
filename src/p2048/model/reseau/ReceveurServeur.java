@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package p2048.model.reseau;
 
 import java.io.IOException;
@@ -12,11 +7,20 @@ import java.util.logging.Logger;
 import serveur.Protocole;
 
 /**
- *
+ * Thread qui permet de recevoir les messages réseaux d'une partie et agit dessus.
  * @author Nicolas QUEIGNEC
  */
-public class ReceveurServeur implements Runnable{
+public class ReceveurServeur implements Runnable {
+    /**
+     * Partie en cours.
+     */
     private PartieReseau partie;
+    
+    /**
+     * Constructeur.
+     * @param partie
+     *  {@link #partie}
+     */
     public ReceveurServeur(PartieReseau partie) {
         this.partie=partie;
     }
@@ -46,7 +50,7 @@ public class ReceveurServeur implements Runnable{
                         break;
                 }
             } catch (IOException ex) {
-                Logger.getLogger(ReceveurServeur.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             }
             
         }
