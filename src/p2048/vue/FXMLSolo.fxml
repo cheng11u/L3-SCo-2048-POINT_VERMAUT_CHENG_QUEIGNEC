@@ -75,7 +75,8 @@
                 <Button fx:id="quitter" mnemonicParsing="false" onMouseClicked="#buttonClicked" prefHeight="30.0" prefWidth="60.0" text="Quitter" />
               </children>
             </HBox>
-                  <Button fx:id="auto" alignment="CENTER" layoutX="582.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="30.0" prefWidth="60.0" text="Auto" />
+                  <Button fx:id="finir" alignment="CENTER" layoutX="582.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="30.0" prefWidth="60.0" text="Finir" />
+                  <Button fx:id="auto" alignment="CENTER" layoutX="582.0" layoutY="34.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="30.0" prefWidth="60.0" text="Auto" />
           </children>
         </Pane>
       </bottom>
