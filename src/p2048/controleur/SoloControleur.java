@@ -165,6 +165,10 @@ public class SoloControleur implements Controleur, Initializable {
      * Listener de la partie solo
      */
     private ChangeListener listener;
+    /**
+     * IA de la partie.
+     */
+    private IA ia;
     
     /**
      * Cette méthode met à jour l'état du jeu. Elle s'exécute lorsqu'un clic sur l'un des boutons
@@ -186,14 +190,19 @@ public class SoloControleur implements Controleur, Initializable {
         else if (e.getSource()==inf)
             partie.jouer(CubeGrille.DIR_DESSOUS);
         else if (e.getSource()==auto){
-            IA x = new IA(partie.getGrille());
-            partie.jouer(x.action());
+            if (ia==null)
+                ia = new IA(partie.getGrille());
+            partie.jouer(ia.action());
         }
         else if (e.getSource()==finir){
-            IA x;
-            while(!partie.getGrille().partieTerminee()){
-                x = new IA(partie.getGrille());
-                partie.jouer(x.action());
+            if (ia==null)
+               ia=new IA(partie.getGrille());
+            if (ia.isAutoActive()) {
+                ia.stopAuto();
+                finir.setText("Activer Auto");
+            } else {
+                new Thread(ia).start();
+                finir.setText("Désctiiver Auto");
             }
         }
         else if (e.getSource()==quitter) {
@@ -359,6 +368,9 @@ public class SoloControleur implements Controleur, Initializable {
      * @param partie partie à démarrer
      */
     public void initCoop(Cooperation partie) {
+        enregistrer.setVisible(false);
+        auto.setVisible(false);
+        finir.setVisible(false);
         this.partie=partie;
         partie.ajouterListener(listener);
         partie.commencerPartie();

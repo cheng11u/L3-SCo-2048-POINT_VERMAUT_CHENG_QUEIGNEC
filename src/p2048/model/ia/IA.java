@@ -6,6 +6,8 @@
 package p2048.model.ia;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import p2048.model.Case;
 import p2048.model.CubeGrille;
 
@@ -13,7 +15,7 @@ import p2048.model.CubeGrille;
  *
  * @author cleve_000
  */
-public class IA {
+public class IA implements Runnable {
     /**
      * L'état dont va s'occuper l'IA
      */
@@ -38,9 +40,14 @@ public class IA {
      * Multiplicateur attribué au nombre de cases vides
      */
     private final int COEF_VIDE = 50;
+    /**
+     * Pour savoir si l'IA est en mode auto.
+     */
+    private boolean autoActive;
     
     public IA(CubeGrille e){
         this.etat = e;
+        autoActive=false;
     }
     
     /**
@@ -257,4 +264,36 @@ public class IA {
             return(choix.getAction());
         }
     }
+
+    @Override
+    public void run() {
+        autoActive=true;
+        while (autoActive && !etat.partieTerminee()) {            
+            etat.setDirection(action());
+            etat.deplacer(etat.getDirection());
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    /**
+     * Arrête le mode auto.
+     */
+    public void stopAuto() {
+        autoActive=false;
+    }    
+
+    /**
+     * Getter.
+     * @return
+     *  {@link #autoActive}
+     */
+    public boolean isAutoActive() {
+        return autoActive;
+    }
+    
+    
 }
