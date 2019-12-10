@@ -229,6 +229,8 @@ public class Reseau {
         }
         catch (IOException e){
             res = false;
+        } finally {
+            deconnecter();
         }
         return res;
     }

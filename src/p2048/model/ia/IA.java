@@ -105,7 +105,7 @@ public class IA implements Runnable {
     private int combinaisons(Case c, CubeGrille e){
         int nb = 0, i = 0, j = 0;
         boolean ok = false;
-        Case[] tc = (Case[])e.getCases().toArray();
+        Case[] tc = e.getCases().toArray(new Case[0]);
         String[] cas = {"haut","bas","gauche","droite","dessus","dessous"};
         for(String s : cas){
             switch(s){
