@@ -49,7 +49,7 @@ public class IA {
      * @return 
      */
     private void deplacements(CubeGrille e){
-        CubeGrille en = e;
+        CubeGrille en = e.clone();
         en.setDirection(CubeGrille.DIR_HAUT);
         en.deplacer(en.getDirection());
         if(!en.equals(e))
@@ -82,13 +82,10 @@ public class IA {
      * @return retourne un entier naturel.
      */
     private int possibilites(CubeGrille e){
-        Case c;
         int nb = 0;
-        do {
-            c = e.getCases().get(0);
-            e.getCases().remove(0);
-            nb += combinaisons(c,e);
-        } while (!e.getCases().isEmpty());
+        for (Case c : e.getCases()) {
+            nb+=combinaisons(c, e);
+        }
         return(nb);
     }
     

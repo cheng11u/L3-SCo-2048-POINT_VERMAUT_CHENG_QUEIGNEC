@@ -14,7 +14,7 @@ import javafx.collections.FXCollections;
  * Grille à 3 dimensions. 
  * @author Nicolas QUEIGNEC
  */
-public class CubeGrille implements Runnable, Serializable {
+public class CubeGrille implements Runnable, Serializable, Cloneable {
     /**
      * Valeur maximale des cases.
      */
@@ -102,6 +102,21 @@ public class CubeGrille implements Runnable, Serializable {
                     cases.add(new Case(x, y, z, this));
         this.casesProperty=new SimpleListProperty<Case>(FXCollections.observableList(this.cases));
     }
+
+    @Override
+    public CubeGrille clone() {
+        CubeGrille res=new CubeGrille(this.taille);
+        res.score=this.score;
+        res.nbDeplacements=this.nbDeplacements;
+        res.valeurMax=this.valeurMax;
+        res.stop=this.stop;
+        res.stopProperty.set(res.stop);
+        res.direction=this.direction;
+        for (int i=0; i<res.cases.size(); i++)
+            res.cases.get(i).setValeur(this.cases.get(i).getValeur());
+        return res;
+    }
+    
     
     /**
      * Initialise les propriétés, utile pour la désérialisation.
