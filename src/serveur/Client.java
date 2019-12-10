@@ -15,7 +15,7 @@ public class Client implements Runnable {
     /**
      * Flux pour envoyer des messages au client.
      */
-    private PrintWriter envoyeut;
+    private PrintWriter envoyeur;
     /**
      * Flux pour recevoir les messages du client.
      */
@@ -40,7 +40,7 @@ public class Client implements Runnable {
      */
     public Client(Socket sock) {
         try {
-            this.envoyeut=new PrintWriter(sock.getOutputStream());
+            this.envoyeur=new PrintWriter(sock.getOutputStream());
             this.receveur=new BufferedReader(new InputStreamReader(sock.getInputStream()));
             this.socket=sock;
         } catch (IOException ex) {
@@ -114,8 +114,8 @@ public class Client implements Runnable {
      *  Message à envoyer.
      */
     public void envoyerMessage(String message) {
-        this.envoyeut.println(message);
-        this.envoyeut.flush();
+        this.envoyeur.println(message);
+        this.envoyeur.flush();
     }
     
     /**
@@ -126,7 +126,7 @@ public class Client implements Runnable {
         try {
             this.socket.close();
             this.receveur.close();
-            this.envoyeut.close();
+            this.envoyeur.close();
             Main.clients.remove(this);
         } catch (IOException ex) {
             System.err.println("Erreur");

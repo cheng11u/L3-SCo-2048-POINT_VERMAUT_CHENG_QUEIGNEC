@@ -25,6 +25,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import p2048.IA;
 import p2048.model.CubeGrille;
 import p2048.P2048;
 import p2048.Parametres;
@@ -72,6 +73,12 @@ public class SoloControleur implements Controleur, Initializable {
      */
     @FXML
     private Button sup;
+
+    /**
+     * Bouton permettant d'effectuer un coup avec l'IA
+     */
+    @FXML
+    private Button auto;
     
     /**
      * Grille située à gauche représentant l'étage inférieur
@@ -172,6 +179,10 @@ public class SoloControleur implements Controleur, Initializable {
             partie.jouer(CubeGrille.DIR_DESSUS);
         else if (e.getSource()==inf)
             partie.jouer(CubeGrille.DIR_DESSOUS);
+        else if (e.getSource()==auto){
+            IA x = new IA(partie.getGrille());
+            partie.jouer(x.action());
+        }
         else if (e.getSource()==quitter) {
             partie.quitter();
             P2048.changerScene("vue/FXMLAccueil.fxml");
