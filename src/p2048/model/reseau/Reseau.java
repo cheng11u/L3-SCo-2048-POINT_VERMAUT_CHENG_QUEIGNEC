@@ -87,6 +87,7 @@ public class Reseau {
      * @return
      *  Message reçu.
      * @throws IOException 
+     *  Exception
      */
     public String recevoirMessage() throws IOException {
         return this.receveur.readLine();

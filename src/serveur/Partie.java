@@ -1,30 +1,60 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package serveur;
 
-import java.util.List;
 import java.util.Random;
 
 /**
+ * Partie permettant de relier et gérer 2 clients.
  * @author Nicolas QUEIGNEC
  */
 public class Partie {
+    /**
+     * Type de partie : coopération.
+     */
     public static final int TYPE_PARTIE_COOP=1;
+    /**
+     * Type de partie : compétitivité.
+     */
     public static final int TYPE_PARTIE_COMPET=2;
+    /**
+     * Type de la partie.
+     */
     private final int typePartie;
+    /**
+     * Identifiant de partie encore disponible.
+     */
     private static int idDispo=0;
+    /**
+     * Identifiant de la partie.
+     */
     private int id;
+    /**
+     * Client qui a créé la partie.
+     */
     private Client client1;
+    /**
+     * Client qui a rejoint la partie.
+     */
     private Client client2;
+    /**
+     * Pour savoir si le client 1 est prêt à commencer la partie.
+     */
     private boolean client1Pret;
+    /**
+     * Pour savoir si le client 3 est prêt à commencer la partie.
+     */
     private boolean client2Pret;
+    /**
+     * Pour savoir si un mouvement a été initié par un joueur. <code>true</code> tant que l'autre joueur n'a pas reçu le mouvement.
+     */
     private boolean mouvementEnCours;
-    private boolean client1MouvRecu;
-    private boolean client2MouvRecu;
     
+    /**
+     * Constructeur.
+     * @param type
+     *  {@link #typePartie}
+     * @param client 
+     * {@link #client1}
+     */
     public Partie(int type, Client client) {
         this.typePartie=type;
         this.id=idDispo;
@@ -33,14 +63,24 @@ public class Partie {
         this.client1Pret=false;
         this.client2Pret=false;
         this.mouvementEnCours=false;
-        this.client1MouvRecu=false;
-        this.client2MouvRecu=false;
     }
     
+    /**
+     * Pour savoir si la partie est joignable par un autre joueur.
+     * @return 
+     *  <code>true</code> si la partie est joignable par un autre joueur sinon <code>false</code>.
+     */
     public boolean estJoignable() {
         return client2==null && !client1Pret && !client2Pret;
     }
     
+    /**
+     * Ajoute un client à la partie si possible.
+     * @param client
+     *  Client qui veut rejoindre la partie.
+     * @return 
+     * <code>true</code> si le client a bien rejoint la partie sinon <code>false</code>.
+     */
     public synchronized boolean rejoindre(Client client) {
         if (estJoignable()) {
             this.client2=client;
@@ -52,6 +92,11 @@ public class Partie {
         return false;
     }
 
+    /**
+     * Permet au climat passé en paramètre de quitter la partie.
+     * @param client 
+     *  Client ayant quitté la partie.
+     */
     public void quitter(Client client) {
         if (client.equals(client1)) {
             client1=null;
@@ -73,6 +118,11 @@ public class Partie {
             Main.parties.remove(this.id);
     } 
     
+    /**
+     * Signifie que le client passé en paramètre est prêt à commencer.
+     * @param client 
+     *  Client qui est prêt.
+     */
     public void estPret(Client client){
         if (client.equals(client1)) {
             client1Pret=true;
@@ -84,13 +134,23 @@ public class Partie {
         } 
     }
     
+    /**
+     * Permet à un client de jouer dans une direction.
+     * @param client
+     *  Client qui a joué.
+     * @param direction 
+     *  Direction dans laquelle il client a joué.
+     */
     public void jouer(Client client, int direction){
         if (typePartie==TYPE_PARTIE_COOP) {
             synchronized (this) { 
                 if (!mouvementEnCours) { 
-                    mouvementEnCours=true;
-                    client2.envoyerMessage(Protocole.REP_A_JOUER(client, direction));
-                    client1.envoyerMessage(Protocole.REP_A_JOUER(client, direction));
+                    if ((client2!=null && client==client1) || (client1!=null && client==client2))
+                        mouvementEnCours=true;
+                    if (client2!=null && client==client1)
+                        client2.envoyerMessage(Protocole.REP_A_JOUER(client, direction));
+                    else if (client1!=null && client==client2)
+                        client1.envoyerMessage(Protocole.REP_A_JOUER(client, direction));
                 } 
             } 
         }
@@ -101,19 +161,18 @@ public class Partie {
         }
     }
     
-    public synchronized void mouvRecu(Client client) {
-        if (client.equals(client1) && client2!=null) {
-            client1MouvRecu=true;
-        } else if (client.equals(client2) && client1!=null) {
-            client2MouvRecu=true;
-        }
-        if (client1MouvRecu && client2MouvRecu) {
-            mouvementEnCours=false;
-            client1MouvRecu=false;
-            client2MouvRecu=false;
-        }
+    /**
+     * Passe {@link #mouvementEnCours} à <code>false</code>.
+     */
+    public void mouvRecu() {
+        mouvementEnCours=false;
     }
     
+    /**
+     * Permet à un client de demander la création d'une case aléatoire.
+     * @param client 
+     *  Client qui veut créé une case.
+     */
     public synchronized void creerCase(Client client) {
         if (client==client1 || (client==client2 && client1==null)) { 
             Random r=new Random();
@@ -126,15 +185,29 @@ public class Partie {
         }
     }
 
+    /**
+     * Getter.
+     * @return
+     *  {@link #id}
+     */
     public int getId() {
         return id;
     }   
 
+    /**
+     * Getter.
+     * @return
+     *  {@link #client1}
+     */
     public Client getClient1() {
         return client1;
     }
 
-
+    /**
+     * Getter.
+     * @return
+     *  {@link #typePartie}
+     */
     public int getTypePartie() {
         return typePartie;
     }

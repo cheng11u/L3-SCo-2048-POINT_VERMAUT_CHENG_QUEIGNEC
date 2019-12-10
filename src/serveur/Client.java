@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package serveur;
 
 import java.io.BufferedReader;
@@ -11,18 +6,38 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import p2048.model.reseau.JoueurPoints;
 
 /**
+ * Client connecté au serveur. Reçoit ses messages et agit en fonction.
  * @author Nicolas QUEIGNEC
  */
 public class Client implements Runnable {
+    /**
+     * Flux pour envoyer des messages au client.
+     */
     private PrintWriter envoyeut;
+    /**
+     * Flux pour recevoir les messages du client.
+     */
     private BufferedReader receveur;
+    /**
+     * Socket connecté au client.
+     */
     private Socket socket;
+    /**
+     * Partie que le client a rejoint et est est en cours.
+     */
     private Partie partieEnCours;
+    /**
+     * Pseudo du compte connecté.
+     */
     private String pseudo;
     
+    /**
+     * Constructeur.
+     * @param sock 
+     *  Socket dont on doit recevoir les messages.
+     */
     public Client(Socket sock) {
         try {
             this.envoyeut=new PrintWriter(sock.getOutputStream());
@@ -33,6 +48,11 @@ public class Client implements Runnable {
         }   
     }
     
+    /**
+     * Créer une partie.
+     * @param type 
+     *  Type de la partie. {@link Partie#TYPE_PARTIE_COOP}
+     */
     private void creerPartie(int type) {
         if (partieEnCours==null) {
             this.partieEnCours=new Partie(type, this);
@@ -42,6 +62,13 @@ public class Client implements Runnable {
        envoyerMessage(Protocole.REP_CREER_PARTIE_ECHOUE);
    }
     
+    /**
+     * Rejoint une partie.
+     * @param id
+     *  Identifiant de la partie.
+     * @return 
+     *  <code>true</code> si la partie a bien été rejoint sinon <code>false</code>.
+     */
     private boolean rejoindrePartie(int id) {
         if (partieEnCours==null) {
             this.partieEnCours=Main.parties.get(id);
@@ -53,6 +80,9 @@ public class Client implements Runnable {
        return false;
     }
     
+    /**
+     * Quitte la partie.
+     */
     public void quitterPartie() {
         if (partieEnCours!=null) {
             this.partieEnCours.quitter(this);
@@ -60,21 +90,37 @@ public class Client implements Runnable {
         } 
     }
     
+    /**
+     * Joue dans la direction passée en paramètre.
+     * @param direction 
+     *  Direction.
+     */
     public void jouer(int direction) {
         if (partieEnCours!=null)
             this.partieEnCours.jouer(this, direction);
     }
     
+    /**
+     * Etre prêt à commenter la partie.
+     */
     public void estPret() {
         if (partieEnCours!=null)
             partieEnCours.estPret(this);
     }
     
+    /**
+     * Envoi un message au client.
+     * @param message 
+     *  Message à envoyer.
+     */
     public void envoyerMessage(String message) {
         this.envoyeut.println(message);
         this.envoyeut.flush();
     }
     
+    /**
+     * Déconnecte le client du serveur.
+     */
     public void deconnecter(){
         quitterPartie();
         try {
@@ -120,7 +166,7 @@ public class Client implements Runnable {
                         envoyerMessage(Protocole.REP_AFFICHER_PARTIES(aAfficher));
                         break;
                     case Protocole.ACC_RECEP_A_JOUER:
-                        this.partieEnCours.mouvRecu(this);
+                        this.partieEnCours.mouvRecu();
                         break;
                     case Protocole.REQ_DECONNECTER:
                         deconnecter();
@@ -190,7 +236,7 @@ public class Client implements Runnable {
 
     @Override
     public String toString() {
-        return pseudo;
+        return pseudo!=null?pseudo:socket.getInetAddress().getHostAddress();
     }
     
     
