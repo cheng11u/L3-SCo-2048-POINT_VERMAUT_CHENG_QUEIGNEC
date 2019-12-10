@@ -26,7 +26,7 @@ public class Reseau {
     /**
      * Flux qui envoi les messages au serveur.
      */
-    private PrintWriter envoyeut;
+    private PrintWriter envoyeur;
     /**
      * Flux qui reçoit les messages du serveur.
      */
@@ -48,7 +48,7 @@ public class Reseau {
                 params.put(ligne.split("=")[0], ligne.split("=")[1]);
             }
             this.socket=new Socket(params.get("IP"), Integer.parseInt(params.get(("PORT"))));
-            this.envoyeut=new PrintWriter(this.socket.getOutputStream());
+            this.envoyeur=new PrintWriter(this.socket.getOutputStream());
             this.receveur=new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -78,8 +78,8 @@ public class Reseau {
      *  Message à envoyer.
      */
     public void envoyerMessage(String message) {
-        this.envoyeut.println(message);
-        this.envoyeut.flush();
+        this.envoyeur.println(message);
+        this.envoyeur.flush();
     }
     
     /**
@@ -98,7 +98,7 @@ public class Reseau {
     public void deconnecter() {
         try {     
             instance=null;
-            this.envoyeut.close();
+            this.envoyeur.close();
             this.receveur.close();     
             this.socket.close();
         } catch (IOException ex) {
