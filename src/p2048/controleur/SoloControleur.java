@@ -25,7 +25,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import p2048.IA;
+import p2048.model.ia.IA;
 import p2048.model.CubeGrille;
 import p2048.P2048;
 import p2048.Parametres;
