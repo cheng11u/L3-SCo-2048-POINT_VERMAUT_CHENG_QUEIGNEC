@@ -196,10 +196,9 @@ public class Client implements Runnable {
                         boolean ajoutReussi = RequetesBDD.creerJoueur(pseudoJoueur, "", "", mdpJoueur);
                         if (ajoutReussi)
                             envoyerMessage(Protocole.REP_AJOUT_REUSSI);
-                        else {
+                        else
                             envoyerMessage(Protocole.REP_AJOUT_ECHOUE);
-                            deconnecter();
-                        }
+                        deconnecter();
                         break;
                     case Protocole.REQ_CONNECTER_COMPTE:
                         String pseudoConnexion = Protocole.getParams(ligne).get("Id");
@@ -222,10 +221,8 @@ public class Client implements Runnable {
                         && RequetesBDD.insererJouer(pseudoSauvegarde, score);
                         if (sauvegardeReussie)
                             envoyerMessage(Protocole.REP_SAUVEGARDE_REUSSIE);
-                        else {
+                        else
                             envoyerMessage(Protocole.REP_SAUVEGARDE_ECHOUEE);
-                            deconnecter();
-                        }
                         break;
                 }
             } catch (IOException ex) {
