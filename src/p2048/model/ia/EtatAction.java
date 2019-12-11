@@ -1,4 +1,4 @@
-package p2048;
+package p2048.model.ia;
 
 import static java.lang.System.exit;
 import java.util.Arrays;

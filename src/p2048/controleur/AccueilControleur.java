@@ -66,7 +66,10 @@ public class AccueilControleur implements Controleur {
      * Crée une partie multijoueurs en mode coopératif
      */
     public void creerPartieCoop() {
-        ((AttentePartieControleur)p2048.P2048.changerScene("vue/FXMLAttentePartie.fxml")).creerPartieCoop();
+        if (!Parametres.getInstance().getPseudo().equals(""))
+            ((AttentePartieControleur)p2048.P2048.changerScene("vue/FXMLAttentePartie.fxml")).creerPartieCoop();
+        else
+            this.chargerConnexion();
     }
     
     /**
@@ -74,6 +77,9 @@ public class AccueilControleur implements Controleur {
      */
     @FXML
     public void rejoindrePartieCoop(){
-        ((ReseauRejoindreControleur)p2048.P2048.changerScene("vue/FXMLRejoindrePartie.fxml")).initCoop();
+        if (!Parametres.getInstance().getPseudo().equals(""))
+            ((ReseauRejoindreControleur)p2048.P2048.changerScene("vue/FXMLRejoindrePartie.fxml")).initCoop();
+        else
+            this.chargerConnexion();
     }
 }

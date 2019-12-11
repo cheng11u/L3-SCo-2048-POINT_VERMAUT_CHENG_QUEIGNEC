@@ -2,14 +2,14 @@
 
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" fx:id="fenetre" onKeyPressed="#keyPressed" prefHeight="508.9999000000025" prefWidth="1067.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="p2048.controleur.SoloControleur">
+<AnchorPane id="AnchorPane" fx:id="fenetre" onKeyPressed="#keyPressed" prefHeight="508.9999000000025" prefWidth="1067.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p2048.controleur.SoloControleur">
   <children>
     <MenuBar layoutX="0.0" layoutY="0.0" prefHeight="25.0" prefWidth="1067.0">
       <menus>
@@ -34,8 +34,8 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Fond">
           <items>
-            <MenuItem id="" mnemonicParsing="false" onAction="#changerFond" text="Normal" fx:id="fondNormal" />
-            <MenuItem mnemonicParsing="false" onAction="#changerFond" text="Sombre" fx:id="fondSombre" />
+            <MenuItem id="" fx:id="fondNormal" mnemonicParsing="false" onAction="#changerFond" text="Normal" />
+            <MenuItem fx:id="fondSombre" mnemonicParsing="false" onAction="#changerFond" text="Sombre" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
@@ -75,10 +75,12 @@
             </GridPane>
             <HBox fx:id="panneau" layoutX="107.0" layoutY="53.0" prefHeight="100.0" prefWidth="200.0">
               <children>
-                <Button fx:id="enregistrer" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="30.0" prefWidth="80.0" text="Enregistrer" />
-                <Button fx:id="quitter" mnemonicParsing="false" onMouseClicked="#buttonClicked" prefHeight="30.0" prefWidth="60.0" text="Quitter" />
+                <Button fx:id="enregistrer" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="31.0" prefWidth="104.0" text="Enregistrer" />
+                <Button fx:id="quitter" mnemonicParsing="false" onMouseClicked="#buttonClicked" prefHeight="31.0" prefWidth="72.0" text="Quitter" />
               </children>
             </HBox>
+                  <Button fx:id="finir" alignment="CENTER" layoutX="582.0" layoutY="67.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="30.0" prefWidth="112.0" text="Activer Auto" />
+                  <Button fx:id="auto" alignment="CENTER" layoutX="601.0" layoutY="34.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="30.0" prefWidth="60.0" text="Aide" />
           </children>
         </Pane>
       </bottom>

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package p2048.model.reseau;
 
 import java.io.BufferedReader;
@@ -13,26 +8,37 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import p2048.Parametres;
-import p2048.model.CubeGrille;
 import serveur.Partie;
 import serveur.Protocole;
 
 /**
+ * Singleton permettant de communiquer avec le serveur.
  * @author Nicolas QUEIGNEC
  */
 public class Reseau {     
+    /**
+     * Socket connecté au serveur.
+     */
     private Socket socket;
-    private PrintWriter envoyeut;
+    /**
+     * Flux qui envoi les messages au serveur.
+     */
+    private PrintWriter envoyeur;
+    /**
+     * Flux qui reçoit les messages du serveur.
+     */
     private BufferedReader receveur;
+    /**
+     * Instance utilisée. Pattern Singleton.
+     */
     private static Reseau instance;
     
+    /**
+     * Constructeur. Charge les paramètres (adresse IP et port) du serveur distant depuis un fichier puis se connecte.
+     */
     private Reseau(){
         try {
             BufferedReader lectureConf=new BufferedReader(new FileReader(new File("2048.conf")));
@@ -42,7 +48,7 @@ public class Reseau {
                 params.put(ligne.split("=")[0], ligne.split("=")[1]);
             }
             this.socket=new Socket(params.get("IP"), Integer.parseInt(params.get(("PORT"))));
-            this.envoyeut=new PrintWriter(this.socket.getOutputStream());
+            this.envoyeur=new PrintWriter(this.socket.getOutputStream());
             this.receveur=new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -51,6 +57,11 @@ public class Reseau {
         }
     }
     
+    /**
+     * Retourne l'instance actuellement utilisée.
+     * @return 
+     *  Instance de {@link Reseau}.
+     */
     public static synchronized Reseau getInstance() {
         if (instance==null)
             instance=new Reseau();
@@ -61,19 +72,34 @@ public class Reseau {
         return instance;
     }
     
+    /**
+     * Envoi un message au serveur.
+     * @param message 
+     *  Message à envoyer.
+     */
     public void envoyerMessage(String message) {
-        this.envoyeut.println(message);
-        this.envoyeut.flush();
+        this.envoyeur.println(message);
+        this.envoyeur.flush();
     }
     
+    /**
+     * Reçoit un message du serveur.
+     * @return
+     *  Message reçu.
+     * @throws IOException 
+     *  Exception
+     */
     public String recevoirMessage() throws IOException {
         return this.receveur.readLine();
     }
     
+    /**
+     * Déconnecte du réseau.
+     */
     public void deconnecter() {
         try {     
             instance=null;
-            this.envoyeut.close();
+            this.envoyeur.close();
             this.receveur.close();     
             this.socket.close();
         } catch (IOException ex) {
@@ -81,10 +107,20 @@ public class Reseau {
         }
     }
     
+    /**
+     * Pour savoir si on est connecté au serveur.
+     * @return 
+     *  <code>true</code> si on est bien connecté sinon <code>false</code>.
+     */
     public static boolean estConnecter() {
         return instance!=null;
     }
     
+    /**
+     * Créer une partie en coopération.
+     * @return 
+     *  Partie créée.
+     */
     public Cooperation creerPartieCoop() {
         envoyerMessage(Protocole.REQ_CREER_PARTIE(Partie.TYPE_PARTIE_COOP));
         try {
@@ -97,6 +133,15 @@ public class Reseau {
         return null;
     }
     
+    /**
+     * Rejoint une partie en coopération.
+     * @param id
+     *  Identifiant de la partie à rejoindre.
+     * @param nomJoueur
+     *  Nom du joueur propriétaire de la partie.
+     * @return 
+     *  Partie rejoint.
+     */
     public Cooperation rejoindrePartieCoop(int id, String nomJoueur) {
         envoyerMessage(Protocole.REQ_REJOINDRE_PARTIE(id));
         try {
@@ -112,6 +157,11 @@ public class Reseau {
         return null;
     }
 
+    /**
+     * Demandes la récupération des données des parties en coopération.
+     * @return 
+     *  Liste des parties en coopération disponibles.
+     */
     public List<InfosPartie> afficherPartiesCoop() {
         envoyerMessage(Protocole.REQ_AFFICHER_PARTIES(Partie.TYPE_PARTIE_COOP));
         try {
@@ -131,6 +181,11 @@ public class Reseau {
         return null;
     }
     
+    /**
+     * Demande la récupération du classement des scores des joueurs.
+     * @return 
+     *  Liste des scores des joueurs.
+     */
     public List<JoueurPoints> afficherClassement(){
         List<JoueurPoints> res = new ArrayList<JoueurPoints>();
         envoyerMessage(Protocole.REQ_AFFICHER_CLASSEMENT);
@@ -150,6 +205,15 @@ public class Reseau {
         return res;
     }
     
+    /**
+     * Demande la création d'un compte.
+     * @param pseudo
+     *  Pseudo du compte à créer.
+     * @param mdp
+     *  Mot de passe du compte.
+     * @return 
+     *  <code>true</code> si le compte a bien été créé sinon <code>false</code>.
+     */
     public boolean ajouterJoueur(String pseudo, String mdp){
         boolean res;
         String message = Protocole.REQ_AJOUTER_COMPTE
@@ -169,6 +233,15 @@ public class Reseau {
         return res;
     }
     
+    /**
+     * Se connecte à un compte.
+     * @param pseudo
+     *  Pseudo du compte.
+     * @param mdp
+     *  Mot de passe du compte.
+     * @return 
+     *  <code>true</code> si la connexion a réussie sinon <code>false</code>.
+     */
     public boolean connecter(String pseudo, String mdp){
         boolean res;
         String message = Protocole.REQ_CONNECTER_COMPTE(pseudo, mdp);
@@ -188,6 +261,17 @@ public class Reseau {
         return res;
     }
     
+    /**
+     * Demande la sauvegarde d'un score dans le classement.
+     * @param pseudo
+     *  Pseudo du joueur.
+     * @param typePartie
+     *  Type de la partie dont on souhaite enregistrer le score.
+     * @param score
+     *  Score de la partie.
+     * @return 
+     *  <code>true</code> si la sauvegarde a réussie sinon <code>false</code>.
+     */
     public boolean ajouterPartie(String pseudo, String typePartie, int score){
         boolean res;
         String message = Protocole.REQ_SAUVEGARDER_SCORE

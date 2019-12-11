@@ -25,6 +25,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import p2048.model.ia.IA;
 import p2048.model.CubeGrille;
 import p2048.P2048;
 import p2048.Parametres;
@@ -72,6 +73,18 @@ public class SoloControleur implements Controleur, Initializable {
      */
     @FXML
     private Button sup;
+
+    /**
+     * Bouton permettant d'effectuer un coup avec l'IA
+     */
+    @FXML
+    private Button auto;
+
+    /**
+     * Bouton permettant de terminer la partie avec l'IA
+     */
+    @FXML
+    private Button finir;
     
     /**
      * Grille située à gauche représentant l'étage inférieur
@@ -152,6 +165,10 @@ public class SoloControleur implements Controleur, Initializable {
      * Listener de la partie solo
      */
     private ChangeListener listener;
+    /**
+     * IA de la partie.
+     */
+    private IA ia;
     
     /**
      * Cette méthode met à jour l'état du jeu. Elle s'exécute lorsqu'un clic sur l'un des boutons
@@ -172,6 +189,22 @@ public class SoloControleur implements Controleur, Initializable {
             partie.jouer(CubeGrille.DIR_DESSUS);
         else if (e.getSource()==inf)
             partie.jouer(CubeGrille.DIR_DESSOUS);
+        else if (e.getSource()==auto){
+            if (ia==null)
+                ia = new IA(partie.getGrille());
+            partie.jouer(ia.action());
+        }
+        else if (e.getSource()==finir){
+            if (ia==null)
+               ia=new IA(partie.getGrille());
+            if (ia.isAutoActive()) {
+                ia.stopAuto();
+                finir.setText("Activer Auto");
+            } else {
+                new Thread(ia).start();
+                finir.setText("Désctiiver Auto");
+            }
+        }
         else if (e.getSource()==quitter) {
             partie.quitter();
             P2048.changerScene("vue/FXMLAccueil.fxml");
@@ -335,6 +368,9 @@ public class SoloControleur implements Controleur, Initializable {
      * @param partie partie à démarrer
      */
     public void initCoop(Cooperation partie) {
+        enregistrer.setVisible(false);
+        auto.setVisible(false);
+        finir.setVisible(false);
         this.partie=partie;
         partie.ajouterListener(listener);
         partie.commencerPartie();
