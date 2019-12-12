@@ -29,7 +29,7 @@ public class IA implements Runnable {
     /**
      * Multiplicateur attribué au nombre de points gagnés
      */
-    private final int COEF_POINTS = 1;
+    private final int COEF_POINTS = 10;
     
     /**
      * Multiplicateur attribué au nombre de combinaisons possibles
@@ -61,22 +61,27 @@ public class IA implements Runnable {
         en.deplacer(en.getDirection());
         if(!en.equals(e))
             etats.add(new EtatAction(en,1));
+        en = e.clone();
         en.setDirection(CubeGrille.DIR_BAS);
         en.deplacer(en.getDirection());
         if(!en.equals(e))
             etats.add(new EtatAction(en,-1));
+        en = e.clone();
         en.setDirection(CubeGrille.DIR_GAUCHE);
         en.deplacer(en.getDirection());
         if(!en.equals(e))
             etats.add(new EtatAction(en,2));
+        en = e.clone();
         en.setDirection(CubeGrille.DIR_DROITE);
         en.deplacer(en.getDirection());
         if(!en.equals(e))
             etats.add(new EtatAction(en,-2));
+        en = e.clone();
         en.setDirection(CubeGrille.DIR_DESSUS);
         en.deplacer(en.getDirection());
         if(!en.equals(e))
             etats.add(new EtatAction(en,-3));
+        en = e.clone();
         en.setDirection(CubeGrille.DIR_DESSOUS);
         en.deplacer(en.getDirection());
         if(!en.equals(e))
@@ -121,7 +126,7 @@ public class IA implements Runnable {
                                 }
                             }
                         }
-                    };
+                    }
                     ok = false;
                     break;
                 case "bas":
@@ -151,7 +156,7 @@ public class IA implements Runnable {
                                 }
                             }
                         }
-                    };
+                    }
                     ok = false;
                     break;
                 case "droite":
@@ -186,7 +191,7 @@ public class IA implements Runnable {
                     break;
                 case "dessous":
                     i = c.getZ();
-                    while (i<e.getTaille() && !ok) {
+                    while (i<0 && !ok) {
                         i--;
                         for (j = 0; j < tc.length; j++) {
                             if(tc[j].getX()==c.getX() && tc[j].getY()==c.getY() && tc[j].getZ()==i){
