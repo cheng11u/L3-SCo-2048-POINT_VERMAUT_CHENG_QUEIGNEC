@@ -275,7 +275,6 @@ public class IA implements Runnable {
         autoActive=true;
         while (autoActive && !etat.partieTerminee()) {            
             etat.setDirection(action());
-            etat.deplacer(etat.getDirection());
             try {
                 Thread.sleep(1500);
             } catch (InterruptedException ex) {

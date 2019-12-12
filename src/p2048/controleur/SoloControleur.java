@@ -207,6 +207,9 @@ public class SoloControleur implements Controleur, Initializable {
         }
         else if (e.getSource()==quitter) {
             partie.quitter();
+            if (ia!=null && ia.isAutoActive()) {
+                ia.stopAuto();
+            }
             P2048.changerScene("vue/FXMLAccueil.fxml");
         }
         else if (e.getSource()==enregistrer)
