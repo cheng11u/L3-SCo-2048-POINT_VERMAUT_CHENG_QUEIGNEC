@@ -48,6 +48,7 @@ public class Reseau {
                 params.put(ligne.split("=")[0], ligne.split("=")[1]);
             }
             this.socket=new Socket(params.get("IP"), Integer.parseInt(params.get(("PORT"))));
+            this.socket.setSoTimeout(3000);
             this.envoyeur=new PrintWriter(this.socket.getOutputStream());
             this.receveur=new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
         } catch (FileNotFoundException ex) {
