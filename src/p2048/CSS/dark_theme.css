@@ -1,6 +1,6 @@
 /* Partie commune*/
 #AnchorPane{
-	-fx-background-image: url("Images/milky_way.jpg");
+	-fx-background-image: url("Images/dark-sky.jpg");
 	-fx-background-size: contain;
 	
 
@@ -12,19 +12,17 @@
 	-fx-position: bottom;
 }
 
-#etatPartie {
-    -fx-background-color: rgba(192,192,192,0.7);
-}
 
-GridPane {
+
+.GridPane {
     -fx-border-color: white;
 }
 
-Label {
+.label {
     -fx-text-fill: white;
 }
 
-Pane Label {
+#Pane_Label {
     -fx-text-fill: black;
 }
 .button:hover {
@@ -32,30 +30,74 @@ Pane Label {
 	-fx-position:relative;
 }
 
+.menu-bar{
+	-fx-background-color: black;
+}
+
 /* Fin partie commune*/
 
-/*Page d'accueil */
+/* Page de connexion */
+#SplitPane{
+	-fx-background-color: transparent;
+}
+#upperPane{
+	-fx-background-color: transparent;
+}
+#downPane{
+	-fx-background-color: transparent;
+}
+
+.text-field{
+	-fx-background-color :white;
+}
+/* Fin page de connexion */
+
+/* Page d'accueil */
 /* Fenêtre des règles */
 #centre_regles{
-	-fx-background-color:silver;
-	-fx-opacity:0.3;
+
+}
+#droite_regles{
+        -fx-font-weight: bold;
 }
 /* Fin fenêtre des règles */
 
-
-#partcoop{
-
-
-}
-#partcomp{
-
-}
-
-#partmulti{
-
-}
-
-#info{
-
-}
 /*Fin page d'accueil*/
+
+/*Début page Solo */
+#etage0{
+	-fx-border-color:white;
+	-fx-border-width :5px;
+}
+#etage1{
+	-fx-border-color:white;
+	-fx-border-width :5px;
+}
+#etage2{
+	-fx-border-color:white;
+	-fx-border-width :5px;
+}
+#etatPartie {
+    -fx-background-color: rgba(192,192,192,0.7);
+}
+/*Fin page Solo*/
+
+/*Début page Rejoindre Partie */
+
+#first{
+-fx-border-color:white;
+	-fx-border-width :2px;
+}
+
+#second{
+-fx-border-color:white;
+	-fx-border-width :2px;
+}
+
+#third{
+	-fx-border-color:white;
+	-fx-border-width :2px;
+}
+
+
+/*Fin page Rejoindre Partie */
