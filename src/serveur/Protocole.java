@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package serveur;
 
 import java.util.HashMap;
@@ -10,7 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * Classe décrivant les messages réseau possible avec leurs effets.
+ * Les constantes représente la commande réseau. Les méthodes associées permettent de paramétrer ces messages pour l'envoi.
  * @author Nicolas QUEIGNEC
  */
 public class Protocole {
@@ -151,7 +147,13 @@ public class Protocole {
     public static final String REQ_AJOUTER_COMPTE="AjCo";
     public static final String REP_AJOUT_REUSSI="AjCoSu";
     public static final String REP_AJOUT_ECHOUE="AjCoFa";
-    
+    /**
+     * Retourne les paramètres d'une commande complète.
+     * @param cmd
+     *  Commande réseau complète.
+     * @return 
+     *  Map : paramètre vers valeur
+     */
     public static Map<String,String> getParams(String cmd) {
         HashMap<String, String> res=new HashMap<String,String>();
         String[] params=cmd.split(SEPARATEUR_PARAM);
