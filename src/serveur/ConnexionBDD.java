@@ -35,7 +35,7 @@ public class ConnexionBDD {
     /**
      * Chemin vers le fichier de configuration
      */
-    private static String fichierConf = "src/serveur/conf/db.conf";
+    private static String fichierConf = "db.conf";
     /**
      * Connexion courante
      */
