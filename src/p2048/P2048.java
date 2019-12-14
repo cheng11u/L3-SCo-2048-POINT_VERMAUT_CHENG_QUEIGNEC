@@ -99,6 +99,9 @@ public class P2048 extends Application {
                     case "r":
                         cg.setDirection(CubeGrille.DIR_DESSUS);
                         break;
+                    case "x":
+                        System.exit(0);
+                        break;
                 }
                 cg.deplacer(cg.getDirection());
             }
