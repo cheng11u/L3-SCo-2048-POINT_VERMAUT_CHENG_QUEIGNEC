@@ -229,6 +229,7 @@ public class SoloControleur implements Controleur, Initializable {
         else {
             params.setChemin("p2048/CSS/dark_theme.css");
         }
+        update();
         this.chargerStyle();
     }
     
@@ -294,12 +295,17 @@ public class SoloControleur implements Controleur, Initializable {
                         int valeur = grilleEtage[i][j];
                         int logBase2 = (int)(Math.log(valeur)/Math.log(2));
                         pane=new Pane();
-                        
-                        int vert = (int)(255 - (255.0/11.0)*logBase2);
-                        if (vert < 0)
+                        if (Parametres.getInstance().getChemin().equals("p2048/CSS/dark_theme.css")) {
+                           int intensite=(int)(127-(127/11)*logBase2);
+                            if (intensite<0)
+                                intensite=0;
+                            pane.setStyle("-fx-background-color:rgb("+intensite+"," +intensite+ ","+intensite+")");
+                        } else {
+                            int vert = (int)(255 - (255.0/11.0)*logBase2);
+                            if (vert < 0)
                             vert = 0;
                         pane.setStyle("-fx-background-color:rgb(255," + vert + ",0)");
-                        
+                         }
                         Label label=new Label(valeur+"");
                         label.setTextFill(Color.web("#000000"));
                         label.setFont(new Font(25));
