@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="p2048.controleur.ClassementControleur">
+<AnchorPane fx:id="AnchorPane" stylesheets="@../CSS/dark_theme.css" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="p2048.controleur.ClassementControleur">
   <children>
     <ListView fx:id="classement" layoutX="96.0" layoutY="63.0" prefHeight="274.0" prefWidth="408.0" />
     <Button fx:id="retourAcceuil" layoutX="244.0" layoutY="356.0" mnemonicParsing="false" onAction="#chargerAccueil" text="Retourner à l'accueil" />

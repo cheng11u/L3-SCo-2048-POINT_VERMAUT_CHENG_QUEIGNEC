@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p2048.controleur.ConnexionControleur">
+<VBox prefHeight="400.0" prefWidth="640.0" stylesheets="@../CSS/dark_theme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="p2048.controleur.ConnexionControleur">
   <children>
     <MenuBar stylesheets="@../CSS/dark_theme.css" VBox.vgrow="NEVER">
       <menus>
